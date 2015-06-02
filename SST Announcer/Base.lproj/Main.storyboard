@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wwG-ig-RhO">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -87,11 +87,15 @@
             </objects>
             <point key="canvasLocation" x="660" y="-401"/>
         </scene>
-        <!--Item-->
+        <!--Student's Feed-->
         <scene sceneID="rhM-Up-Bn5">
             <objects>
                 <navigationController id="ZKv-5O-712" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="l6R-f6-RXB"/>
+                    <tabBarItem key="tabBarItem" title="Student's Feed" image="Feed" id="l6R-f6-RXB">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Feed_Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KKa-6d-Z6s">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -104,7 +108,7 @@
             </objects>
             <point key="canvasLocation" x="100" y="-401"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Categories-->
         <scene sceneID="kFd-20-LMj">
             <objects>
                 <tableViewController id="iRW-Hf-oNF" sceneMemberID="viewController">
@@ -112,11 +116,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Categories" id="mSa-iA-m85">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="iRW-Hf-oNF" id="Ie2-SJ-FNn"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RDb-I7-uGp">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="Ueq-nP-EhH" style="IBUITableViewCellStyleDefault" id="RDb-I7-uGp">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RDb-I7-uGp" id="bwY-IF-fRZ">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ueq-nP-EhH">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -125,17 +145,33 @@
                             <outlet property="delegate" destination="iRW-Hf-oNF" id="HXm-TX-jXU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="MMx-NM-oTZ"/>
+                    <navigationItem key="navigationItem" title="Categories" id="MMx-NM-oTZ"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="Kix-fK-MLf" id="5Kd-fR-Ib4"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qZ-T2-oHp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="Kix-fK-MLf">
+                    <connections>
+                        <outlet property="delegate" destination="iRW-Hf-oNF" id="Dup-9n-RSS"/>
+                        <outlet property="searchBar" destination="mSa-iA-m85" id="oWr-wa-Ftj"/>
+                        <outlet property="searchContentsController" destination="iRW-Hf-oNF" id="wjr-wI-8Kr"/>
+                        <outlet property="searchResultsDataSource" destination="iRW-Hf-oNF" id="Ocj-JV-eRT"/>
+                        <outlet property="searchResultsDelegate" destination="iRW-Hf-oNF" id="Rve-2S-Yy2"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="660" y="262"/>
         </scene>
-        <!--Item-->
+        <!--Categories-->
         <scene sceneID="uQk-IY-No4">
             <objects>
                 <navigationController id="Pbe-Tq-v1Q" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="cgM-PV-CVL"/>
+                    <tabBarItem key="tabBarItem" title="Categories" image="Categories" id="cgM-PV-CVL">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Categories_Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xef-ed-BkJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -148,11 +184,15 @@
             </objects>
             <point key="canvasLocation" x="100" y="262"/>
         </scene>
-        <!--Item-->
+        <!--About-->
         <scene sceneID="pIt-xS-qTT">
             <objects>
                 <navigationController id="0E6-tX-dVY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Wui-CE-IfE"/>
+                    <tabBarItem key="tabBarItem" title="About" image="About" id="Wui-CE-IfE">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="About_Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4X3-c1-Z3b">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -185,4 +225,12 @@
             <point key="canvasLocation" x="660" y="984"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="About" width="33" height="33"/>
+        <image name="About_Selected" width="33" height="33"/>
+        <image name="Categories" width="30" height="30"/>
+        <image name="Categories_Selected" width="30" height="30"/>
+        <image name="Feed" width="29" height="29"/>
+        <image name="Feed_Selected" width="29" height="29"/>
+    </resources>
 </document>
