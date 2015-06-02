@@ -26,6 +26,11 @@
 		227E71881B1D4C4C00215577 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71871B1D4C4B00215577 /* libz.dylib */; };
 		227E718A1B1D4C5400215577 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71891B1D4C5400215577 /* libsqlite3.dylib */; };
 		227E71901B1D4F1C00215577 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E718F1B1D4F1C00215577 /* MasterViewController.swift */; };
+		227E71AB1B1D50AD00215577 /* libDTCoreText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71A21B1D504700215577 /* libDTCoreText.a */; };
+		227E71AD1B1D514900215577 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71AC1B1D514900215577 /* Accounts.framework */; };
+		227E71AF1B1D514E00215577 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71AE1B1D514E00215577 /* Social.framework */; };
+		227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B01B1D527500215577 /* libxml2.dylib */; };
+		227E71B31B1D527D00215577 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B21B1D527C00215577 /* ImageIO.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +40,55 @@
 			proxyType = 1;
 			remoteGlobalIDString = 227E71401B1D44DF00215577;
 			remoteInfo = "SST Announcer";
+		};
+		227E719D1B1D504700215577 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
+			remoteInfo = DemoApp;
+		};
+		227E719F1B1D504700215577 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A70F119B14863198009202BF;
+			remoteInfo = "Static Framework";
+		};
+		227E71A11B1D504700215577 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A70F11DE148632CD009202BF;
+			remoteInfo = "Static Library";
+		};
+		227E71A31B1D504700215577 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A788CA681486456100E1AFD9;
+			remoteInfo = UnitTest;
+		};
+		227E71A51B1D504700215577 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A78D9F781965B7DD00C80986;
+			remoteInfo = MacUnitTest;
+		};
+		227E71A71B1D504700215577 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A7F7EFCD1573603100F5A4D0;
+			remoteInfo = "Static Library (no DTFoundation)";
+		};
+		227E71A91B1D504700215577 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E2262DC61638331500BFDAD7;
+			remoteInfo = "Mac Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -62,6 +116,11 @@
 		227E71871B1D4C4B00215577 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		227E71891B1D4C5400215577 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		227E718F1B1D4F1C00215577 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		227E71911B1D504600215577 /* DTCoreText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTCoreText.xcodeproj; path = DTCoreText/DTCoreText.xcodeproj; sourceTree = "<group>"; };
+		227E71AC1B1D514900215577 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		227E71AE1B1D514E00215577 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		227E71B01B1D527500215577 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		227E71B21B1D527C00215577 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +128,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				227E71B31B1D527D00215577 /* ImageIO.framework in Frameworks */,
+				227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */,
+				227E71AF1B1D514E00215577 /* Social.framework in Frameworks */,
+				227E71AD1B1D514900215577 /* Accounts.framework in Frameworks */,
+				227E71AB1B1D50AD00215577 /* libDTCoreText.a in Frameworks */,
 				227E718A1B1D4C5400215577 /* libsqlite3.dylib in Frameworks */,
 				227E71881B1D4C4C00215577 /* libz.dylib in Frameworks */,
 				227E71861B1D4C4500215577 /* SystemConfiguration.framework in Frameworks */,
@@ -98,8 +162,12 @@
 		227E71381B1D44DF00215577 = {
 			isa = PBXGroup;
 			children = (
+				227E71B01B1D527500215577 /* libxml2.dylib */,
 				227E71891B1D4C5400215577 /* libsqlite3.dylib */,
 				227E71871B1D4C4B00215577 /* libz.dylib */,
+				227E71B21B1D527C00215577 /* ImageIO.framework */,
+				227E71AE1B1D514E00215577 /* Social.framework */,
+				227E71AC1B1D514900215577 /* Accounts.framework */,
 				227E71851B1D4C4500215577 /* SystemConfiguration.framework */,
 				227E71831B1D4C4000215577 /* StoreKit.framework */,
 				227E71811B1D4C3700215577 /* Security.framework */,
@@ -166,11 +234,26 @@
 		227E71661B1D4B1600215577 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
 				227E71711B1D4BEA00215577 /* Bolts.framework */,
 				227E71721B1D4BEA00215577 /* Parse.framework */,
 			);
 			path = Externals;
 			sourceTree = SOURCE_ROOT;
+		};
+		227E71921B1D504600215577 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				227E719E1B1D504700215577 /* RTDemoApp.app */,
+				227E71A01B1D504700215577 /* DTCoreText.framework */,
+				227E71A21B1D504700215577 /* libDTCoreText.a */,
+				227E71A41B1D504700215577 /* UnitTest.xctest */,
+				227E71A61B1D504700215577 /* MacUnitTest.xctest */,
+				227E71A81B1D504700215577 /* libDTCoreText_no_DTFoundation.a */,
+				227E71AA1B1D504700215577 /* DTCoreText.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -244,6 +327,12 @@
 			mainGroup = 227E71381B1D44DF00215577;
 			productRefGroup = 227E71421B1D44DF00215577 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 227E71921B1D504600215577 /* Products */;
+					ProjectRef = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				227E71401B1D44DF00215577 /* SST Announcer */,
@@ -251,6 +340,58 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		227E719E1B1D504700215577 /* RTDemoApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = RTDemoApp.app;
+			remoteRef = 227E719D1B1D504700215577 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		227E71A01B1D504700215577 /* DTCoreText.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DTCoreText.framework;
+			remoteRef = 227E719F1B1D504700215577 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		227E71A21B1D504700215577 /* libDTCoreText.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDTCoreText.a;
+			remoteRef = 227E71A11B1D504700215577 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		227E71A41B1D504700215577 /* UnitTest.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = UnitTest.xctest;
+			remoteRef = 227E71A31B1D504700215577 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		227E71A61B1D504700215577 /* MacUnitTest.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MacUnitTest.xctest;
+			remoteRef = 227E71A51B1D504700215577 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		227E71A81B1D504700215577 /* libDTCoreText_no_DTFoundation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDTCoreText_no_DTFoundation.a;
+			remoteRef = 227E71A71B1D504700215577 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		227E71AA1B1D504700215577 /* DTCoreText.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DTCoreText.framework;
+			remoteRef = 227E71A91B1D504700215577 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		227E713F1B1D44DF00215577 /* Resources */ = {
@@ -415,7 +556,9 @@
 				INFOPLIST_FILE = "SST Announcer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "Externals/DTCoreText/Externals/DTFoundation/Core/** Externals/DTCoreText/Core/**";
 			};
 			name = Debug;
 		};
@@ -431,7 +574,9 @@
 				INFOPLIST_FILE = "SST Announcer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "Externals/DTCoreText/Externals/DTFoundation/Core/** Externals/DTCoreText/Core/**";
 			};
 			name = Release;
 		};

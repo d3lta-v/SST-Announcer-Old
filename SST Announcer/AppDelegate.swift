@@ -52,6 +52,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        if identifier == "declineAction" {
+            if objc_getClass("UIAlertController") == nil {
+                let declineAlert = UIAlertController(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", preferredStyle: .Alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .Default) {(action)in}
+                declineAlert.addAction(okayAction)
+            } else {
+                let declineAlert = UIAlertView(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", delegate: self, cancelButtonTitle: "Okay")
+                declineAlert.alertViewStyle = .Default
+                declineAlert.show()
+            }
+        }
+    }
+    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
@@ -72,6 +86,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
     }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -89,6 +107,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        let currentInstallation : PFInstallation = PFInstallation.currentInstallation()
+        if currentInstallation.badge != 0 {
+            currentInstallation.badge = 0
+            currentInstallation.saveEventually()
+        }
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
     }
 
     func applicationWillTerminate(application: UIApplication) {
