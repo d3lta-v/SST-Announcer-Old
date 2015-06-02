@@ -31,6 +31,7 @@
 		227E71AF1B1D514E00215577 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71AE1B1D514E00215577 /* Social.framework */; };
 		227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B01B1D527500215577 /* libxml2.dylib */; };
 		227E71B31B1D527D00215577 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B21B1D527C00215577 /* ImageIO.framework */; };
+		227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E71CF1B1D726E00215577 /* GlobalSingleton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,7 @@
 		227E71AE1B1D514E00215577 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		227E71B01B1D527500215577 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		227E71B21B1D527C00215577 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		227E71CF1B1D726E00215577 /* GlobalSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalSingleton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 			children = (
 				227E71461B1D44DF00215577 /* AppDelegate.swift */,
 				227E718F1B1D4F1C00215577 /* MasterViewController.swift */,
+				227E71CF1B1D726E00215577 /* GlobalSingleton.swift */,
 				227E714A1B1D44DF00215577 /* Main.storyboard */,
 				227E714D1B1D44DF00215577 /* Images.xcassets */,
 				227E714F1B1D44DF00215577 /* LaunchScreen.xib */,
@@ -419,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */,
+				227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */,
 				227E71901B1D4F1C00215577 /* MasterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,6 +637,7 @@
 				227E71621B1D44DF00215577 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		227E71631B1D44DF00215577 /* Build configuration list for PBXNativeTarget "SST AnnouncerTests" */ = {
 			isa = XCConfigurationList;
@@ -641,6 +646,7 @@
 				227E71651B1D44DF00215577 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
