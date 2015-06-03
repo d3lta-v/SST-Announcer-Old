@@ -52,9 +52,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         if identifier == "declineAction" {
-            if objc_getClass("UIAlertController") == nil {
+            if objc_getClass("UIAlertController") == nil { // iOS 8 UIAlertController
                 let declineAlert = UIAlertController(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", preferredStyle: .Alert)
                 let okayAction = UIAlertAction(title: "Okay", style: .Default) {(action)in}
                 declineAlert.addAction(okayAction)

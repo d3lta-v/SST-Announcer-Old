@@ -9,15 +9,53 @@
 import UIKit
 
 class MasterViewController: UITableViewController {
+    
+    // Variables Declaration
+    private let parser : NSXMLParser
+    
+    private var feeds : [AnyObject]
+    private var item : [String:String]
+    private var postTitle : String = ""
+    private var postLink : String = ""
+    private var postDate : String = ""
+    private var postAuthor : String = ""
+    private var postDescription : String = ""
+    
+    private var searchResults : [String]
+    
+    private let dateFormatter : NSDateFormatter
+    
+    required init!(coder aDecoder: NSCoder!) {
+        // Variables initialization
+        parser = NSXMLParser()
+        
+        feeds = [AnyObject]()
+        item = Dictionary<String, String>()
+        searchResults = [String]()
+        
+        dateFormatter = NSDateFormatter()
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
+        
+        super.init(coder: aDecoder)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
+        
+        var token : dispatch_once_t = 0
+        dispatch_once(&token, {
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                
+            })
+        })
     }
 
     override func didReceiveMemoryWarning() {
