@@ -3,3 +3,5 @@
 //
 
 #import "MRProgress.h"
+#import "DTCoreText.h"
+#import "TUSafariActivity.h"

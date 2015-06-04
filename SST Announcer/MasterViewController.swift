@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 StatiX Industries. All rights reserved.
 //
 
+
 import UIKit
 
 class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
@@ -13,12 +14,13 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     // Variables Declaration
     private var parser : NSXMLParser
     private struct Item {
-        let title : String
-        let link : String
-        let date : String
-        let author : String
-        let description :String
+        var title : String
+        var link : String
+        var date : String
+        var author : String
+        var description :String
     }
+    private var tempItem : Item
     private var feeds : [Item]
     private var element : String = ""
     private var searchResults : [Item]
@@ -29,6 +31,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         parser = NSXMLParser()
         
         feeds = [Item]()
+        tempItem = Item(title: "", link: "", date: "", author: "", description: "")
         //item = Dictionary<String, String>()
         searchResults = [Item]()
         
@@ -73,6 +76,12 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             })
         })
     }
+    
+    func pushNotificationsReceived() {
+        if self.navigationController!.viewControllers.count < 2 {
+            self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -99,23 +108,55 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     // MARK: - NSXMLParser delegate
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
-        
+        self.element = elementName
+        if self.element == "item" { // If new item is retrieved, clear the temporary item struct
+            self.tempItem = Item(title: "", link: "", date: "", author: "", description: "") //Reset tempItem
+        }
     }
     
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        
+        if elementName == "item" {
+            println(self.tempItem) // TODO: remove this line of debug code
+            self.feeds.append(self.tempItem)
+        }
     }
     
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        
+        if let testString = string { // Unwrap string? to check if it really works
+            if self.element == "title" {
+                self.tempItem.title = testString
+            } else if self.element == "link" {
+                self.tempItem.link = testString
+            } else if self.element == "pubDate" {
+                let newDate = self.dateFormatter.dateFromString(testString.stringByReplacingOccurrencesOfString(":00 +0000", withString: ""))!.dateByAddingTimeInterval(8*60*60) // 8 hours
+                self.tempItem.date = dateFormatter.stringFromDate(newDate)
+            } else if self.element == "author" {
+                self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            } else if self.element == "description" {
+                self.tempItem.description = testString
+            }
+        }
     }
     
     func parserDidEndDocument(parser: NSXMLParser) {
-        
+        dispatch_sync(dispatch_get_main_queue(), {
+            self.tableView.reloadData()
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            
+            let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
+            if singleton.didReceivePushNotification && self.navigationController?.viewControllers.count < 2 {
+                self.performSegueWithIdentifier("MasterToDetail", sender: self)
+            }
+        })
     }
     
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-        
+        dispatch_sync(dispatch_get_main_queue(), {
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+        })
     }
 
     // MARK: - Table view data source
