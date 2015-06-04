@@ -43,7 +43,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="Kea-bw-LDB" detailTextLabel="qRi-qk-FJX" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="3Xa-Fl-COm">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" textLabel="Kea-bw-LDB" detailTextLabel="qRi-qk-FJX" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="3Xa-Fl-COm">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Xa-Fl-COm" id="x0C-xq-8m0">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -72,6 +72,7 @@
                     <navigationItem key="navigationItem" title="Student's Blog" id="3cz-TZ-zYX"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="GDh-LB-RV1" id="mkY-Oh-h72"/>
+                        <segue destination="ykt-Mv-hg2" kind="show" identifier="MasterToDetail" id="c1L-sO-DDv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fu5-KM-44x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -86,6 +87,36 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="660" y="-401"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="x3g-ul-a2D">
+            <objects>
+                <viewController id="ykt-Mv-hg2" customClass="WebViewController" customModule="SST_Announcer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="syS-TL-hBM"/>
+                        <viewControllerLayoutGuide type="bottom" id="Y3y-F1-CEa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="08j-Uu-LCb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SGs-NL-8eP">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XQ6-JW-ICq" customClass="DTAttributedTextView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Aj7-zw-r6F">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="nrG-YL-6PZ"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nKR-7K-eII" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1222" y="-401"/>
         </scene>
         <!--Student's Feed-->
         <scene sceneID="rhM-Up-Bn5">

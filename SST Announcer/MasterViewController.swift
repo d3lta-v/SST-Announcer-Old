@@ -32,7 +32,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         feeds = [Item]()
         tempItem = Item(title: "", link: "", date: "", author: "", description: "")
-        //item = Dictionary<String, String>()
         searchResults = [Item]()
         
         dateFormatter = NSDateFormatter()
@@ -63,16 +62,32 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 self.feeds = [Item]() //Sort of like alloc init
                 let url = NSURL(string: "http://feeds.feedburner.com/SSTBlog")
-                self.parser = NSXMLParser(contentsOfURL: url)!
-                self.parser.delegate = self
-                self.parser.shouldResolveExternalEntities = false
-                let success = self.parser.parse()
-                if !success {
+                let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
+                    if (error == nil) {
+                        //let dataString = String.dataUsingEncoding(data)
+                        let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
+                        
+                        self.parser = NSXMLParser(data: (dataString.stringByReplacingOccurrencesOfString("&", withString: "*amp;", options: NSStringCompareOptions.LiteralSearch, range: nil)).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+                        self.parser.delegate = self
+                        self.parser.shouldResolveExternalEntities = false
+                        self.parser.parse()
+                    } else {
+                        println(error)
+                        dispatch_sync(dispatch_get_main_queue(), {
+                            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+                            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                        })
+                    }
+                }
+                task.resume() // Start NSURLSession Connection
+                
+                
+                /*if !success {
                     dispatch_sync(dispatch_get_main_queue(), {
                         MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
                         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     })
-                }
+                }*/
             })
         })
     }
@@ -89,6 +104,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     
     // MARK: - Search functionality
+    
     func filterContentForSearchText(searchText: String) {
         self.searchResults = self.feeds.filter({(post: Item) -> Bool in
             let stringMatch = post.title.rangeOfString(searchText)
@@ -107,6 +123,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     
     // MARK: - NSXMLParser delegate
+    
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         self.element = elementName
         if self.element == "item" { // If new item is retrieved, clear the temporary item struct
@@ -116,20 +133,21 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            println(self.tempItem) // TODO: remove this line of debug code
             self.feeds.append(self.tempItem)
         }
     }
     
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if let testString = string { // Unwrap string? to check if it really works
+        if var testString = string { // Unwrap string? to check if it really works
+            // Get rid of pesky "&" (ampersand) issue
+            testString = testString.stringByReplacingOccurrencesOfString("*amp;amp;", withString: "&", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            
             if self.element == "title" {
                 self.tempItem.title = testString
             } else if self.element == "link" {
                 self.tempItem.link = testString
             } else if self.element == "pubDate" {
-                let newDate = self.dateFormatter.dateFromString(testString.stringByReplacingOccurrencesOfString(":00 +0000", withString: ""))!.dateByAddingTimeInterval(8*60*60) // 8 hours
-                self.tempItem.date = dateFormatter.stringFromDate(newDate)
+                self.tempItem.date = dateFormatter.stringFromDate(self.dateFormatter.dateFromString(testString.stringByReplacingOccurrencesOfString(":00 +0000", withString: ""))!.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT))) //Depends on current difference in timestamp to calculate intellegiently what timezone it should apply to the posts
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
             } else if self.element == "description" {
@@ -162,26 +180,52 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            return self.searchResults.count
+        } else {
+            return self.feeds.count
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
+        if tableView == self.searchDisplayController?.searchResultsTableView {
+            cell.textLabel?.text = self.searchResults[indexPath.row].title
+        } else {
+            if !feeds.isEmpty {
+                if self.feeds[indexPath.row].title == "" {
+                    cell.textLabel?.text = "<No Title>"
+                } else {
+                    cell.textLabel?.text = self.feeds[indexPath.row].title
+                }
+                cell.detailTextLabel?.text = "\(self.feeds[indexPath.row].date) \(self.feeds[indexPath.row].author)"
+            }
+        }
 
         return cell
     }
     
+    // MARK: - Table view delegate
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 50 // Constant 50pts height for row
+    }
+    
     // MARK: - VC Specific Functions
+    
     func refresh(sender: UIRefreshControl) {
         self.tableView.userInteractionEnabled = false
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
