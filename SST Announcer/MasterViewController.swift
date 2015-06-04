@@ -44,7 +44,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         // Init refresh controls
         let refreshControl : UIRefreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
     }
     
@@ -138,6 +138,27 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         // Configure the cell...
 
         return cell
+    }
+    
+    // MARK: - VC Specific Functions
+    func refresh(sender: UIRefreshControl) {
+        self.tableView.userInteractionEnabled = false
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            self.tableView.reloadData()
+            self.feeds = [Item]()
+            let url = NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")
+            self.parser = NSXMLParser(contentsOfURL: url)!
+            self.parser.delegate = self
+            self.parser.shouldResolveExternalEntities = false
+            let success = self.parser.parse()
+            
+            dispatch_sync(dispatch_get_main_queue(), {
+                sender.endRefreshing()
+                self.tableView.userInteractionEnabled = true
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            })
+        })
     }
     
     // MARK: - Navigation
