@@ -111,7 +111,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Aj7-zw-r6F">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="nrG-YL-6PZ"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="nrG-YL-6PZ">
+                            <connections>
+                                <action selector="exportButton:" destination="ykt-Mv-hg2" id="mst-3L-RwF"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nKR-7K-eII" userLabel="First Responder" sceneMemberID="firstResponder"/>

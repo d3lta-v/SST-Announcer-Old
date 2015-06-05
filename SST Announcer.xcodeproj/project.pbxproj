@@ -49,6 +49,8 @@
 		22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1D11B201FC000468987 /* TUSafariActivity.m */; };
 		22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DC1B2024A600468987 /* SwiftWebViewProgress.swift */; };
 		22C4F1DF1B2024A600468987 /* SwiftWebViewProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */; };
+		22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */; };
+		22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E31B21194300468987 /* SwiftyJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +176,8 @@
 		22C4F1D11B201FC000468987 /* TUSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSafariActivity.m; sourceTree = "<group>"; };
 		22C4F1DC1B2024A600468987 /* SwiftWebViewProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgress.swift; sourceTree = "<group>"; };
 		22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgressView.swift; sourceTree = "<group>"; };
+		22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMUXCRParser.swift; sourceTree = "<group>"; };
+		22C4F1E31B21194300468987 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +256,7 @@
 				227E718F1B1D4F1C00215577 /* MasterViewController.swift */,
 				22C4F1CC1B201F1000468987 /* WebViewController.swift */,
 				227E71CF1B1D726E00215577 /* GlobalSingleton.swift */,
+				22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */,
 				22C4F1CB1B1EAC2B00468987 /* Announcer-Bridging-Header.h */,
 				227E714A1B1D44DF00215577 /* Main.storyboard */,
 				227E714D1B1D44DF00215577 /* Images.xcassets */,
@@ -290,6 +295,7 @@
 		227E71661B1D4B1600215577 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				22C4F1E21B21194300468987 /* SwiftyJSON */,
 				22C4F1DB1B2024A600468987 /* SwiftWebViewProgress */,
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
 				22C4F18E1B1EA2E100468987 /* MRProgress */,
@@ -389,6 +395,14 @@
 				22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */,
 			);
 			path = SwiftWebViewProgress;
+			sourceTree = "<group>";
+		};
+		22C4F1E21B21194300468987 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				22C4F1E31B21194300468987 /* SwiftyJSON.swift */,
+			);
+			path = SwiftyJSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -561,11 +575,13 @@
 				22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */,
 				227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */,
 				22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */,
+				22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */,
 				22C4F1BC1B1EA2E100468987 /* MRProgressView.m in Sources */,
 				22C4F1C11B1EA2E100468987 /* MRMessageInterceptor.m in Sources */,
 				22C4F1B91B1EA2E100468987 /* MRIconView.m in Sources */,
 				227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */,
 				22C4F1BD1B1EA2E100468987 /* MRStopButton.m in Sources */,
+				22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */,
 				22C4F1B51B1EA2E100468987 /* MRBlurView.m in Sources */,
 				22C4F1C21B1EA2E100468987 /* MRMethodCopier.m in Sources */,
 				22C4F1B61B1EA2E100468987 /* UIImage+MRImageEffects.m in Sources */,

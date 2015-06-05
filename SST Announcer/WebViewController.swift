@@ -11,6 +11,7 @@ import UIKit
 class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, DTLazyImageViewDelegate, UIWebViewDelegate, WebViewProgressDelegate {
     
     // Variables declaration
+    var receivedUrl : String = String()
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -27,7 +28,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: UIWebViewDelegate Methods
+    // MARK: - UIWebViewDelegate Methods
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         if error.code != -999 {
@@ -41,10 +42,21 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         
     }
     
-    // MARK: WebViewProgressDelegate Methods
+    // MARK: - WebViewProgressDelegate Methods
     
     func webViewProgress(webViewProgress: WebViewProgress, updateProgress progress: Float) {
+        if progress > 0.1 {
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
+        }
         
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func exportButton(sender: AnyObject) {
+        let safariActivity : TUSafariActivity = TUSafariActivity()
+        let url = NSURL(string: self.receivedUrl)
+        let activity = UIActivityViewController(activityItems: [url!], applicationActivities: [safariActivity])
     }
     
     // MARK: - Navigation

@@ -11,7 +11,8 @@ import UIKit
 
 class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
     
-    // Variables Declaration
+    // MARK: - Private variables declaration
+    
     private var parser : NSXMLParser
     private struct Item {
         var title : String
@@ -25,6 +26,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     private var element : String = ""
     private var searchResults : [Item]
     private let dateFormatter : NSDateFormatter
+    private let searchController : UISearchController
     
     required init!(coder aDecoder: NSCoder!) {
         // Variables initialization
@@ -37,6 +39,8 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
+        
+        searchController = UISearchController()
         
         super.init(coder: aDecoder)
     }
@@ -63,7 +67,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 self.feeds = [Item]() //Sort of like alloc init
                 let url = NSURL(string: "http://feeds.feedburner.com/SSTBlog")
                 let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
-                    if (error == nil) {
+                    if error == nil {
                         //let dataString = String.dataUsingEncoding(data)
                         let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
                         
@@ -72,7 +76,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                         self.parser.shouldResolveExternalEntities = false
                         self.parser.parse()
                     } else {
-                        println(error)
                         dispatch_sync(dispatch_get_main_queue(), {
                             MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
                             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -195,20 +198,27 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        
+        var cellItem : Item = Item(title: "", link: "", date: "", author: "", description: "")
 
         // Configure the cell...
-        if tableView == self.searchDisplayController?.searchResultsTableView {
-            cell.textLabel?.text = self.searchResults[indexPath.row].title
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            cellItem = self.searchResults[indexPath.row]
+            //cell.textLabel?.text = self.searchResults[indexPath.row].title
         } else {
             if !feeds.isEmpty {
-                if self.feeds[indexPath.row].title == "" {
+                /*if self.feeds[indexPath.row].title == "" {
                     cell.textLabel?.text = "<No Title>"
                 } else {
                     cell.textLabel?.text = self.feeds[indexPath.row].title
                 }
-                cell.detailTextLabel?.text = "\(self.feeds[indexPath.row].date) \(self.feeds[indexPath.row].author)"
+                cell.detailTextLabel?.text = "\(self.feeds[indexPath.row].date) \(self.feeds[indexPath.row].author)"*/
+                cellItem = self.feeds[indexPath.row]
             }
         }
+        
+        cell.textLabel!.text = cellItem.title
+        cell.detailTextLabel!.text = "\(cellItem.date) \(cellItem.author)"
 
         return cell
     }
@@ -252,6 +262,27 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "MasterToDetail" {
+            let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
+            if singleton.didReceivePushNotification {
+                (segue.destinationViewController as! WebViewController).receivedUrl = singleton.getRemoteNotificationURL()
+                singleton.setDidReceivePushNotificationWithBool(false)
+            } else {
+                var indexPath : NSIndexPath = NSIndexPath()
+                
+                if (self.searchDisplayController?.active == true) {
+                    indexPath = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()!
+                    let passedString : String = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].description)"
+                    (segue.destinationViewController as! WebViewController).receivedUrl = passedString
+                } else {
+                    indexPath = self.tableView.indexPathForSelectedRow()!
+                    let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].description)"
+                    (segue.destinationViewController as! WebViewController).receivedUrl = passedString
+                }
+                
+            }
+        }
     }
 
 }
