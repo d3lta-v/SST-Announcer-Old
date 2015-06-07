@@ -18,6 +18,8 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     private var progressView : WebViewProgressView!
     private var progressProxy : WebViewProgress!
     
+    // MARK: - Lifecycle
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -41,17 +43,48 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         
         loadFeed(self.receivedUrl)
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Private functions
     
     private func loadFeed(url: String!) {
+        // NOTE: URL is not actually an URL, and only under some circumstances (i.e. retrieving from push notification) it IS an URL
+        
         var htmlString = ""
         
         if url == "error" {
             self.title = "Error"
-            
             htmlString = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back and reselect the page.</p>"
+        } else if url.hasPrefix("h") { //First letter of http, to reduce memory usage
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            
+            delay(0.2) {
+                let simuxCRParser = SIMUXCRParser()
+                let crOptimised = simuxCRParser.convertHTML(url)
+                let title = crOptimised.title
+                var description = crOptimised.description
+                
+                if description.isEmpty {
+                    description = "<p align=\"center\">There was a problem loading this article, please check your Internet connection, or try opening the URL in Safari via the share button above.</p>"
+                    self.title = "Error"
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                } else {
+                    description = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                }
+                
+                htmlString = description
+            }
         }
         
-        // Custom settings for our builder
+        initAttributedTextViewWithString(htmlString)
+    }
+    
+    private func initAttributedTextViewWithString(string: String!) {
         let builderOptions = [
             DTDefaultFontFamily: "Helvetica Neue",
             DTDefaultFontSize: "16.4px",
@@ -59,19 +92,26 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             DTDefaultLinkColor: "#146FDF",
             DTDefaultLinkDecoration: ""
         ]
-        let stringBuilder : DTHTMLAttributedStringBuilder = DTHTMLAttributedStringBuilder(HTML: htmlString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true), options: builderOptions, documentAttributes: nil)
+        let stringBuilder : DTHTMLAttributedStringBuilder = DTHTMLAttributedStringBuilder(HTML: string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true), options: builderOptions, documentAttributes: nil)
+        self.textView.textDelegate = self
         self.textView.shouldDrawImages = true
         self.textView.attributedString = stringBuilder.generatedAttributedString()
         self.textView.contentInset = UIEdgeInsetsMake(85, 15, 40, 15)
         
-        self.textView.textDelegate = self
-        
         MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func useBrowser(url: String) {
+        
+    }
+    
+    private func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
     
     // MARK: - UIWebViewDelegate Methods
@@ -93,7 +133,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         if progress > 0.1 {
             MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
         }
-        
+        self.progressView.setProgress(progress, animated: true)
     }
     
     // MARK: - IBActions
