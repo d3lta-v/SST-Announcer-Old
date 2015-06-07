@@ -117,6 +117,11 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="exportBarButton" destination="nrG-YL-6PZ" id="NGp-8S-SNA"/>
+                        <outlet property="textView" destination="XQ6-JW-ICq" id="Uyn-gu-sgd"/>
+                        <outlet property="webView" destination="SGs-NL-8eP" id="izQ-zY-PAn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nKR-7K-eII" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

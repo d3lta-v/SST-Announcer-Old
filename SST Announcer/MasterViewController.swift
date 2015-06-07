@@ -61,7 +61,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         // Feed parsing contained inside a dispatch_once
         var token : dispatch_once_t = 0
         dispatch_once(&token, {
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 self.feeds = [Item]() //Sort of like alloc init
@@ -77,7 +77,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                         self.parser.parse()
                     } else {
                         dispatch_sync(dispatch_get_main_queue(), {
-                            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+                            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Error Loading!", mode: .Cross, animated: true)
                             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                         })
                     }
@@ -87,7 +87,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 
                 /*if !success {
                     dispatch_sync(dispatch_get_main_queue(), {
-                        MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+                        MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Error Loading!", mode: .Cross, animated: true)
                         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     })
                 }*/
@@ -162,7 +162,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     func parserDidEndDocument(parser: NSXMLParser) {
         dispatch_sync(dispatch_get_main_queue(), {
             self.tableView.reloadData()
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             
             let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
@@ -174,9 +174,9 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         dispatch_sync(dispatch_get_main_queue(), {
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Error Loading!", mode: .Cross, animated: true)
         })
     }
 
@@ -269,20 +269,22 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 (segue.destinationViewController as! WebViewController).receivedUrl = singleton.getRemoteNotificationURL()
                 singleton.setDidReceivePushNotificationWithBool(false)
             } else {
-                var indexPath : NSIndexPath = NSIndexPath()
-                
                 if (self.searchDisplayController?.active == true) {
-                    indexPath = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()!
-                    let passedString : String = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].description)"
-                    (segue.destinationViewController as! WebViewController).receivedUrl = passedString
+                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
+                        let passedString : String = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].description)"
+                        (segue.destinationViewController as! WebViewController).receivedUrl = passedString
+                    } else {
+                        (segue.destinationViewController as! WebViewController).receivedUrl = "error"
+                    }
                 } else {
-                    indexPath = self.tableView.indexPathForSelectedRow()!
-                    let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].description)"
-                    (segue.destinationViewController as! WebViewController).receivedUrl = passedString
+                    if let indexPath = self.tableView.indexPathForSelectedRow() {
+                        let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].description)"
+                        (segue.destinationViewController as! WebViewController).receivedUrl = passedString
+                    } else {
+                        (segue.destinationViewController as! WebViewController).receivedUrl = "error"
+                    }
                 }
-                
             }
         }
     }
-
 }

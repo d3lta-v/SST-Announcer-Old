@@ -16,7 +16,7 @@ class GlobalSingleton: NSObject {
     var didReceivePushNotification : Bool = false
     
     override init() {
-        println("__INIT__")
+        //println("__INIT__")
     }
     
     // Data retrieval methods
