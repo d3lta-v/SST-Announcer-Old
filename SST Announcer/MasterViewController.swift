@@ -59,6 +59,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
         
         // Feed parsing contained inside a dispatch_once
+        let singleton = Singleton.sharedInstance
         var token : dispatch_once_t = 0
         dispatch_once(&token, {
             MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
@@ -70,8 +71,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                     if error == nil {
                         //let dataString = String.dataUsingEncoding(data)
                         let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-                        
-                        self.parser = NSXMLParser(data: (dataString.stringByReplacingOccurrencesOfString("&", withString: "*amp;", options: NSStringCompareOptions.LiteralSearch, range: nil)).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+                        self.parser = NSXMLParser(data: (dataString.stringByReplacingOccurrencesOfString("&", withString: "%", options: NSStringCompareOptions.LiteralSearch, range: nil)).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
                         self.parser.delegate = self
                         self.parser.shouldResolveExternalEntities = false
                         self.parser.parse()
@@ -84,7 +84,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 }
                 task.resume() // Start NSURLSession Connection
                 
-                
                 /*if !success {
                     dispatch_sync(dispatch_get_main_queue(), {
                         MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Error Loading!", mode: .Cross, animated: true)
@@ -93,6 +92,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 }*/
             })
         })
+        
     }
     
     func pushNotificationsReceived() {
@@ -143,7 +143,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
         if var testString = string { // Unwrap string? to check if it really works
             // Get rid of pesky "&" (ampersand) issue
-            testString = testString.stringByReplacingOccurrencesOfString("*amp;amp;", withString: "&", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            testString = testString.stringByReplacingOccurrencesOfString("%", withString: "&", options: NSStringCompareOptions.LiteralSearch, range: nil)
             
             if self.element == "title" {
                 self.tempItem.title = testString
@@ -278,13 +278,26 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                     }
                 } else {
                     if let indexPath = self.tableView.indexPathForSelectedRow() {
-                        let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].description)"
+                        let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].description)".stringByReplacingOccurrencesOfString("%", withString: "&", options: NSStringCompareOptions.LiteralSearch, range: nil)
                         (segue.destinationViewController as! WebViewController).receivedUrl = passedString
                     } else {
                         (segue.destinationViewController as! WebViewController).receivedUrl = "error"
                     }
                 }
             }
+        }
+    }
+    
+    class Singleton {
+        class var sharedInstance : Singleton {
+            struct Static {
+                static var onceToken : dispatch_once_t = 0
+                static var instance : Singleton? = nil
+            }
+            dispatch_once(&Static.onceToken) {
+                Static.instance = Singleton()
+            }
+            return Static.instance!
         }
     }
 }

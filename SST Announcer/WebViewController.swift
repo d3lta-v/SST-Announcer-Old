@@ -77,11 +77,64 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
                     description = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 }
                 
+                self.title = title
                 htmlString = description
             }
+        } else {
+            var title : String = ""
+            var actualUrl : String = ""
+            var description : String = ""
+            
+            // Get title range
+            if let index1 = self.receivedUrl.rangeOfString("{")?.endIndex, index2 = self.receivedUrl.rangeOfString("}")?.startIndex {
+                let range = Range(start: index1, end: index2)
+                title = self.receivedUrl.substringWithRange(range)
+            }
+            
+            // Get link
+            /*if let index1 = self.receivedUrl.rangeOfString("[")?.endIndex, index2 = self.receivedUrl.rangeOfString("]")?.startIndex {
+                let range = Range(start: index1, end: index2)
+                
+                actualUrl = self.receivedUrl.substringWithRange(range)
+            }*/
+            
+            // Get description
+            if let startDescriptionIndex = self.receivedUrl.rangeOfString("]")?.endIndex {
+                description = self.receivedUrl.substringFromIndex(startDescriptionIndex)
+                // String replacing, this is going to get messy, thank god for OOP
+                description = cleanHtml(description)
+            } else {
+                title = "error"
+                description = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back and reselect the page.</p>"
+            }
+            
+            // Putting the variables into action
+            self.title = title
+            htmlString = description
         }
         
-        initAttributedTextViewWithString(htmlString)
+        // Check for iframes before calling the builder, for better performance
+        if htmlString.rangeOfString("<iframe") != nil {
+            if url.hasPrefix("h") {
+                useBrowser(url, usedTable: false)
+            } else {
+                if let index1 = url.rangeOfString("[")?.endIndex, index2 = url.rangeOfString("]")?.startIndex {
+                    let range = Range(start: index1, end: index2)
+                    useBrowser(url.substringWithRange(range), usedTable: false)
+                }
+            }
+        } else if htmlString.rangeOfString("<table") != nil {
+            if url.hasPrefix("h") {
+                useBrowser(url, usedTable: true)
+            } else {
+                if let index1 = url.rangeOfString("[")?.endIndex, index2 = url.rangeOfString("]")?.startIndex {
+                    let range = Range(start: index1, end: index2)
+                    useBrowser(url.substringWithRange(range), usedTable: true)
+                }
+            }
+        } else {
+            initAttributedTextViewWithString(htmlString)
+        }
     }
     
     private func initAttributedTextViewWithString(string: String!) {
@@ -92,17 +145,44 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             DTDefaultLinkColor: "#146FDF",
             DTDefaultLinkDecoration: ""
         ]
-        let stringBuilder : DTHTMLAttributedStringBuilder = DTHTMLAttributedStringBuilder(HTML: string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true), options: builderOptions, documentAttributes: nil)
+        let stringBuilder : DTHTMLAttributedStringBuilder = DTHTMLAttributedStringBuilder(HTML: string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false), options: builderOptions, documentAttributes: nil)
         self.textView.textDelegate = self
         self.textView.shouldDrawImages = true
         self.textView.attributedString = stringBuilder.generatedAttributedString()
         self.textView.contentInset = UIEdgeInsetsMake(85, 15, 40, 15)
         
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
     }
     
-    private func useBrowser(url: String) {
+    private func useBrowser(url: String!, usedTable: Bool!) {
+        textView.alpha = 0
+        if usedTable == true {
+            webView.loadRequest(NSURLRequest(URL: NSURL(string: url)!))
+        } else {
+            webView.loadRequest(NSURLRequest(URL: NSURL(string: url+"?m=0")!))
+        }
+    }
+    
+    private func cleanHtml(html: String!) -> String! {
+        var htmlVariable : String = html
         
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>")
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br \\>", withString: "<div></div>")
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div[^>]*>", withString: "<div>", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<span[^>]*>", withString: "<span>", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b[r][^>]*/>", withString: "<br \\>", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("width=[^ ]*", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("height=[^ ]*", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<img src=\"//[^>]*>", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<!--(.*?)-->", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br ></div>", withString: "<br>", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b>", withString: "")
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("</b>", withString: "")
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br><div>", withString: "<div>")
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<span><br ></span>", withString: "")
+        
+        return htmlVariable
     }
     
     private func delay(delay:Double, closure:()->()) {
