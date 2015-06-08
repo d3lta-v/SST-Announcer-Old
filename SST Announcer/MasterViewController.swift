@@ -28,6 +28,8 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     private let dateFormatter : NSDateFormatter
     private let searchController : UISearchController
     
+    // MARK: - Lifecycle
+    
     required init!(coder aDecoder: NSCoder!) {
         // Variables initialization
         parser = NSXMLParser()
@@ -94,16 +96,38 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         })
         
     }
-    
-    func pushNotificationsReceived() {
-        if self.navigationController!.viewControllers.count < 2 {
-            self.performSegueWithIdentifier("MasterToDetail", sender: self)
-        }
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Private methods
+    
+    private func pushNotificationsReceived() {
+        if self.navigationController!.viewControllers.count < 2 {
+            self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        }
+    }
+    
+    private func refresh(sender: UIRefreshControl) {
+        self.tableView.userInteractionEnabled = false
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            self.tableView.reloadData()
+            self.feeds = [Item]()
+            let url = NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")
+            self.parser = NSXMLParser(contentsOfURL: url)!
+            self.parser.delegate = self
+            self.parser.shouldResolveExternalEntities = false
+            let success = self.parser.parse()
+            
+            dispatch_sync(dispatch_get_main_queue(), {
+                sender.endRefreshing()
+                self.tableView.userInteractionEnabled = true
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            })
+        })
     }
     
     // MARK: - Search functionality
@@ -232,28 +256,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 50 // Constant 50pts height for row
-    }
-    
-    // MARK: - VC Specific Functions
-    
-    func refresh(sender: UIRefreshControl) {
-        self.tableView.userInteractionEnabled = false
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.tableView.reloadData()
-            self.feeds = [Item]()
-            let url = NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")
-            self.parser = NSXMLParser(contentsOfURL: url)!
-            self.parser.delegate = self
-            self.parser.shouldResolveExternalEntities = false
-            let success = self.parser.parse()
-            
-            dispatch_sync(dispatch_get_main_queue(), {
-                sender.endRefreshing()
-                self.tableView.userInteractionEnabled = true
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            })
-        })
     }
     
     // MARK: - Navigation
