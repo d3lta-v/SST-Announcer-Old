@@ -71,7 +71,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                     if error == nil {
                         //let dataString = String.dataUsingEncoding(data)
                         let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-                        self.parser = NSXMLParser(data: (dataString.stringByReplacingOccurrencesOfString("&", withString: "%", options: NSStringCompareOptions.LiteralSearch, range: nil)).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+                        self.parser = NSXMLParser(data: (dataString).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
                         self.parser.delegate = self
                         self.parser.shouldResolveExternalEntities = false
                         self.parser.parse()
@@ -146,15 +146,15 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             testString = testString.stringByReplacingOccurrencesOfString("%", withString: "&", options: NSStringCompareOptions.LiteralSearch, range: nil)
             
             if self.element == "title" {
-                self.tempItem.title = testString
+                self.tempItem.title = self.tempItem.title + testString
             } else if self.element == "link" {
-                self.tempItem.link = testString
+                self.tempItem.link = self.tempItem.link + testString
             } else if self.element == "pubDate" {
                 self.tempItem.date = dateFormatter.stringFromDate(self.dateFormatter.dateFromString(testString.stringByReplacingOccurrencesOfString(":00 +0000", withString: ""))!.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT))) //Depends on current difference in timestamp to calculate intellegiently what timezone it should apply to the posts
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
             } else if self.element == "description" {
-                self.tempItem.description = testString
+                self.tempItem.description = self.tempItem.description + testString
             }
         }
     }
@@ -278,7 +278,8 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                     }
                 } else {
                     if let indexPath = self.tableView.indexPathForSelectedRow() {
-                        let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].description)".stringByReplacingOccurrencesOfString("%", withString: "&", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                        let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].description)"
+                        //let passedString = "http://studentsblog.sst.edu.sg/2015/05/info-hub-closed-for-open-house-rehearsal.html"
                         (segue.destinationViewController as! WebViewController).receivedUrl = passedString
                     } else {
                         (segue.destinationViewController as! WebViewController).receivedUrl = "error"
