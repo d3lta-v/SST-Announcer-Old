@@ -60,12 +60,26 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         // Add observer for push to catch push notification messages
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
         
-        // Feed parsing contained inside a dispatch_once
-        let singleton = Singleton.sharedInstance
-        var token : dispatch_once_t = 0
-        dispatch_once(&token, {
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
+        getFeeds()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Private methods
+    
+    private func getFeeds() {
+        struct TokenHolder {
+            static var token: dispatch_once_t = 0;
+        }
+        
+        dispatch_once(&TokenHolder.token) {
+            // Getfeeds uses a proper Swift implementation of dispatch once
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 self.feeds = [Item]() //Sort of like alloc init
                 let url = NSURL(string: "http://feeds.feedburner.com/SSTBlog")
@@ -79,30 +93,15 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                         self.parser.parse()
                     } else {
                         dispatch_sync(dispatch_get_main_queue(), {
-                            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Error Loading!", mode: .Cross, animated: true)
+                            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
                             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                         })
                     }
                 }
                 task.resume() // Start NSURLSession Connection
-                
-                /*if !success {
-                    dispatch_sync(dispatch_get_main_queue(), {
-                        MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Error Loading!", mode: .Cross, animated: true)
-                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    })
-                }*/
             })
-        })
-        
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Private methods
     
     private func pushNotificationsReceived() {
         if self.navigationController!.viewControllers.count < 2 {
@@ -186,11 +185,11 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     func parserDidEndDocument(parser: NSXMLParser) {
         dispatch_sync(dispatch_get_main_queue(), {
             self.tableView.reloadData()
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             
             let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.didReceivePushNotification && self.navigationController?.viewControllers.count < 2 {
+            if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
                 self.performSegueWithIdentifier("MasterToDetail", sender: self)
             }
         })
@@ -198,9 +197,9 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         dispatch_sync(dispatch_get_main_queue(), {
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Error Loading!", mode: .Cross, animated: true)
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
         })
     }
 
@@ -267,7 +266,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         if segue.identifier == "MasterToDetail" {
             let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.didReceivePushNotification {
+            if singleton.getDidReceivePushNotification() {
                 (segue.destinationViewController as! WebViewController).receivedUrl = singleton.getRemoteNotificationURL()
                 singleton.setDidReceivePushNotificationWithBool(false)
             } else {
@@ -288,19 +287,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                     }
                 }
             }
-        }
-    }
-    
-    class Singleton {
-        class var sharedInstance : Singleton {
-            struct Static {
-                static var onceToken : dispatch_once_t = 0
-                static var instance : Singleton? = nil
-            }
-            dispatch_once(&Static.onceToken) {
-                Static.instance = Singleton()
-            }
-            return Static.instance!
         }
     }
 }

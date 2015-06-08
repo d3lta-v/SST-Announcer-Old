@@ -12,8 +12,9 @@ class GlobalSingleton: NSObject {
     static let sharedInstance = GlobalSingleton()
     
     // Variables
-    var remoteNotificationURL : String = ""
-    var didReceivePushNotification : Bool = false
+    private var remoteNotificationURL : String = ""
+    private var didReceivePushNotification : Bool = false
+    //static var dispatchToken: dispatch_once_t = 0;
     
     override init() {
         //println("__INIT__")
@@ -23,6 +24,7 @@ class GlobalSingleton: NSObject {
     func getRemoteNotificationURL() -> String {
         return remoteNotificationURL
     }
+    
     func getDidReceivePushNotification() -> Bool {
         return didReceivePushNotification
     }
@@ -31,6 +33,7 @@ class GlobalSingleton: NSObject {
     func setRemoteNotificationURLWithString(urlString: String) {
         remoteNotificationURL = urlString
     }
+    
     func setDidReceivePushNotificationWithBool(pushNotifcationReceivedBool: Bool) {
         didReceivePushNotification = pushNotifcationReceivedBool;
     }

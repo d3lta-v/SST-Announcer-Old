@@ -60,7 +60,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             self.title = "Error"
             htmlString = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back and reselect the page.</p>"
         } else if url.hasPrefix("h") { //First letter of http, to reduce memory usage
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
             delay(0.2) {
@@ -152,7 +152,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         self.textView.contentInset = UIEdgeInsetsMake(85, 15, 40, 15)
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
+        MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
     }
     
     private func useBrowser(url: String!, usedTable: Bool!) {
@@ -198,7 +198,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         if error.code != -999 {
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController!.view, title: "Loading failed!", mode: .Cross, animated: true)
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading failed!", mode: .Cross, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }
@@ -211,7 +211,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     
     func webViewProgress(webViewProgress: WebViewProgress, updateProgress progress: Float) {
         if progress > 0.1 {
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController!.view, animated: true)
+            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
         }
         self.progressView.setProgress(progress, animated: true)
     }
