@@ -17,6 +17,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     @IBOutlet var textView: DTAttributedTextView!
     private var progressView : WebViewProgressView!
     private var progressProxy : WebViewProgress!
+    private var linkUrl : NSURL = NSURL(string: "")!
     
     // MARK: - Lifecycle
     
@@ -201,6 +202,106 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
                 Int64(delay * Double(NSEC_PER_SEC))
             ),
             dispatch_get_main_queue(), closure)
+    }
+    
+    private func linkPushed(button: DTLinkButton) {
+        let url = button.URL
+        
+        if UIApplication.sharedApplication().canOpenURL(url.absoluteURL!) {
+            self.linkUrl = url
+            self.performSegueWithIdentifier("ToBrowser", sender: self)
+        } else {
+            if (url.host == nil && url.path == nil) {
+                let fragment = url.fragment
+                
+                if (fragment != nil) {
+                    self.textView.scrollToAnchorNamed(fragment, animated: false)
+                }
+            }
+        }
+    }
+    
+    // MARK: - DTAttributedTextContentViewDelegate
+    func attributedTextContentView(attributedTextContentView: DTAttributedTextContentView!, viewForLink url: NSURL!, identifier: String!, frame: CGRect) -> UIView! {
+        let linkButton : DTLinkButton = DTLinkButton(frame: frame)
+        linkButton.URL = url
+        linkButton.addTarget(self, action: "linkPushed:", forControlEvents: .TouchUpInside)
+        
+        return linkButton
+    }
+    
+    func attributedTextContentView(attributedTextContentView: DTAttributedTextContentView!, viewForAttachment attachment: DTTextAttachment!, frame: CGRect) -> UIView! {
+        if attachment.isKindOfClass(DTImageTextAttachment) {
+            let imageView : DTLazyImageView = DTLazyImageView(frame: frame)
+            imageView.delegate = self
+            imageView.image = (attachment as! DTImageTextAttachment).image
+            imageView.url = attachment.contentURL
+            
+            if (attachment.hyperLinkURL != nil) {
+                imageView.userInteractionEnabled = true
+                let button : DTLinkButton = DTLinkButton(frame: imageView.bounds)
+                button.URL = attachment.hyperLinkURL
+                button.minimumHitSize = CGSizeMake(25, 25)
+                button.GUID = attachment.hyperLinkGUID
+                
+                button.addTarget(self, action: "linkPushed:", forControlEvents: .TouchUpInside)
+                imageView.addSubview(button)
+            }
+            
+            return imageView
+        } else if attachment.isKindOfClass(DTIframeTextAttachment) {
+            let videoView : DTWebVideoView = DTWebVideoView(frame: frame)
+            videoView.attachment = attachment
+            
+            return videoView
+        } else if attachment.isKindOfClass(DTObjectTextAttachment) {
+            let colorName: AnyObject? = attachment.attributes["somecolorparameter"]
+            let someColor = DTColorCreateWithHTMLName(colorName as! String)
+            
+            let someView = UIView(frame: frame)
+            someView.backgroundColor = someColor
+            someView.layer.borderWidth = 1
+            someView.layer.borderColor = UIColor.blackColor().CGColor
+            
+            someView.accessibilityLabel = colorName as! String
+            someView.isAccessibilityElement = true
+            
+            return someView
+        }
+        
+        return nil
+    }
+    
+    
+    // MARK: - DTLazyImageViewDelegate
+    
+    func lazyImageView(lazyImageView: DTLazyImageView!, didChangeImageSize size: CGSize) {
+        let url = lazyImageView.url
+        var imageSize = size
+        let screenSize = CGSizeMake(UIScreen.mainScreen().bounds.size.width - 30, UIScreen.mainScreen().bounds.size.height) //minus 30 for inset of 15px on two sides
+        
+        if size.width > screenSize.width {
+            let ratio = screenSize.width/size.width
+            imageSize.width = size.width*ratio
+            imageSize.height = size.height*ratio
+        }
+        
+        let pred : NSPredicate = NSPredicate(format: "contentURL == %@", url)
+        
+        var didUpdate : Bool = false
+        
+        var predicateArray = self.textView.attributedTextContentView.layoutFrame.textAttachmentsWithPredicate(pred)
+        
+        for index in 0..<predicateArray.count {
+            if CGSizeEqualToSize(predicateArray[index].originalSize, CGSizeZero) {
+                (predicateArray[index] as! DTTextAttachment).originalSize = imageSize
+                didUpdate = true
+            }
+        }
+        
+        if didUpdate {
+            self.textView.relayoutText()
+        }
     }
     
     // MARK: - UIWebViewDelegate Methods
