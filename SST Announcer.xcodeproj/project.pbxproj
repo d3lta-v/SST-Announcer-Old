@@ -51,6 +51,7 @@
 		22C4F1DF1B2024A600468987 /* SwiftWebViewProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */; };
 		22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */; };
 		22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E31B21194300468987 /* SwiftyJSON.swift */; };
+		22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FD3B7D1B27268000F87089 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +181,7 @@
 		22C4F1E31B21194300468987 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		22FD3B5D1B27178200F87089 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "SST Announcer.xcodeproj/../README.md"; sourceTree = "<group>"; };
 		22FD3B671B27179A00F87089 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		22FD3B7D1B27268000F87089 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +277,7 @@
 			children = (
 				227E71661B1D4B1600215577 /* Externals */,
 				227E71451B1D44DF00215577 /* Info.plist */,
+				22FD3B7D1B27268000F87089 /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 			files = (
 				227E714C1B1D44DF00215577 /* Main.storyboard in Resources */,
 				227E71511B1D44DF00215577 /* LaunchScreen.xib in Resources */,
+				22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */,
 				227E714E1B1D44DF00215577 /* Images.xcassets in Resources */,
 				22C4F1D21B201FC000468987 /* TUSafariActivity.bundle in Resources */,
 			);
