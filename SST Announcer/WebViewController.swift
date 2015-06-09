@@ -29,7 +29,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
 
         // Do any additional setup after loading the view.
         
-        // Init web view proxies
+        // Init web view loading bar
         progressProxy = WebViewProgress()
         webView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
@@ -42,6 +42,10 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         progressView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
         
         loadFeed(self.receivedUrl)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController!.navigationBar.addSubview(progressView)
     }
 
     override func didReceiveMemoryWarning() {
@@ -213,7 +217,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         if progress > 0.1 {
             MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
         }
-        self.progressView.setProgress(progress, animated: true)
+        progressView.setProgress(progress, animated: true)
     }
     
     // MARK: - IBActions
