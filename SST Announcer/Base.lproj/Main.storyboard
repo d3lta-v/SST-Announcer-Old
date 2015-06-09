@@ -10,7 +10,6 @@
             <objects>
                 <tabBarController id="wwG-ig-RhO" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="pYf-MI-Vol">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -24,18 +23,18 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ksH-3h-WjI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338" y="262"/>
+            <point key="canvasLocation" x="-622" y="262"/>
         </scene>
         <!--Student's Blog-->
         <scene sceneID="kS1-yR-nZY">
             <objects>
                 <tableViewController id="bYZ-gt-ybS" customClass="MasterViewController" customModule="SST_Announcer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="iRe-fg-f1w">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Posts" id="wyS-9d-bML">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -86,7 +85,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="660" y="-401"/>
+            <point key="canvasLocation" x="822" y="-401"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="x3g-ul-a2D">
@@ -97,18 +96,28 @@
                         <viewControllerLayoutGuide type="bottom" id="Y3y-F1-CEa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="08j-Uu-LCb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SGs-NL-8eP">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SGs-NL-8eP">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XQ6-JW-ICq" customClass="DTAttributedTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XQ6-JW-ICq" customClass="DTAttributedTextView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SGs-NL-8eP" firstAttribute="top" secondItem="08j-Uu-LCb" secondAttribute="top" id="3Ce-hc-7VV"/>
+                            <constraint firstItem="SGs-NL-8eP" firstAttribute="leading" secondItem="08j-Uu-LCb" secondAttribute="leading" id="5PU-OZ-4nV"/>
+                            <constraint firstAttribute="trailing" secondItem="XQ6-JW-ICq" secondAttribute="trailing" id="7g4-50-Mn1"/>
+                            <constraint firstAttribute="bottom" secondItem="XQ6-JW-ICq" secondAttribute="bottom" id="MBM-Cg-cp3"/>
+                            <constraint firstItem="XQ6-JW-ICq" firstAttribute="leading" secondItem="08j-Uu-LCb" secondAttribute="leading" id="Vmz-I4-QMw"/>
+                            <constraint firstItem="XQ6-JW-ICq" firstAttribute="top" secondItem="08j-Uu-LCb" secondAttribute="top" id="jFZ-3N-Zqk"/>
+                            <constraint firstAttribute="bottom" secondItem="SGs-NL-8eP" secondAttribute="bottom" id="lFD-WR-iKd"/>
+                            <constraint firstAttribute="trailing" secondItem="SGs-NL-8eP" secondAttribute="trailing" id="q0I-tv-APW"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aj7-zw-r6F">
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="nrG-YL-6PZ">
@@ -125,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nKR-7K-eII" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1222" y="-401"/>
+            <point key="canvasLocation" x="1544" y="-401"/>
         </scene>
         <!--Student's Feed-->
         <scene sceneID="rhM-Up-Bn5">
@@ -153,11 +162,11 @@
             <objects>
                 <tableViewController id="iRW-Hf-oNF" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="iYG-cf-QSE">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Categories" id="mSa-iA-m85">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -201,7 +210,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="660" y="262"/>
+            <point key="canvasLocation" x="822" y="262"/>
         </scene>
         <!--Categories-->
         <scene sceneID="uQk-IY-No4">
@@ -243,7 +252,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dQW-nQ-3JP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="100" y="984"/>
+            <point key="canvasLocation" x="100" y="1008"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="epK-ag-nOH">
@@ -254,7 +263,7 @@
                         <viewControllerLayoutGuide type="bottom" id="0Bm-kk-aA9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OMG-J9-eQo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -262,7 +271,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qH-Vr-qJ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="660" y="984"/>
+            <point key="canvasLocation" x="822" y="1008"/>
         </scene>
     </scenes>
     <resources>

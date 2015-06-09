@@ -109,7 +109,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         }
     }
     
-    private func refresh(sender: UIRefreshControl) {
+    internal func refresh(sender: UIRefreshControl) {
         self.tableView.userInteractionEnabled = false
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
