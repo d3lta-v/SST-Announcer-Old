@@ -46,6 +46,11 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController!.navigationBar.addSubview(progressView)
+        progressView.setProgress(0, animated: true)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        progressView.removeFromSuperview()
     }
 
     override func didReceiveMemoryWarning() {
