@@ -178,6 +178,8 @@
 		22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgressView.swift; sourceTree = "<group>"; };
 		22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMUXCRParser.swift; sourceTree = "<group>"; };
 		22C4F1E31B21194300468987 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		22FD3B5D1B27178200F87089 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "SST Announcer.xcodeproj/../README.md"; sourceTree = "<group>"; };
+		22FD3B671B27179A00F87089 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,8 @@
 		227E71381B1D44DF00215577 = {
 			isa = PBXGroup;
 			children = (
+				22FD3B5D1B27178200F87089 /* README.md */,
+				22FD3B671B27179A00F87089 /* LICENSE */,
 				227E71B01B1D527500215577 /* libxml2.dylib */,
 				227E71891B1D4C5400215577 /* libsqlite3.dylib */,
 				227E71871B1D4C4B00215577 /* libz.dylib */,
