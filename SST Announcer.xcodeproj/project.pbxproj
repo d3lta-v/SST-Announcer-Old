@@ -52,6 +52,7 @@
 		22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */; };
 		22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E31B21194300468987 /* SwiftyJSON.swift */; };
 		22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FD3B7D1B27268000F87089 /* Settings.bundle */; };
+		22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FD3B7F1B27293000F87089 /* InAppBrowserViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +183,7 @@
 		22FD3B5D1B27178200F87089 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "SST Announcer.xcodeproj/../README.md"; sourceTree = "<group>"; };
 		22FD3B671B27179A00F87089 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		22FD3B7D1B27268000F87089 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		22FD3B7F1B27293000F87089 /* InAppBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppBrowserViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +263,7 @@
 				227E71461B1D44DF00215577 /* AppDelegate.swift */,
 				227E718F1B1D4F1C00215577 /* MasterViewController.swift */,
 				22C4F1CC1B201F1000468987 /* WebViewController.swift */,
+				22FD3B7F1B27293000F87089 /* InAppBrowserViewController.swift */,
 				227E71CF1B1D726E00215577 /* GlobalSingleton.swift */,
 				22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */,
 				22C4F1CB1B1EAC2B00468987 /* Announcer-Bridging-Header.h */,
@@ -594,6 +597,7 @@
 				22C4F1B51B1EA2E100468987 /* MRBlurView.m in Sources */,
 				22C4F1C21B1EA2E100468987 /* MRMethodCopier.m in Sources */,
 				22C4F1B61B1EA2E100468987 /* UIImage+MRImageEffects.m in Sources */,
+				22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */,
 				227E71901B1D4F1C00215577 /* MasterViewController.swift in Sources */,
 				22C4F1B81B1EA2E100468987 /* MRCircularProgressView.m in Sources */,
 				22C4F1BB1B1EA2E100468987 /* MRProgressOverlayView.m in Sources */,
