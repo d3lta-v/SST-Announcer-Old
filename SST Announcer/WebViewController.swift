@@ -35,7 +35,6 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         webView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
         progressProxy.progressDelegate = self
-        
         let progressBarHeight: CGFloat = 2.0
         let navigationBarBounds = self.navigationController!.navigationBar.bounds
         let barFrame = CGRect(x: 0, y: navigationBarBounds.size.height - progressBarHeight, width: navigationBarBounds.width, height: progressBarHeight)
@@ -204,7 +203,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             dispatch_get_main_queue(), closure)
     }
     
-    private func linkPushed(button: DTLinkButton) {
+    func linkPushed(button: DTLinkButton) {
         let url = button.URL
         
         if UIApplication.sharedApplication().canOpenURL(url.absoluteURL!) {
@@ -357,6 +356,9 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let vc = segue.destinationViewController.topViewController as! InAppBrowserViewController
+        
+        vc.receivedUrl = linkUrl
     }
     
 }
