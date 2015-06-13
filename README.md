@@ -1,4 +1,4 @@
-**SST Announcer**
+**SST Announcer, WORK IN PROGRESS**
 ==========================
 Made by StatiX Industries  
 
@@ -16,12 +16,13 @@ Feed source: http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss
 4. Is able to display multiple categories of the blog (fetches data)
 5. Pushes notifications to the user when the feed is updated (via Parse Push)
 6. Has inbuilt web browser to open links
+7. Almost entirely written in Apple's new programming language Swift, with exception of third party APIs
 
 
 ##Availability:
-The App is only usable on the UNIX Darwin ARMv7 iOS 7.1+ platform
+The App is only usable on the iOS 7.1+ platform
 Devices compatible include the iPhone 4 and up, iPad 2 and up as well as iPod Touch 4rd Gen and up
-Compiles on iOS SDK 8.0, downwards compatible to iOS 7.1
+Compiles on iOS SDK 8.3, downwards compatible to iOS 7.1
 
 
 ##Description:
