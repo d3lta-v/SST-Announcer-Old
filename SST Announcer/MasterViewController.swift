@@ -23,6 +23,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     private var tempItem : Item
     private var feeds : [Item]
+    private var newFeeds : [Item] // New feeds is actually to "cache" a copy of the new feeds, and synchronise it to the old feeds
     private var element : String = ""
     private var searchResults : [Item]
     private let dateFormatter : NSDateFormatter
@@ -34,6 +35,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         parser = NSXMLParser()
         
         feeds = [Item]()
+        newFeeds = [Item]()
         tempItem = Item(title: "", link: "", date: "", author: "", description: "")
         searchResults = [Item]()
         
@@ -57,7 +59,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         // Add observer for push to catch push notification messages
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
         
-        getFeeds()
+        getFeedsOnce()
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,7 +69,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     // MARK: - Private methods
     
-    private func getFeeds() {
+    private func getFeedsOnce() {
         struct TokenHolder {
             static var token: dispatch_once_t = 0;
         }
@@ -78,26 +80,30 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                self.feeds = [Item]() //Sort of like alloc init
-                let url = NSURL(string: "http://feeds.feedburner.com/SSTBlog")
-                let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
-                    if error == nil {
-                        //let dataString = String.dataUsingEncoding(data)
-                        let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-                        self.parser = NSXMLParser(data: (dataString).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-                        self.parser.delegate = self
-                        self.parser.shouldResolveExternalEntities = false
-                        self.parser.parse()
-                    } else {
-                        dispatch_sync(dispatch_get_main_queue(), {
-                            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
-                            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                        })
-                    }
-                }
-                task.resume() // Start NSURLSession Connection
+                self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
             })
         }
+    }
+    
+    private func loadFeedWithURLString(urlString: String!){
+        self.newFeeds = [Item]() //Sort of like alloc init, it clears the array
+        let url = NSURL(string: urlString)
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
+            if error == nil {
+                //let dataString = String.dataUsingEncoding(data)
+                let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
+                self.parser = NSXMLParser(data: (dataString).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+                self.parser.delegate = self
+                self.parser.shouldResolveExternalEntities = false
+                self.parser.parse()
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), {
+                    MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                })
+            }
+        }
+        task.resume() // Start NSURLSession Connection
     }
     
     private func pushNotificationsReceived() {
@@ -106,23 +112,16 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         }
     }
     
+    private func synchroniseFeedArrayAndTable() {
+        self.feeds = self.newFeeds
+        self.tableView.reloadData()
+    }
+    
     internal func refresh(sender: UIRefreshControl) {
-        self.tableView.userInteractionEnabled = false
+        //self.tableView.userInteractionEnabled = false
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.tableView.reloadData()
-            self.feeds = [Item]()
-            let url = NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")
-            self.parser = NSXMLParser(contentsOfURL: url)!
-            self.parser.delegate = self
-            self.parser.shouldResolveExternalEntities = false
-            let success = self.parser.parse()
-            
-            dispatch_sync(dispatch_get_main_queue(), {
-                sender.endRefreshing()
-                self.tableView.userInteractionEnabled = true
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            })
+            self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
         })
     }
     
@@ -151,7 +150,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            self.feeds.append(self.tempItem)
+            self.newFeeds.append(self.tempItem)
         }
     }
     
@@ -176,9 +175,12 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parserDidEndDocument(parser: NSXMLParser) {
         dispatch_sync(dispatch_get_main_queue(), {
-            self.tableView.reloadData()
+            self.synchroniseFeedArrayAndTable()
             MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            
+            // For UIRefreshControl
+            self.refreshControl?.endRefreshing()
             
             let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
             if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
