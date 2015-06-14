@@ -51,11 +51,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         let refreshControl : UIRefreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
-        
-        // Init search controllers delegate (note that this is the old UISearchDisplayController to maintain backwards compatibility
-        self.searchDisplayController!.delegate = self
-        self.searchDisplayController!.searchResultsDataSource = self
-        self.searchDisplayController!.searchResultsDelegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -142,11 +137,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
         self.filterContentForSearchText(searchString)
-        return true
-    }
-    
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
-        self.filterContentForSearchText(self.searchDisplayController!.searchBar.text)
         return true
     }
     
