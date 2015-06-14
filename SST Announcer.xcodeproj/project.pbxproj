@@ -10,7 +10,6 @@
 		227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E71461B1D44DF00215577 /* AppDelegate.swift */; };
 		227E714C1B1D44DF00215577 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227E714A1B1D44DF00215577 /* Main.storyboard */; };
 		227E714E1B1D44DF00215577 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 227E714D1B1D44DF00215577 /* Images.xcassets */; };
-		227E71511B1D44DF00215577 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 227E714F1B1D44DF00215577 /* LaunchScreen.xib */; };
 		227E715D1B1D44DF00215577 /* SST_AnnouncerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E715C1B1D44DF00215577 /* SST_AnnouncerTests.swift */; };
 		227E71731B1D4BEA00215577 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71711B1D4BEA00215577 /* Bolts.framework */; };
 		227E71741B1D4BEA00215577 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71721B1D4BEA00215577 /* Parse.framework */; };
@@ -120,7 +119,6 @@
 		227E71461B1D44DF00215577 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		227E714B1B1D44DF00215577 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		227E714D1B1D44DF00215577 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		227E71501B1D44DF00215577 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		227E71561B1D44DF00215577 /* SST AnnouncerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SST AnnouncerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		227E715B1B1D44DF00215577 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227E715C1B1D44DF00215577 /* SST_AnnouncerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SST_AnnouncerTests.swift; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 				22C4F1CB1B1EAC2B00468987 /* Announcer-Bridging-Header.h */,
 				227E714A1B1D44DF00215577 /* Main.storyboard */,
 				227E714D1B1D44DF00215577 /* Images.xcassets */,
-				227E714F1B1D44DF00215577 /* LaunchScreen.xib */,
 				227E71441B1D44DF00215577 /* Supporting Files */,
 			);
 			path = "SST Announcer";
@@ -560,7 +557,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				227E714C1B1D44DF00215577 /* Main.storyboard in Resources */,
-				227E71511B1D44DF00215577 /* LaunchScreen.xib in Resources */,
 				22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */,
 				227E714E1B1D44DF00215577 /* Images.xcassets in Resources */,
 				22C4F1D21B201FC000468987 /* TUSafariActivity.bundle in Resources */,
@@ -631,14 +627,6 @@
 				227E714B1B1D44DF00215577 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		227E714F1B1D44DF00215577 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				227E71501B1D44DF00215577 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
