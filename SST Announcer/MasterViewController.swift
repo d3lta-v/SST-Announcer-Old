@@ -26,7 +26,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     private var element : String = ""
     private var searchResults : [Item]
     private let dateFormatter : NSDateFormatter
-    private let searchController : UISearchController
     
     // MARK: - Lifecycle
     
@@ -42,8 +41,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
         
-        searchController = UISearchController()
-        
         super.init(coder: aDecoder)
     }
 
@@ -54,6 +51,11 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         let refreshControl : UIRefreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
+        
+        // Init search controllers delegate (note that this is the old UISearchDisplayController to maintain backwards compatibility
+        self.searchDisplayController!.delegate = self
+        self.searchDisplayController!.searchResultsDataSource = self
+        self.searchDisplayController!.searchResultsDelegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -133,12 +135,12 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func filterContentForSearchText(searchText: String) {
         self.searchResults = self.feeds.filter({(post: Item) -> Bool in
-            let stringMatch = post.title.rangeOfString(searchText)
+            let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
             return stringMatch != nil
         })
     }
     
-    func shouldReloadTableForSearchString(controller: UISearchDisplayController, searchString: String) -> (Bool) {
+    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
         self.filterContentForSearchText(searchString)
         return true
     }
@@ -220,7 +222,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         
         var cellItem : Item = Item(title: "", link: "", date: "", author: "", description: "")
 
@@ -242,6 +244,8 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         cell.textLabel!.text = cellItem.title
         cell.detailTextLabel!.text = "\(cellItem.date) \(cellItem.author)"
+        
+        cell.accessoryType = .DisclosureIndicator
 
         return cell
     }

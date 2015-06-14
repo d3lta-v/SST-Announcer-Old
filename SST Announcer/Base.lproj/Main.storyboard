@@ -467,8 +467,8 @@
         <image name="About_Selected" width="33" height="33"/>
         <image name="Categories" width="30" height="30"/>
         <image name="Categories_Selected" width="30" height="30"/>
-        <image name="Feed" width="29" height="29"/>
-        <image name="Feed_Selected" width="29" height="29"/>
+        <image name="Feed" width="30" height="30"/>
+        <image name="Feed_Selected" width="30" height="30"/>
         <image name="SSTInc" width="238" height="141"/>
     </resources>
 </document>

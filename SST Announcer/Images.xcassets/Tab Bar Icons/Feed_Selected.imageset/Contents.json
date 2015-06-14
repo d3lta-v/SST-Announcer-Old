@@ -3,16 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "Feed_Icon.png"
+      "filename" : "RSS_Selected@1x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Feed_Icon@2x.png"
+      "filename" : "RSS_Selected@2x.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "RSS_Selected@3x.png"
     }
   ],
   "info" : {
