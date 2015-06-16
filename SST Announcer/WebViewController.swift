@@ -35,7 +35,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         webView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
         progressProxy.progressDelegate = self
-        let progressBarHeight: CGFloat = 2.0
+        let progressBarHeight: CGFloat = 2.5
         let navigationBarBounds = self.navigationController!.navigationBar.bounds
         let barFrame = CGRect(x: 0, y: navigationBarBounds.size.height - progressBarHeight, width: navigationBarBounds.width, height: progressBarHeight)
         progressView = WebViewProgressView(frame: barFrame)
@@ -69,7 +69,8 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             self.title = "Error"
             htmlString = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back and reselect the page.</p>"
         } else if url.hasPrefix("h") { //First letter of http, to reduce memory usage
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
+            self.navigationController?.showProgress()
+            self.navigationController?.setIndeterminate(true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
             delay(0.2) {
@@ -161,7 +162,9 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         self.textView.contentInset = UIEdgeInsetsMake(85, 15, 40, 15)
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
+        if self.navigationController?.getIndeterminate() == true {
+            self.navigationController?.setIndeterminate(false)
+        }
     }
     
     private func useBrowser(url: String!, usedTable: Bool!) {

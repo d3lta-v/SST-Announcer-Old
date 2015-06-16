@@ -5,3 +5,4 @@
 #import "MRProgress.h"
 #import "DTCoreText.h"
 #import "TUSafariActivity.h"
+#import "UINavigationController+M13ProgressViewBar.h"

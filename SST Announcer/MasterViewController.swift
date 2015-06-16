@@ -9,24 +9,23 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
+class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
     
     // MARK: - Private variables declaration
     
+    // MARK: Basic structure
     private var parser : NSXMLParser
-    private struct Item {
-        var title : String
-        var link : String
-        var date : String
-        var author : String
-        var description :String
-    }
-    private var tempItem : Item
-    private var feeds : [Item]
-    private var newFeeds : [Item] // New feeds is actually to "cache" a copy of the new feeds, and synchronise it to the old feeds
+    private var tempItem : FeedItem
+    private var feeds : [FeedItem]
+    private var newFeeds : [FeedItem] // NewFeeds is actually to "cache" a copy of the new feeds, and synchronise it to the old feeds
     private var element : String = ""
-    private var searchResults : [Item]
+    private var searchResults : [FeedItem]
     private let dateFormatter : NSDateFormatter
+    
+    // MARK: NSURLSession Variables
+    private var progress : Float = 0.0
+    private var buffer : NSMutableData = NSMutableData()
+    private var expectedContentLength = 0
     
     // MARK: - Lifecycle
     
@@ -34,10 +33,10 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         // Variables initialization
         parser = NSXMLParser()
         
-        feeds = [Item]()
-        newFeeds = [Item]()
-        tempItem = Item(title: "", link: "", date: "", author: "", description: "")
-        searchResults = [Item]()
+        feeds = [FeedItem]()
+        newFeeds = [FeedItem]()
+        tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
+        searchResults = [FeedItem]()
         
         dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -61,6 +60,10 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         getFeedsOnce()
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.cancelProgress()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -76,19 +79,45 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         dispatch_once(&TokenHolder.token) {
             // Getfeeds uses a proper Swift implementation of dispatch once
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading...", mode: .IndeterminateSmall, animated: true)
+            //MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading...", mode: MRProgressOverlayViewMode.IndeterminateSmall, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
+            // Start the refresher
+            self.delay(0.05) {
+                self.refreshControl?.beginRefreshing()
+                self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: true)
+            }
+            
+            // Load cached version first, while checking for existence of the cached feeds
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            if let feedsObject : AnyObject = userDefaults.objectForKey("cachedFeeds") {
+                self.feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedsObject as! NSData) as! [FeedItem]
+                self.tableView.reloadData()
+            }
+            
+            // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
+                //self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
+                //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
+                self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
             })
         }
     }
     
     private func loadFeedWithURLString(urlString: String!){
-        self.newFeeds = [Item]() //Sort of like alloc init, it clears the array
+        self.newFeeds = [FeedItem]() //Sort of like alloc init, it clears the array
         let url = NSURL(string: urlString)
-        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
+        
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
+        let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
+        let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
+        self.navigationController?.showProgress()
+        self.navigationController?.setProgress(0.05, animated: true)
+        dataTask.resume()
+        session.finishTasksAndInvalidate()
+        
+        /*let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
             if error == nil {
                 //let dataString = String.dataUsingEncoding(data)
                 let dataString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
@@ -103,7 +132,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 })
             }
         }
-        task.resume() // Start NSURLSession Connection
+        task.resume()*/ // Start NSURLSession Connection
     }
     
     private func pushNotificationsReceived() {
@@ -118,17 +147,58 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     
     internal func refresh(sender: UIRefreshControl) {
-        //self.tableView.userInteractionEnabled = false
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        buffer = NSMutableData()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
+            //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
+            self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
         })
+    }
+    
+    private func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
+    
+    // MARK: - NSURLSession delegates
+    
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+        expectedContentLength = Int(response.expectedContentLength)
+        completionHandler(NSURLSessionResponseDisposition.Allow)
+    }
+    
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+        buffer.appendData(data)
+        
+        let percentDownload = Float(buffer.length) / Float(expectedContentLength)
+        self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
+    }
+    
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        if error == nil { // If no error
+            let dataString = NSString(data: buffer, encoding: NSUTF8StringEncoding) as! String
+            self.parser = NSXMLParser(data: (dataString).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+            self.parser.delegate = self
+            self.parser.shouldResolveExternalEntities = false
+            self.parser.parse()
+        } else {
+            // Clear buffer
+            buffer = NSMutableData()
+            println(error)
+            self.navigationController?.finishProgress()
+            self.refreshControl?.endRefreshing()
+            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error loading!", mode: MRProgressOverlayViewMode.Cross, animated: true)
+        }
     }
     
     // MARK: - Search functionality
     
     func filterContentForSearchText(searchText: String) {
-        self.searchResults = self.feeds.filter({(post: Item) -> Bool in
+        self.searchResults = self.feeds.filter({(post: FeedItem) -> Bool in
             let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
             return stringMatch != nil
         })
@@ -143,8 +213,8 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         self.element = elementName
-        if self.element == "item" { // If new item is retrieved, clear the temporary item struct
-            self.tempItem = Item(title: "", link: "", date: "", author: "", description: "") //Reset tempItem
+        if self.element == "item" { // If new item is retrieved, clear the temporary item object
+            self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
         }
     }
     
@@ -156,9 +226,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
         if var testString = string { // Unwrap string? to check if it really works
-            // Get rid of pesky "&" (ampersand) issue
-            testString = testString.stringByReplacingOccurrencesOfString("%", withString: "&", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            
             if self.element == "title" {
                 self.tempItem.title = self.tempItem.title + testString
             } else if self.element == "link" {
@@ -168,7 +235,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
             } else if self.element == "description" {
-                self.tempItem.description = self.tempItem.description + testString
+                self.tempItem.content = self.tempItem.content + testString
             }
         }
     }
@@ -176,11 +243,16 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     func parserDidEndDocument(parser: NSXMLParser) {
         dispatch_sync(dispatch_get_main_queue(), {
             self.synchroniseFeedArrayAndTable()
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
+            
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            self.navigationController?.finishProgress()
             
             // For UIRefreshControl
             self.refreshControl?.endRefreshing()
+            
+            // Archive and cache feeds into persistent storage (cool beans)
+            let cachedData = NSKeyedArchiver.archivedDataWithRootObject(self.feeds)
+            NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedFeeds")
             
             let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
             if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
@@ -191,7 +263,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         dispatch_sync(dispatch_get_main_queue(), {
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
         })
@@ -216,7 +287,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         
-        var cellItem : Item = Item(title: "", link: "", date: "", author: "", description: "")
+        var cellItem : FeedItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
 
         // Configure the cell...
         if tableView == self.searchDisplayController!.searchResultsTableView {
@@ -224,13 +295,10 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             //cell.textLabel?.text = self.searchResults[indexPath.row].title
         } else {
             if !feeds.isEmpty {
-                /*if self.feeds[indexPath.row].title == "" {
-                    cell.textLabel?.text = "<No Title>"
-                } else {
-                    cell.textLabel?.text = self.feeds[indexPath.row].title
-                }
-                cell.detailTextLabel?.text = "\(self.feeds[indexPath.row].date) \(self.feeds[indexPath.row].author)"*/
                 cellItem = self.feeds[indexPath.row]
+                if cellItem.title == "" {
+                    cellItem.title = "<No Title>"
+                }
             }
         }
         
