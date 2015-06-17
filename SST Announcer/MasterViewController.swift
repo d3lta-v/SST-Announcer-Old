@@ -241,13 +241,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
                 self.performSegueWithIdentifier("MasterToDetail", sender: self)
             }
-            
-            self.delay(0.4, closure: { // A bit of delay to not cause UI conflicts with the search bar
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-                dateFormatter.dateFormat = "dd MMMM HH:mm"
-                self.refreshControl?.attributedTitle = NSAttributedString(string: "Last updated: \(dateFormatter.stringFromDate(NSDate()))")
-            })
         })
     }
     
