@@ -334,14 +334,14 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         let safariActivity : TUSafariActivity = TUSafariActivity()
         var activity : UIActivityViewController = UIActivityViewController()
         
-        if self.receivedUrl.hasPrefix("http://") {
+        if self.receivedUrl.hasPrefix("h") {
             activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl)!], applicationActivities: [safariActivity])
         } else {
             // First few times I'm using Swift optional checking!1!1
             if let index1 = self.receivedUrl.rangeOfString("[")?.endIndex, index2 = self.receivedUrl.rangeOfString("]")?.startIndex {
                 let range = Range(start: index1, end: index2)
                 
-                activity = UIActivityViewController(activityItems: [self.receivedUrl.substringWithRange(range)], applicationActivities: [safariActivity])
+                activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl.substringWithRange(range))!], applicationActivities: [safariActivity])
             }
         }
         

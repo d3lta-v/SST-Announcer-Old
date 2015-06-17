@@ -1,15 +1,14 @@
 //
-//  MasterTableViewController.swift
+//  CategoryViewController.swift
 //  SST Announcer
 //
-//  Created by Pan Ziyue on 2/6/15.
+//  Created by Pan Ziyue on 16/6/15.
 //  Copyright (c) 2015 StatiX Industries. All rights reserved.
 //
 
-
 import UIKit
 
-class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
+class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
     
     // MARK: - Private variables declaration
     
@@ -26,6 +25,9 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     private var progress : Float = 0.0
     private var buffer : NSMutableData = NSMutableData()
     private var expectedContentLength = 0
+    
+    // MARK: New variable: the URL variable for inputting a URL from previous view controller
+    var inputURL : String?
     
     // MARK: - Lifecycle
     
@@ -47,7 +49,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Init refresh controls
         let refreshControl : UIRefreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -55,9 +57,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
-        // Add observer for push to catch push notification messages
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
-        
         getFeedsOnce()
     }
     
@@ -87,18 +86,11 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: true)
             }
             
-            // Load cached version first, while checking for existence of the cached feeds
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            if let feedsObject : AnyObject = userDefaults.objectForKey("cachedFeeds") {
-                self.feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedsObject as! NSData) as! [FeedItem]
-                self.tableView.reloadData()
-            }
-            
             // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                //self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
-                //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-                self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
+                if let url = self.inputURL {
+                    self.loadFeedWithURLString(url)
+                }
             })
         }
     }
@@ -117,12 +109,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         session.finishTasksAndInvalidate()
     }
     
-    private func pushNotificationsReceived() {
-        if self.navigationController!.viewControllers.count < 2 {
-            self.performSegueWithIdentifier("MasterToDetail", sender: self)
-        }
-    }
-    
     private func synchroniseFeedArrayAndTable() {
         self.feeds = self.newFeeds
         self.tableView.reloadData()
@@ -131,10 +117,11 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     internal func refresh(sender: UIRefreshControl) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         buffer = NSMutableData()
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-            self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
+            if let url = self.inputURL {
+                self.loadFeedWithURLString(url)
+            }
         })
     }
     
@@ -232,22 +219,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             
             // For UIRefreshControl
             self.refreshControl?.endRefreshing()
-            
-            // Archive and cache feeds into persistent storage (cool beans)
-            let cachedData = NSKeyedArchiver.archivedDataWithRootObject(self.feeds)
-            NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedFeeds")
-            
-            let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
-                self.performSegueWithIdentifier("MasterToDetail", sender: self)
-            }
-            
-            self.delay(0.4, closure: { // A bit of delay to not cause UI conflicts with the search bar
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-                dateFormatter.dateFormat = "dd MMMM HH:mm"
-                self.refreshControl?.attributedTitle = NSAttributedString(string: "Last updated: \(dateFormatter.stringFromDate(NSDate()))")
-            })
         })
     }
     
@@ -278,7 +249,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         
         var cellItem : FeedItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
-
+        
         // Configure the cell...
         if tableView == self.searchDisplayController!.searchResultsTableView {
             cellItem = self.searchResults[indexPath.row]
@@ -296,10 +267,10 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         cell.detailTextLabel!.text = "\(cellItem.date) \(cellItem.author)"
         
         cell.accessoryType = .DisclosureIndicator
-
+        
         return cell
     }
-    
+
     // MARK: - Table view delegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -311,36 +282,28 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         return 50 // Constant 50pts height for row
     }
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "MasterToDetail" {
-            let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() {
-                (segue.destinationViewController as! WebViewController).receivedUrl = singleton.getRemoteNotificationURL()
-                singleton.setDidReceivePushNotificationWithBool(false)
-            } else {
-                if (self.searchDisplayController?.active == true) {
-                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
-                        let passedString : String = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].content)"
-                        (segue.destinationViewController as! WebViewController).receivedUrl = passedString
-                    } else {
-                        (segue.destinationViewController as! WebViewController).receivedUrl = "error"
-                    }
+            if (self.searchDisplayController?.active == true) {
+                if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
+                    let passedString : String = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].content)"
+                    (segue.destinationViewController as! WebViewController).receivedUrl = passedString
                 } else {
-                    if let indexPath = self.tableView.indexPathForSelectedRow() {
-                        let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
-                        //let passedString = "http://studentsblog.sst.edu.sg/2015/05/info-hub-closed-for-open-house-rehearsal.html"
-                        (segue.destinationViewController as! WebViewController).receivedUrl = passedString
-                    } else {
-                        (segue.destinationViewController as! WebViewController).receivedUrl = "error"
-                    }
+                    (segue.destinationViewController as! WebViewController).receivedUrl = "error"
+                }
+            } else {
+                if let indexPath = self.tableView.indexPathForSelectedRow() {
+                    let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
+                    //let passedString = "http://studentsblog.sst.edu.sg/2015/05/info-hub-closed-for-open-house-rehearsal.html"
+                    (segue.destinationViewController as! WebViewController).receivedUrl = passedString
+                } else {
+                    (segue.destinationViewController as! WebViewController).receivedUrl = "error"
                 }
             }
         }
     }
+
 }

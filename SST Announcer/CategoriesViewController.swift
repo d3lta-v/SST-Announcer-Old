@@ -1,15 +1,14 @@
 //
-//  MasterTableViewController.swift
+//  CategoriesViewController.swift
 //  SST Announcer
 //
-//  Created by Pan Ziyue on 2/6/15.
+//  Created by Pan Ziyue on 16/6/15.
 //  Copyright (c) 2015 StatiX Industries. All rights reserved.
 //
 
-
 import UIKit
 
-class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
+class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
     
     // MARK: - Private variables declaration
     
@@ -20,7 +19,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     private var newFeeds : [FeedItem] // NewFeeds is actually to "cache" a copy of the new feeds, and synchronise it to the old feeds
     private var element : String = ""
     private var searchResults : [FeedItem]
-    private let dateFormatter : NSDateFormatter
     
     // MARK: NSURLSession Variables
     private var progress : Float = 0.0
@@ -38,16 +36,12 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
         searchResults = [FeedItem]()
         
-        dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
-        
         super.init(coder: aDecoder)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Init refresh controls
         let refreshControl : UIRefreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -55,9 +49,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
-        // Add observer for push to catch push notification messages
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
-        
         getFeedsOnce()
     }
     
@@ -89,7 +80,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
-            if let feedsObject : AnyObject = userDefaults.objectForKey("cachedFeeds") {
+            if let feedsObject : AnyObject = userDefaults.objectForKey("cachedCategories") {
                 self.feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedsObject as! NSData) as! [FeedItem]
                 self.tableView.reloadData()
             }
@@ -98,7 +89,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 //self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
                 //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-                self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
+                self.loadFeedWithURLString("https://simux.org/api/cache/categories.xml")
             })
         }
     }
@@ -117,12 +108,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         session.finishTasksAndInvalidate()
     }
     
-    private func pushNotificationsReceived() {
-        if self.navigationController!.viewControllers.count < 2 {
-            self.performSegueWithIdentifier("MasterToDetail", sender: self)
-        }
-    }
-    
     private func synchroniseFeedArrayAndTable() {
         self.feeds = self.newFeeds
         self.tableView.reloadData()
@@ -131,7 +116,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     internal func refresh(sender: UIRefreshControl) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         buffer = NSMutableData()
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
             self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
@@ -196,29 +180,21 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         self.element = elementName
-        if self.element == "item" { // If new item is retrieved, clear the temporary item object
+        if self.element == "category" { // If new item is retrieved, clear the temporary item object
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
         }
     }
     
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "item" {
+        if elementName == "category" {
             self.newFeeds.append(self.tempItem)
         }
     }
     
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if var testString = string { // Unwrap string? to check if it really works
-            if self.element == "title" {
+        if let testString = string { // Unwrap string? to check if it really works
+            if self.element == "category" {
                 self.tempItem.title = self.tempItem.title + testString
-            } else if self.element == "link" {
-                self.tempItem.link = self.tempItem.link + testString
-            } else if self.element == "pubDate" {
-                self.tempItem.date = dateFormatter.stringFromDate(self.dateFormatter.dateFromString(testString.stringByReplacingOccurrencesOfString(":00 +0000", withString: ""))!.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT))) //Depends on current difference in timestamp to calculate intellegiently what timezone it should apply to the posts
-            } else if self.element == "author" {
-                self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            } else if self.element == "description" {
-                self.tempItem.content = self.tempItem.content + testString
             }
         }
     }
@@ -235,19 +211,12 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             
             // Archive and cache feeds into persistent storage (cool beans)
             let cachedData = NSKeyedArchiver.archivedDataWithRootObject(self.feeds)
-            NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedFeeds")
+            NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedCategories")
             
             let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
             if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
                 self.performSegueWithIdentifier("MasterToDetail", sender: self)
             }
-            
-            self.delay(0.4, closure: { // A bit of delay to not cause UI conflicts with the search bar
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-                dateFormatter.dateFormat = "dd MMMM HH:mm"
-                self.refreshControl?.attributedTitle = NSAttributedString(string: "Last updated: \(dateFormatter.stringFromDate(NSDate()))")
-            })
         })
     }
     
@@ -278,7 +247,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         
         var cellItem : FeedItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
-
+        
         // Configure the cell...
         if tableView == self.searchDisplayController!.searchResultsTableView {
             cellItem = self.searchResults[indexPath.row]
@@ -287,28 +256,24 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             if !feeds.isEmpty {
                 cellItem = self.feeds[indexPath.row]
                 if cellItem.title == "" {
-                    cellItem.title = "<No Title>"
+                    cellItem.title = "<No Name>"
                 }
             }
         }
         
         cell.textLabel!.text = cellItem.title
-        cell.detailTextLabel!.text = "\(cellItem.date) \(cellItem.author)"
+        //cell.detailTextLabel!.text = "\(cellItem.date) \(cellItem.author)"
         
         cell.accessoryType = .DisclosureIndicator
-
+        
         return cell
     }
     
     // MARK: - Table view delegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        self.performSegueWithIdentifier("CategoryToDetail", sender: self)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 50 // Constant 50pts height for row
     }
     
     // MARK: - Navigation
@@ -317,30 +282,10 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        
-        if segue.identifier == "MasterToDetail" {
-            let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() {
-                (segue.destinationViewController as! WebViewController).receivedUrl = singleton.getRemoteNotificationURL()
-                singleton.setDidReceivePushNotificationWithBool(false)
-            } else {
-                if (self.searchDisplayController?.active == true) {
-                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
-                        let passedString : String = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].content)"
-                        (segue.destinationViewController as! WebViewController).receivedUrl = passedString
-                    } else {
-                        (segue.destinationViewController as! WebViewController).receivedUrl = "error"
-                    }
-                } else {
-                    if let indexPath = self.tableView.indexPathForSelectedRow() {
-                        let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
-                        //let passedString = "http://studentsblog.sst.edu.sg/2015/05/info-hub-closed-for-open-house-rehearsal.html"
-                        (segue.destinationViewController as! WebViewController).receivedUrl = passedString
-                    } else {
-                        (segue.destinationViewController as! WebViewController).receivedUrl = "error"
-                    }
-                }
-            }
+        if let indexPath = self.tableView.indexPathForSelectedRow() {
+            (segue.destinationViewController as! CategoryViewController).inputURL = "http://studentsblog.sst.edu.sg/feeds/posts/default/-/\(self.feeds[indexPath.row].title)?alt=rss"
+            (segue.destinationViewController as! CategoryViewController).title = self.feeds[indexPath.row].title
         }
     }
+
 }

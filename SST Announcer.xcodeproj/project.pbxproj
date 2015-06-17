@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		224C7B071B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B061B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m */; };
 		224C7B091B2FD83000912977 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B081B2FD83000912977 /* FeedItem.swift */; };
+		224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B0A1B2FE73100912977 /* CategoriesViewController.swift */; };
+		224C7B0D1B30423C00912977 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B0C1B30423C00912977 /* CategoryViewController.swift */; };
 		227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E71461B1D44DF00215577 /* AppDelegate.swift */; };
 		227E714C1B1D44DF00215577 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227E714A1B1D44DF00215577 /* Main.storyboard */; };
 		227E714E1B1D44DF00215577 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 227E714D1B1D44DF00215577 /* Images.xcassets */; };
@@ -119,7 +121,9 @@
 		224C7B051B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+M13ProgressViewBar.h"; sourceTree = "<group>"; };
 		224C7B061B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+M13ProgressViewBar.m"; sourceTree = "<group>"; };
 		224C7B081B2FD83000912977 /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
-		227E71411B1D44DF00215577 /* SST Announcer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SST Announcer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		224C7B0A1B2FE73100912977 /* CategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
+		224C7B0C1B30423C00912977 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		227E71411B1D44DF00215577 /* Announcer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Announcer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		227E71451B1D44DF00215577 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227E71461B1D44DF00215577 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		227E714B1B1D44DF00215577 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -263,7 +267,7 @@
 		227E71421B1D44DF00215577 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				227E71411B1D44DF00215577 /* SST Announcer.app */,
+				227E71411B1D44DF00215577 /* Announcer.app */,
 				227E71561B1D44DF00215577 /* SST AnnouncerTests.xctest */,
 			);
 			name = Products;
@@ -274,6 +278,8 @@
 			children = (
 				227E71461B1D44DF00215577 /* AppDelegate.swift */,
 				227E718F1B1D4F1C00215577 /* MasterViewController.swift */,
+				224C7B0A1B2FE73100912977 /* CategoriesViewController.swift */,
+				224C7B0C1B30423C00912977 /* CategoryViewController.swift */,
 				22C4F1CC1B201F1000468987 /* WebViewController.swift */,
 				22FD3B7F1B27293000F87089 /* InAppBrowserViewController.swift */,
 				227E71CF1B1D726E00215577 /* GlobalSingleton.swift */,
@@ -445,7 +451,7 @@
 			);
 			name = Announcer;
 			productName = "SST Announcer";
-			productReference = 227E71411B1D44DF00215577 /* SST Announcer.app */;
+			productReference = 227E71411B1D44DF00215577 /* Announcer.app */;
 			productType = "com.apple.product-type.application";
 		};
 		227E71551B1D44DF00215577 /* SST AnnouncerTests */ = {
@@ -602,6 +608,8 @@
 				22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */,
 				22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */,
 				22C4F1BC1B1EA2E100468987 /* MRProgressView.m in Sources */,
+				224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */,
+				224C7B0D1B30423C00912977 /* CategoryViewController.swift in Sources */,
 				22C4F1C11B1EA2E100468987 /* MRMessageInterceptor.m in Sources */,
 				22C4F1B91B1EA2E100468987 /* MRIconView.m in Sources */,
 				227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */,
