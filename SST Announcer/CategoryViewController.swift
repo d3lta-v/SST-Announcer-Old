@@ -57,7 +57,17 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     }
     
     override func viewWillAppear(animated: Bool) {
-        getFeedsOnce()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        self.delay(0.05) {
+            self.refreshControl?.beginRefreshing()
+            self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: true)
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            if let url = self.inputURL {
+                self.loadFeedWithURLString(url)
+            }
+        })
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -71,30 +81,6 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     
     // MARK: - Private methods
     
-    private func getFeedsOnce() {
-        struct TokenHolder {
-            static var token: dispatch_once_t = 0;
-        }
-        
-        dispatch_once(&TokenHolder.token) {
-            // Getfeeds uses a proper Swift implementation of dispatch once
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            
-            // Start the refresher
-            self.delay(0.05) {
-                self.refreshControl?.beginRefreshing()
-                self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: true)
-            }
-            
-            // Then load the web version on a seperate thread
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                if let url = self.inputURL {
-                    self.loadFeedWithURLString(url)
-                }
-            })
-        }
-    }
-    
     private func loadFeedWithURLString(urlString: String!){
         self.newFeeds = [FeedItem]() //Sort of like alloc init, it clears the array
         let url = NSURL(string: urlString)
@@ -103,6 +89,7 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
+        self.navigationController?.setProgress(0, animated: false) // force set progress to zero to avoid weird UI
         self.navigationController?.showProgress()
         self.navigationController?.setProgress(0.05, animated: true)
         dataTask.resume()
@@ -225,7 +212,8 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         dispatch_sync(dispatch_get_main_queue(), {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+            println(parseError)
+            //MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true) //discard the error, since it is too common
         })
     }
 

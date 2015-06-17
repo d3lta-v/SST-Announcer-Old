@@ -111,6 +111,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
+        self.navigationController?.setProgress(0, animated: false) // force set progress to zero to avoid weird UI
         self.navigationController?.showProgress()
         self.navigationController?.setProgress(0.05, animated: true)
         dataTask.resume()

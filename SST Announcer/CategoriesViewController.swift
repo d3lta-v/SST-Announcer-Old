@@ -102,6 +102,7 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
+        self.navigationController?.setProgress(0, animated: false) // force set progress to zero to avoid weird UI
         self.navigationController?.showProgress()
         self.navigationController?.setProgress(0.05, animated: true)
         dataTask.resume()
@@ -283,7 +284,8 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         if let indexPath = self.tableView.indexPathForSelectedRow() {
-            (segue.destinationViewController as! CategoryViewController).inputURL = "http://studentsblog.sst.edu.sg/feeds/posts/default/-/\(self.feeds[indexPath.row].title)?alt=rss"
+            let modString = (self.feeds[indexPath.row].title).stringByReplacingOccurrencesOfString(" ", withString: "%20")
+            (segue.destinationViewController as! CategoryViewController).inputURL = "http://studentsblog.sst.edu.sg/feeds/posts/default/-/\(modString)?alt=rss"
             (segue.destinationViewController as! CategoryViewController).title = self.feeds[indexPath.row].title
         }
     }
