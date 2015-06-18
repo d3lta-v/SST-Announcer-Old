@@ -38,8 +38,8 @@
 /* Class = "UILabel"; text = "CEO: Christopher Kok"; ObjectID = "gIJ-jK-uaD"; */
 "gIJ-jK-uaD.text" = "CEO: Christopher Kok";
 
-/* Class = "UILabel"; text = "Developed by StatiX Industries of SST Inc"; ObjectID = "hUC-bk-jQo"; */
-"hUC-bk-jQo.text" = "Developed by StatiX Industries of SST Inc";
+/* Class = "UILabel"; text = "Developed by StatiX Industries, SST INC"; ObjectID = "hUC-bk-jQo"; */
+"hUC-bk-jQo.text" = "Developed by StatiX Industries, SST INC";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "hy6-Kv-jue"; */
 "hy6-Kv-jue.text" = "Subtitle";
