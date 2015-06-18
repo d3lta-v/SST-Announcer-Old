@@ -34,18 +34,6 @@
 		227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B01B1D527500215577 /* libxml2.dylib */; };
 		227E71B31B1D527D00215577 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B21B1D527C00215577 /* ImageIO.framework */; };
 		227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E71CF1B1D726E00215577 /* GlobalSingleton.swift */; };
-		22C4F1B51B1EA2E100468987 /* MRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1911B1EA2E100468987 /* MRBlurView.m */; };
-		22C4F1B61B1EA2E100468987 /* UIImage+MRImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1931B1EA2E100468987 /* UIImage+MRImageEffects.m */; };
-		22C4F1B71B1EA2E100468987 /* MRActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1961B1EA2E100468987 /* MRActivityIndicatorView.m */; };
-		22C4F1B81B1EA2E100468987 /* MRCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1981B1EA2E100468987 /* MRCircularProgressView.m */; };
-		22C4F1B91B1EA2E100468987 /* MRIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F19A1B1EA2E100468987 /* MRIconView.m */; };
-		22C4F1BA1B1EA2E100468987 /* MRNavigationBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F19C1B1EA2E100468987 /* MRNavigationBarProgressView.m */; };
-		22C4F1BB1B1EA2E100468987 /* MRProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F19E1B1EA2E100468987 /* MRProgressOverlayView.m */; };
-		22C4F1BC1B1EA2E100468987 /* MRProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1A01B1EA2E100468987 /* MRProgressView.m */; };
-		22C4F1BD1B1EA2E100468987 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1A31B1EA2E100468987 /* MRStopButton.m */; };
-		22C4F1C11B1EA2E100468987 /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1AF1B1EA2E100468987 /* MRMessageInterceptor.m */; };
-		22C4F1C21B1EA2E100468987 /* MRMethodCopier.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1B11B1EA2E100468987 /* MRMethodCopier.m */; };
-		22C4F1C31B1EA2E100468987 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1B41B1EA2E100468987 /* MRWeakProxy.m */; };
 		22C4F1CD1B201F1000468987 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1CC1B201F1000468987 /* WebViewController.swift */; };
 		22C4F1D21B201FC000468987 /* TUSafariActivity.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22C4F1CF1B201FC000468987 /* TUSafariActivity.bundle */; };
 		22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1D11B201FC000468987 /* TUSafariActivity.m */; };
@@ -53,6 +41,8 @@
 		22C4F1DF1B2024A600468987 /* SwiftWebViewProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */; };
 		22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */; };
 		22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E31B21194300468987 /* SwiftyJSON.swift */; };
+		22C5EFDB1B32E1E800C92AC6 /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22C5EFD81B32E1E800C92AC6 /* ProgressHUD.bundle */; };
+		22C5EFDC1B32E1E800C92AC6 /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C5EFDA1B32E1E800C92AC6 /* ProgressHUD.m */; };
 		22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FD3B7D1B27268000F87089 /* Settings.bundle */; };
 		22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FD3B7F1B27293000F87089 /* InAppBrowserViewController.swift */; };
 /* End PBXBuildFile section */
@@ -149,33 +139,6 @@
 		227E71B01B1D527500215577 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		227E71B21B1D527C00215577 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		227E71CF1B1D726E00215577 /* GlobalSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalSingleton.swift; sourceTree = "<group>"; };
-		22C4F1901B1EA2E100468987 /* MRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRBlurView.h; sourceTree = "<group>"; };
-		22C4F1911B1EA2E100468987 /* MRBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBlurView.m; sourceTree = "<group>"; };
-		22C4F1921B1EA2E100468987 /* UIImage+MRImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MRImageEffects.h"; sourceTree = "<group>"; };
-		22C4F1931B1EA2E100468987 /* UIImage+MRImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MRImageEffects.m"; sourceTree = "<group>"; };
-		22C4F1951B1EA2E100468987 /* MRActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRActivityIndicatorView.h; sourceTree = "<group>"; };
-		22C4F1961B1EA2E100468987 /* MRActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRActivityIndicatorView.m; sourceTree = "<group>"; };
-		22C4F1971B1EA2E100468987 /* MRCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRCircularProgressView.h; sourceTree = "<group>"; };
-		22C4F1981B1EA2E100468987 /* MRCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRCircularProgressView.m; sourceTree = "<group>"; };
-		22C4F1991B1EA2E100468987 /* MRIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRIconView.h; sourceTree = "<group>"; };
-		22C4F19A1B1EA2E100468987 /* MRIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRIconView.m; sourceTree = "<group>"; };
-		22C4F19B1B1EA2E100468987 /* MRNavigationBarProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRNavigationBarProgressView.h; sourceTree = "<group>"; };
-		22C4F19C1B1EA2E100468987 /* MRNavigationBarProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRNavigationBarProgressView.m; sourceTree = "<group>"; };
-		22C4F19D1B1EA2E100468987 /* MRProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressOverlayView.h; sourceTree = "<group>"; };
-		22C4F19E1B1EA2E100468987 /* MRProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRProgressOverlayView.m; sourceTree = "<group>"; };
-		22C4F19F1B1EA2E100468987 /* MRProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressView.h; sourceTree = "<group>"; };
-		22C4F1A01B1EA2E100468987 /* MRProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRProgressView.m; sourceTree = "<group>"; };
-		22C4F1A11B1EA2E100468987 /* MRStopableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStopableView.h; sourceTree = "<group>"; };
-		22C4F1A21B1EA2E100468987 /* MRStopButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStopButton.h; sourceTree = "<group>"; };
-		22C4F1A31B1EA2E100468987 /* MRStopButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRStopButton.m; sourceTree = "<group>"; };
-		22C4F1A41B1EA2E100468987 /* MRProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgress.h; sourceTree = "<group>"; };
-		22C4F1AE1B1EA2E100468987 /* MRMessageInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRMessageInterceptor.h; sourceTree = "<group>"; };
-		22C4F1AF1B1EA2E100468987 /* MRMessageInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRMessageInterceptor.m; sourceTree = "<group>"; };
-		22C4F1B01B1EA2E100468987 /* MRMethodCopier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRMethodCopier.h; sourceTree = "<group>"; };
-		22C4F1B11B1EA2E100468987 /* MRMethodCopier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRMethodCopier.m; sourceTree = "<group>"; };
-		22C4F1B21B1EA2E100468987 /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
-		22C4F1B31B1EA2E100468987 /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
-		22C4F1B41B1EA2E100468987 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
 		22C4F1CB1B1EAC2B00468987 /* Announcer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Announcer-Bridging-Header.h"; sourceTree = "<group>"; };
 		22C4F1CC1B201F1000468987 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		22C4F1CF1B201FC000468987 /* TUSafariActivity.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TUSafariActivity.bundle; sourceTree = "<group>"; };
@@ -186,6 +149,9 @@
 		22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMUXCRParser.swift; sourceTree = "<group>"; };
 		22C4F1E31B21194300468987 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		22C5EFD51B32C38800C92AC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		22C5EFD81B32E1E800C92AC6 /* ProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ProgressHUD.bundle; sourceTree = "<group>"; };
+		22C5EFD91B32E1E800C92AC6 /* ProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHUD.h; sourceTree = "<group>"; };
+		22C5EFDA1B32E1E800C92AC6 /* ProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressHUD.m; sourceTree = "<group>"; };
 		22FD3B5D1B27178200F87089 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "SST Announcer.xcodeproj/../README.md"; sourceTree = "<group>"; };
 		22FD3B671B27179A00F87089 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		22FD3B7D1B27268000F87089 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -321,11 +287,11 @@
 		227E71661B1D4B1600215577 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				22C5EFD71B32E1E800C92AC6 /* ProgressHUD */,
 				224C7B041B2EE03A00912977 /* M13ProgressSuite */,
 				22C4F1E21B21194300468987 /* SwiftyJSON */,
 				22C4F1DB1B2024A600468987 /* SwiftWebViewProgress */,
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
-				22C4F18E1B1EA2E100468987 /* MRProgress */,
 				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
 				227E71711B1D4BEA00215577 /* Bolts.framework */,
 				227E71721B1D4BEA00215577 /* Parse.framework */,
@@ -345,64 +311,6 @@
 				227E71AA1B1D504700215577 /* DTCoreText.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		22C4F18E1B1EA2E100468987 /* MRProgress */ = {
-			isa = PBXGroup;
-			children = (
-				22C4F18F1B1EA2E100468987 /* Blur */,
-				22C4F1941B1EA2E100468987 /* Components */,
-				22C4F1A41B1EA2E100468987 /* MRProgress.h */,
-				22C4F1AD1B1EA2E100468987 /* Utils */,
-			);
-			path = MRProgress;
-			sourceTree = "<group>";
-		};
-		22C4F18F1B1EA2E100468987 /* Blur */ = {
-			isa = PBXGroup;
-			children = (
-				22C4F1901B1EA2E100468987 /* MRBlurView.h */,
-				22C4F1911B1EA2E100468987 /* MRBlurView.m */,
-				22C4F1921B1EA2E100468987 /* UIImage+MRImageEffects.h */,
-				22C4F1931B1EA2E100468987 /* UIImage+MRImageEffects.m */,
-			);
-			path = Blur;
-			sourceTree = "<group>";
-		};
-		22C4F1941B1EA2E100468987 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				22C4F1951B1EA2E100468987 /* MRActivityIndicatorView.h */,
-				22C4F1961B1EA2E100468987 /* MRActivityIndicatorView.m */,
-				22C4F1971B1EA2E100468987 /* MRCircularProgressView.h */,
-				22C4F1981B1EA2E100468987 /* MRCircularProgressView.m */,
-				22C4F1991B1EA2E100468987 /* MRIconView.h */,
-				22C4F19A1B1EA2E100468987 /* MRIconView.m */,
-				22C4F19B1B1EA2E100468987 /* MRNavigationBarProgressView.h */,
-				22C4F19C1B1EA2E100468987 /* MRNavigationBarProgressView.m */,
-				22C4F19D1B1EA2E100468987 /* MRProgressOverlayView.h */,
-				22C4F19E1B1EA2E100468987 /* MRProgressOverlayView.m */,
-				22C4F19F1B1EA2E100468987 /* MRProgressView.h */,
-				22C4F1A01B1EA2E100468987 /* MRProgressView.m */,
-				22C4F1A11B1EA2E100468987 /* MRStopableView.h */,
-				22C4F1A21B1EA2E100468987 /* MRStopButton.h */,
-				22C4F1A31B1EA2E100468987 /* MRStopButton.m */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		22C4F1AD1B1EA2E100468987 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				22C4F1AE1B1EA2E100468987 /* MRMessageInterceptor.h */,
-				22C4F1AF1B1EA2E100468987 /* MRMessageInterceptor.m */,
-				22C4F1B01B1EA2E100468987 /* MRMethodCopier.h */,
-				22C4F1B11B1EA2E100468987 /* MRMethodCopier.m */,
-				22C4F1B21B1EA2E100468987 /* MRProgressHelper.h */,
-				22C4F1B31B1EA2E100468987 /* MRWeakProxy.h */,
-				22C4F1B41B1EA2E100468987 /* MRWeakProxy.m */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		22C4F1CE1B201FC000468987 /* TUSafariActivity */ = {
@@ -430,6 +338,16 @@
 				22C4F1E31B21194300468987 /* SwiftyJSON.swift */,
 			);
 			path = SwiftyJSON;
+			sourceTree = "<group>";
+		};
+		22C5EFD71B32E1E800C92AC6 /* ProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				22C5EFD81B32E1E800C92AC6 /* ProgressHUD.bundle */,
+				22C5EFD91B32E1E800C92AC6 /* ProgressHUD.h */,
+				22C5EFDA1B32E1E800C92AC6 /* ProgressHUD.m */,
+			);
+			path = ProgressHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -582,6 +500,7 @@
 				227E714C1B1D44DF00215577 /* Main.storyboard in Resources */,
 				22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */,
 				227E714E1B1D44DF00215577 /* Images.xcassets in Resources */,
+				22C5EFDB1B32E1E800C92AC6 /* ProgressHUD.bundle in Resources */,
 				22C4F1D21B201FC000468987 /* TUSafariActivity.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,31 +519,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22C4F1B71B1EA2E100468987 /* MRActivityIndicatorView.m in Sources */,
-				22C4F1BA1B1EA2E100468987 /* MRNavigationBarProgressView.m in Sources */,
 				22C4F1DF1B2024A600468987 /* SwiftWebViewProgressView.swift in Sources */,
 				22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */,
 				227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */,
 				224C7B071B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m in Sources */,
 				22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */,
 				22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */,
-				22C4F1BC1B1EA2E100468987 /* MRProgressView.m in Sources */,
+				22C5EFDC1B32E1E800C92AC6 /* ProgressHUD.m in Sources */,
 				224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */,
 				224C7B0D1B30423C00912977 /* CategoryViewController.swift in Sources */,
-				22C4F1C11B1EA2E100468987 /* MRMessageInterceptor.m in Sources */,
-				22C4F1B91B1EA2E100468987 /* MRIconView.m in Sources */,
 				227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */,
-				22C4F1BD1B1EA2E100468987 /* MRStopButton.m in Sources */,
 				22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */,
-				22C4F1B51B1EA2E100468987 /* MRBlurView.m in Sources */,
-				22C4F1C21B1EA2E100468987 /* MRMethodCopier.m in Sources */,
-				22C4F1B61B1EA2E100468987 /* UIImage+MRImageEffects.m in Sources */,
 				22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */,
 				227E71901B1D4F1C00215577 /* MasterViewController.swift in Sources */,
-				22C4F1B81B1EA2E100468987 /* MRCircularProgressView.m in Sources */,
 				224C7B091B2FD83000912977 /* FeedItem.swift in Sources */,
-				22C4F1BB1B1EA2E100468987 /* MRProgressOverlayView.m in Sources */,
-				22C4F1C31B1EA2E100468987 /* MRWeakProxy.m in Sources */,
 				22C4F1CD1B201F1000468987 /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

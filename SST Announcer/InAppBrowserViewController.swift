@@ -113,7 +113,7 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         if error.code != -999 {
-            MRProgressOverlayView.showOverlayAddedTo(self.navigationController?.view, title: "Error loading!", mode: .Cross, animated: true)
+            ProgressHUD.showError("Error loading!")
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }

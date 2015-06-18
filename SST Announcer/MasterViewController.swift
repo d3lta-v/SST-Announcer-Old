@@ -183,7 +183,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             println(error)
             self.navigationController?.finishProgress()
             self.refreshControl?.endRefreshing()
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error loading!", mode: MRProgressOverlayViewMode.Cross, animated: true)
+            ProgressHUD.showError("Error loading!")
         }
     }
     
@@ -256,7 +256,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         dispatch_sync(dispatch_get_main_queue(), {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true)
+            ProgressHUD.showError("Error Parsing!")
         })
     }
 

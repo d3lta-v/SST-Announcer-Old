@@ -145,7 +145,7 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
             println(error)
             self.navigationController?.setIndeterminate(false)
             self.refreshControl?.endRefreshing()
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error loading!", mode: MRProgressOverlayViewMode.Cross, animated: true)
+            ProgressHUD.showError("Error loading!")
         }
     }
     

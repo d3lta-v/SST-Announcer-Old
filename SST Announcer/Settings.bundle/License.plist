@@ -24,9 +24,9 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
-			<string>MRProgress</string>
+			<string>SwiftyJSON</string>
 			<key>File</key>
-			<string>MRProgress</string>
+			<string>SwiftyJSON</string>
 		</dict>
 		<dict>
 			<key>Type</key>

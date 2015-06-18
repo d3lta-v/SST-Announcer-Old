@@ -324,7 +324,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         if error.code != -999 {
-            MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Loading failed!", mode: .Cross, animated: true)
+            ProgressHUD.showError("Loading failed!")
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }
@@ -336,9 +336,6 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     // MARK: - WebViewProgressDelegate Methods
     
     func webViewProgress(webViewProgress: WebViewProgress, updateProgress progress: Float) {
-        if progress > 0.1 {
-            MRProgressOverlayView.dismissOverlayForView(self.tabBarController?.view, animated: true)
-        }
         progressView.setProgress(progress, animated: true)
     }
     
