@@ -11,6 +11,9 @@
 		224C7B091B2FD83000912977 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B081B2FD83000912977 /* FeedItem.swift */; };
 		224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B0A1B2FE73100912977 /* CategoriesViewController.swift */; };
 		224C7B0D1B30423C00912977 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B0C1B30423C00912977 /* CategoryViewController.swift */; };
+		22710F541B32FDBA00AEFA62 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22710F531B32FDBA00AEFA62 /* ParseCrashReporting.framework */; };
+		22710F561B33037300AEFA62 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22C5EFD51B32C38800C92AC6 /* StoreKit.framework */; };
+		22710F581B33039100AEFA62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22710F571B33039100AEFA62 /* libstdc++.6.dylib */; };
 		227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E71461B1D44DF00215577 /* AppDelegate.swift */; };
 		227E714C1B1D44DF00215577 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227E714A1B1D44DF00215577 /* Main.storyboard */; };
 		227E714E1B1D44DF00215577 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 227E714D1B1D44DF00215577 /* Images.xcassets */; };
@@ -112,6 +115,8 @@
 		224C7B081B2FD83000912977 /* FeedItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		224C7B0A1B2FE73100912977 /* CategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		224C7B0C1B30423C00912977 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		22710F531B32FDBA00AEFA62 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
+		22710F571B33039100AEFA62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		227E71411B1D44DF00215577 /* Announcer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Announcer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		227E71451B1D44DF00215577 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227E71461B1D44DF00215577 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -163,7 +168,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22710F581B33039100AEFA62 /* libstdc++.6.dylib in Frameworks */,
+				22710F561B33037300AEFA62 /* StoreKit.framework in Frameworks */,
 				227E71B31B1D527D00215577 /* ImageIO.framework in Frameworks */,
+				22710F541B32FDBA00AEFA62 /* ParseCrashReporting.framework in Frameworks */,
 				227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */,
 				227E71AF1B1D514E00215577 /* Social.framework in Frameworks */,
 				227E71AD1B1D514900215577 /* Accounts.framework in Frameworks */,
@@ -205,12 +213,13 @@
 		227E71381B1D44DF00215577 = {
 			isa = PBXGroup;
 			children = (
-				22C5EFD51B32C38800C92AC6 /* StoreKit.framework */,
 				22FD3B5D1B27178200F87089 /* README.md */,
 				22FD3B671B27179A00F87089 /* LICENSE */,
 				227E71B01B1D527500215577 /* libxml2.dylib */,
 				227E71891B1D4C5400215577 /* libsqlite3.dylib */,
 				227E71871B1D4C4B00215577 /* libz.dylib */,
+				22710F571B33039100AEFA62 /* libstdc++.6.dylib */,
+				22C5EFD51B32C38800C92AC6 /* StoreKit.framework */,
 				227E71B21B1D527C00215577 /* ImageIO.framework */,
 				227E71AE1B1D514E00215577 /* Social.framework */,
 				227E71AC1B1D514900215577 /* Accounts.framework */,
@@ -287,14 +296,15 @@
 		227E71661B1D4B1600215577 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				227E71721B1D4BEA00215577 /* Parse.framework */,
+				227E71711B1D4BEA00215577 /* Bolts.framework */,
+				22710F531B32FDBA00AEFA62 /* ParseCrashReporting.framework */,
 				22C5EFD71B32E1E800C92AC6 /* ProgressHUD */,
 				224C7B041B2EE03A00912977 /* M13ProgressSuite */,
 				22C4F1E21B21194300468987 /* SwiftyJSON */,
 				22C4F1DB1B2024A600468987 /* SwiftWebViewProgress */,
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
 				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
-				227E71711B1D4BEA00215577 /* Bolts.framework */,
-				227E71721B1D4BEA00215577 /* Parse.framework */,
 			);
 			path = Externals;
 			sourceTree = SOURCE_ROOT;
@@ -360,6 +370,7 @@
 				227E713D1B1D44DF00215577 /* Sources */,
 				227E713E1B1D44DF00215577 /* Frameworks */,
 				227E713F1B1D44DF00215577 /* Resources */,
+				22710F551B3301F700AEFA62 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -513,6 +524,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		22710F551B3301F700AEFA62 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "export PATH=/usr/local/bin:$PATH\ncd /Developer/Cloud\\ Code/Announcer\n\nparse symbols \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		227E713D1B1D44DF00215577 /* Sources */ = {
