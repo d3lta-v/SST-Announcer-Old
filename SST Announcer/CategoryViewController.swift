@@ -209,8 +209,6 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         dispatch_sync(dispatch_get_main_queue(), {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            println(parseError)
-            //MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error Loading!", mode: .Cross, animated: true) //discard the error, since it is too common
         })
     }
 

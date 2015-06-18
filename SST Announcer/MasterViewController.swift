@@ -81,6 +81,13 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         dispatch_once(&TokenHolder.token) {
             // Getfeeds uses a proper Swift implementation of dispatch once
+            
+            // Check for globalsingleton push notifications
+            let singleton = GlobalSingleton.sharedInstance
+            if singleton.getDidReceivePushNotification() == true {
+                self.pushNotificationsReceived()
+            }
+            
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
             // Start the refresher
@@ -329,7 +336,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 } else {
                     if let indexPath = self.tableView.indexPathForSelectedRow() {
                         let passedString : String = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
-                        //let passedString = "http://studentsblog.sst.edu.sg/2015/05/info-hub-closed-for-open-house-rehearsal.html"
                         (segue.destinationViewController as! WebViewController).receivedUrl = passedString
                     } else {
                         (segue.destinationViewController as! WebViewController).receivedUrl = "error"

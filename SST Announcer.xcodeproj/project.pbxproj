@@ -24,7 +24,6 @@
 		227E717E1B1D4C2D00215577 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E717D1B1D4C2D00215577 /* MobileCoreServices.framework */; };
 		227E71801B1D4C3200215577 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E717F1B1D4C3200215577 /* QuartzCore.framework */; };
 		227E71821B1D4C3700215577 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71811B1D4C3700215577 /* Security.framework */; };
-		227E71841B1D4C4000215577 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71831B1D4C4000215577 /* StoreKit.framework */; };
 		227E71861B1D4C4500215577 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71851B1D4C4500215577 /* SystemConfiguration.framework */; };
 		227E71881B1D4C4C00215577 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71871B1D4C4B00215577 /* libz.dylib */; };
 		227E718A1B1D4C5400215577 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71891B1D4C5400215577 /* libsqlite3.dylib */; };
@@ -140,7 +139,6 @@
 		227E717D1B1D4C2D00215577 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		227E717F1B1D4C3200215577 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		227E71811B1D4C3700215577 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		227E71831B1D4C4000215577 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		227E71851B1D4C4500215577 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		227E71871B1D4C4B00215577 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		227E71891B1D4C5400215577 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -187,6 +185,7 @@
 		22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgressView.swift; sourceTree = "<group>"; };
 		22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMUXCRParser.swift; sourceTree = "<group>"; };
 		22C4F1E31B21194300468987 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		22C5EFD51B32C38800C92AC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		22FD3B5D1B27178200F87089 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "SST Announcer.xcodeproj/../README.md"; sourceTree = "<group>"; };
 		22FD3B671B27179A00F87089 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		22FD3B7D1B27268000F87089 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -206,7 +205,6 @@
 				227E718A1B1D4C5400215577 /* libsqlite3.dylib in Frameworks */,
 				227E71881B1D4C4C00215577 /* libz.dylib in Frameworks */,
 				227E71861B1D4C4500215577 /* SystemConfiguration.framework in Frameworks */,
-				227E71841B1D4C4000215577 /* StoreKit.framework in Frameworks */,
 				227E71821B1D4C3700215577 /* Security.framework in Frameworks */,
 				227E71801B1D4C3200215577 /* QuartzCore.framework in Frameworks */,
 				227E717E1B1D4C2D00215577 /* MobileCoreServices.framework in Frameworks */,
@@ -241,6 +239,7 @@
 		227E71381B1D44DF00215577 = {
 			isa = PBXGroup;
 			children = (
+				22C5EFD51B32C38800C92AC6 /* StoreKit.framework */,
 				22FD3B5D1B27178200F87089 /* README.md */,
 				22FD3B671B27179A00F87089 /* LICENSE */,
 				227E71B01B1D527500215577 /* libxml2.dylib */,
@@ -250,7 +249,6 @@
 				227E71AE1B1D514E00215577 /* Social.framework */,
 				227E71AC1B1D514900215577 /* Accounts.framework */,
 				227E71851B1D4C4500215577 /* SystemConfiguration.framework */,
-				227E71831B1D4C4000215577 /* StoreKit.framework */,
 				227E71811B1D4C3700215577 /* Security.framework */,
 				227E717F1B1D4C3200215577 /* QuartzCore.framework */,
 				227E717D1B1D4C2D00215577 /* MobileCoreServices.framework */,
@@ -487,6 +485,9 @@
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
 							};
 						};
 					};
@@ -798,7 +799,7 @@
 				INFOPLIST_FILE = "SST AnnouncerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SST Announcer.app/SST Announcer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Announcer.app/Announcer";
 			};
 			name = Debug;
 		};
@@ -813,7 +814,7 @@
 				INFOPLIST_FILE = "SST AnnouncerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SST Announcer.app/SST Announcer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Announcer.app/Announcer";
 			};
 			name = Release;
 		};

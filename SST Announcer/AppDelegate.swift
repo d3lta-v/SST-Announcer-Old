@@ -85,7 +85,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        //PFPush.handlePush(userInfo)
         let singleton = GlobalSingleton.sharedInstance
         
         if let url = userInfo["url"] as? String {
