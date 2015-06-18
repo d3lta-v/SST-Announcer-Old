@@ -323,6 +323,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         if segue.identifier == "MasterToDetail" {
             let singleton : GlobalSingleton = GlobalSingleton.sharedInstance
             if singleton.getDidReceivePushNotification() {
+                NSNotificationCenter.defaultCenter().removeObserver(self)
                 (segue.destinationViewController as! WebViewController).receivedUrl = singleton.getRemoteNotificationURL()
                 singleton.setDidReceivePushNotificationWithBool(false)
             } else {
