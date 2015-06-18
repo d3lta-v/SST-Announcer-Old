@@ -30,6 +30,13 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
 
         // Do any additional setup after loading the view.
         
+        // Back button
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: UIBarMetrics.Default)
+        
+        // Progress
+        self.navigationController?.showProgress()
+        self.navigationController?.setProgress(0, animated: false)
+        
         // Init web view loading bar
         progressProxy = WebViewProgress()
         webView.delegate = progressProxy
@@ -45,8 +52,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController!.navigationBar.addSubview(progressView)
-        progressView.setProgress(0, animated: true)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -64,31 +70,36 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         // NOTE: URL is not actually an URL, and only under some circumstances (i.e. retrieving from push notification) it IS an URL
         
         var htmlString = ""
+        var useSIMUX : Bool = false
         
         if url == "error" {
             self.title = "Error"
-            htmlString = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back and reselect the page.</p>"
+            htmlString = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>"
         } else if url.hasPrefix("h") { //First letter of http, to reduce memory usage
-            self.navigationController?.showProgress()
             self.navigationController?.setIndeterminate(true)
+            useSIMUX = true
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
-            delay(0.2) {
-                let simuxCRParser = SIMUXCRParser()
-                let crOptimised = simuxCRParser.convertHTML(url)
-                let title = crOptimised.title
-                var description = crOptimised.description
-                
-                if description.isEmpty {
-                    description = "<p align=\"center\">There was a problem loading this article, please check your Internet connection, or try opening the URL in Safari via the share button above.</p>"
-                    self.title = "Error"
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                } else {
+            var title : String!
+            var description : String!
+            SIMUXCRParser().convertHTML(url) { (returnTuple: (title: String, description: String), errorPresent: Bool) in
+                if !errorPresent {
+                    title = returnTuple.title
+                    description = returnTuple.description
                     description = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                } else {
+                    title = "Error"
+                    description = "<p align=\"center\">There was a problem loading this article, please check your Internet connection, or try opening the URL in Safari via the share button above.</p>"
                 }
                 
-                self.title = title
-                htmlString = description
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                println(title)
+                dispatch_sync(dispatch_get_main_queue(), {
+                    self.title = title
+                    
+                    htmlString = description
+                    self.initAttributedTextViewWithString(htmlString)
+                })
             }
         } else {
             var title : String = ""
@@ -143,7 +154,9 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
                 }
             }
         } else {
-            initAttributedTextViewWithString(htmlString)
+            if useSIMUX == false {
+                initAttributedTextViewWithString(htmlString)
+            }
         }
     }
     
@@ -162,12 +175,13 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         self.textView.contentInset = UIEdgeInsetsMake(85, 15, 40, 15)
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        if self.navigationController?.getIndeterminate() == true {
-            self.navigationController?.setIndeterminate(false)
-        }
+        self.navigationController?.setIndeterminate(false)
     }
     
     private func useBrowser(url: String!, usedTable: Bool!) {
+        self.navigationController!.navigationBar.addSubview(progressView)
+        progressView.setProgress(0, animated: true)
+        
         textView.alpha = 0
         if usedTable == true {
             webView.loadRequest(NSURLRequest(URL: NSURL(string: url)!))

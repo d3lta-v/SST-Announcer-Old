@@ -54,15 +54,14 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
         let refreshControl : UIRefreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
+        
+        self.navigationController?.showProgress()
+        self.navigationController?.setIndeterminate(true)
     }
     
     override func viewWillAppear(animated: Bool) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
-        self.delay(0.05) {
-            self.refreshControl?.beginRefreshing()
-            self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: true)
-        }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             if let url = self.inputURL {
                 self.loadFeedWithURLString(url)
@@ -71,7 +70,7 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     }
     
     override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.cancelProgress()
+        //self.navigationController?.setIndeterminate(false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,9 +88,7 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
-        self.navigationController?.setProgress(0, animated: false) // force set progress to zero to avoid weird UI
-        self.navigationController?.showProgress()
-        self.navigationController?.setProgress(0.05, animated: true)
+        //self.navigationController?.showProgress()
         dataTask.resume()
         session.finishTasksAndInvalidate()
     }
@@ -130,9 +127,6 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
         buffer.appendData(data)
-        
-        let percentDownload = Float(buffer.length) / Float(expectedContentLength)
-        self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
     }
     
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
@@ -146,7 +140,7 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
             // Clear buffer
             buffer = NSMutableData()
             println(error)
-            self.navigationController?.finishProgress()
+            self.navigationController?.setIndeterminate(false)
             self.refreshControl?.endRefreshing()
             MRProgressOverlayView.showOverlayAddedTo(self.tabBarController?.view, title: "Error loading!", mode: MRProgressOverlayViewMode.Cross, animated: true)
         }
@@ -202,7 +196,7 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
             self.synchroniseFeedArrayAndTable()
             
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            self.navigationController?.finishProgress()
+            self.navigationController?.setIndeterminate(false)
             
             // For UIRefreshControl
             self.refreshControl?.endRefreshing()

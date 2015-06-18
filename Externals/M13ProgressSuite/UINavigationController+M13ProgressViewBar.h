@@ -27,11 +27,9 @@
 /**Set the string to replace the UINavigationBar's title with while showing progress. Send nil to reset the title.
  @param title The string to replace the UINavigationBar's title while showing progress.*/
 - (void)setProgressTitle:(NSString *)title;
-/**Set whether or not to show indeterminate.
+/**Set wether or not to show indeterminate.
  @param indeterminate wether or not the progress bar is indeterminate.*/
 - (void)setIndeterminate:(BOOL)indeterminate;
-/**Get whether or not to show indeterminate.*/
-- (BOOL)getIndeterminate;
 /**Fill the progress bar completely and remove it from display.*/
 - (void)finishProgress;
 /**Remove the progress bar from the display.*/

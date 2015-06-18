@@ -121,6 +121,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Aj7-zw-r6F">
+                        <barButtonItem key="backBarButtonItem" title=" " id="7ou-xW-uBJ"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="nrG-YL-6PZ">
                             <connections>
                                 <action selector="exportButton:" destination="ykt-Mv-hg2" id="mst-3L-RwF"/>

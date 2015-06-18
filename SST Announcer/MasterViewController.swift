@@ -52,6 +52,9 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         let refreshControl : UIRefreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
+        
+        // Show progress
+        self.navigationController?.showProgress()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -62,7 +65,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     
     override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.cancelProgress()
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,7 +114,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
         self.navigationController?.setProgress(0, animated: false) // force set progress to zero to avoid weird UI
-        self.navigationController?.showProgress()
         self.navigationController?.setProgress(0.05, animated: true)
         dataTask.resume()
         session.finishTasksAndInvalidate()

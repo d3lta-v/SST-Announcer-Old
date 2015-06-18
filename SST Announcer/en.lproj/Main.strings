@@ -1,0 +1,63 @@
+
+/* Class = "UINavigationItem"; title = "Student's Blog"; ObjectID = "3cz-TZ-zYX"; */
+"3cz-TZ-zYX.title" = "Student's Blog";
+
+/* Class = "UILabel"; text = "Uses DTCoreText for HTML rendering"; ObjectID = "5FK-8r-vMd"; */
+"5FK-8r-vMd.text" = "Uses DTCoreText for HTML rendering";
+
+/* Class = "UILabel"; text = "Uses the SIMUXCR Parsing System"; ObjectID = "6zo-g1-4zL"; */
+"6zo-g1-4zL.text" = "Uses the SIMUXCR Parsing System";
+
+/* Class = "UILabel"; text = "CTO/Chief Engineer: Pan Ziyue"; ObjectID = "Iim-db-aHY"; */
+"Iim-db-aHY.text" = "CTO/Chief Engineer: Pan Ziyue";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Kea-bw-LDB"; */
+"Kea-bw-LDB.text" = "Title";
+
+/* Class = "UINavigationItem"; title = "Categories"; ObjectID = "MMx-NM-oTZ"; */
+"MMx-NM-oTZ.title" = "Categories";
+
+/* Class = "UINavigationItem"; title = "Web Browser"; ObjectID = "Rz6-Rf-Adn"; */
+"Rz6-Rf-Adn.title" = "Web Browser";
+
+/* Class = "UISearchBar"; placeholder = "Search Posts"; ObjectID = "T5M-Da-Rmv"; */
+"T5M-Da-Rmv.placeholder" = "Search Posts";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Ueq-nP-EhH"; */
+"Ueq-nP-EhH.text" = "Title";
+
+/* Class = "UITabBarItem"; title = "About"; ObjectID = "Wui-CE-IfE"; */
+"Wui-CE-IfE.title" = "About";
+
+/* Class = "UINavigationItem"; title = "About"; ObjectID = "bcI-wy-tE2"; */
+"bcI-wy-tE2.title" = "About";
+
+/* Class = "UITabBarItem"; title = "Categories"; ObjectID = "cgM-PV-CVL"; */
+"cgM-PV-CVL.title" = "Categories";
+
+/* Class = "UILabel"; text = "CEO: Christopher Kok"; ObjectID = "gIJ-jK-uaD"; */
+"gIJ-jK-uaD.text" = "CEO: Christopher Kok";
+
+/* Class = "UILabel"; text = "Developed by StatiX Industries of SST Inc"; ObjectID = "hUC-bk-jQo"; */
+"hUC-bk-jQo.text" = "Developed by StatiX Industries of SST Inc";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "hy6-Kv-jue"; */
+"hy6-Kv-jue.text" = "Subtitle";
+
+/* Class = "UILabel"; text = "COO: Liaw Xiao Tao"; ObjectID = "i30-sV-GGm"; */
+"i30-sV-GGm.text" = "COO: Liaw Xiao Tao";
+
+/* Class = "UITabBarItem"; title = "Student's Feed"; ObjectID = "l6R-f6-RXB"; */
+"l6R-f6-RXB.title" = "Student's Feed";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "mFZ-9j-oNJ"; */
+"mFZ-9j-oNJ.text" = "Title";
+
+/* Class = "UISearchBar"; placeholder = "Search Categories"; ObjectID = "mSa-iA-m85"; */
+"mSa-iA-m85.placeholder" = "Search Categories";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "qRi-qk-FJX"; */
+"qRi-qk-FJX.text" = "Subtitle";
+
+/* Class = "UISearchBar"; placeholder = "Search Posts"; ObjectID = "wyS-9d-bML"; */
+"wyS-9d-bML.placeholder" = "Search Posts";

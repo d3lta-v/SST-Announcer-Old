@@ -53,7 +53,11 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
     }
     
     override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.cancelProgress()
+        if let showsProgress = self.navigationController?.isShowingProgressBar() {
+            if showsProgress == true {
+                self.navigationController?.cancelProgress()
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
