@@ -49,6 +49,9 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // UIBar Back button settings
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, 0), forBarMetrics: UIBarMetrics.Default)
 
         // Init refresh controls
         let refreshControl : UIRefreshControl = UIRefreshControl()
@@ -70,7 +73,7 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     }
     
     override func viewWillDisappear(animated: Bool) {
-        //self.navigationController?.setIndeterminate(false)
+        self.navigationController?.setIndeterminate(false)
     }
 
     override func didReceiveMemoryWarning() {
