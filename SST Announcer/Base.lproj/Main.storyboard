@@ -162,25 +162,25 @@
                                     <barButtonItem width="21" style="plain" systemItem="fixedSpace" id="4px-Dx-SRO"/>
                                     <barButtonItem systemItem="rewind" id="GTN-Gf-WVL">
                                         <connections>
-                                            <action selector="goBack:" destination="vbK-Lm-Ysp" id="jH2-iO-IHg"/>
+                                            <action selector="goBack:" destination="vbK-Lm-Ysp" id="1jF-fx-SnJ"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Psq-Gv-lKy"/>
                                     <barButtonItem systemItem="fastForward" id="NTE-zG-fis">
                                         <connections>
-                                            <action selector="goForward:" destination="vbK-Lm-Ysp" id="hNN-8F-C4F"/>
+                                            <action selector="goForward:" destination="vbK-Lm-Ysp" id="2ch-Ac-rJM"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Gha-iI-MRu"/>
                                     <barButtonItem systemItem="refresh" id="ZMy-ye-q3F">
                                         <connections>
-                                            <action selector="refreshOrStop:" destination="vbK-Lm-Ysp" id="g5Y-lN-1u4"/>
+                                            <action selector="refreshOrStop:" destination="vbK-Lm-Ysp" id="cwI-vd-Mq4"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="Ae2-kq-tBd"/>
                                     <barButtonItem systemItem="action" id="NaB-kp-b5o">
                                         <connections>
-                                            <action selector="exportAction:" destination="vbK-Lm-Ysp" id="9yA-w9-jgW"/>
+                                            <action selector="exportAction:" destination="vbK-Lm-Ysp" id="blC-3T-Hyp"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="21" style="plain" systemItem="fixedSpace" id="lxe-SZ-cTQ"/>
@@ -201,21 +201,21 @@
                     <navigationItem key="navigationItem" title="Web Browser" id="Rz6-Rf-Adn">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="fhZ-Lk-5Zo">
                             <connections>
-                                <action selector="exitNavigationVC:" destination="vbK-Lm-Ysp" id="H8r-XQ-VFB"/>
+                                <action selector="exitNavigationVC:" destination="vbK-Lm-Ysp" id="kiL-QG-S8O"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="backButton" destination="GTN-Gf-WVL" id="dGs-53-9E6"/>
-                        <outlet property="exportButton" destination="NaB-kp-b5o" id="dgZ-NT-d7E"/>
-                        <outlet property="fixedSpace1" destination="4px-Dx-SRO" id="wJ1-Eo-GRU"/>
-                        <outlet property="fixedSpace2" destination="Psq-Gv-lKy" id="pCY-6t-rAN"/>
-                        <outlet property="fixedSpace4" destination="Ae2-kq-tBd" id="eIe-hU-InR"/>
-                        <outlet property="fixedSpace5" destination="lxe-SZ-cTQ" id="hia-if-gGR"/>
-                        <outlet property="flexSpace3" destination="Gha-iI-MRu" id="diV-FK-OWV"/>
-                        <outlet property="forwardButton" destination="NTE-zG-fis" id="kBn-ZW-Q2K"/>
-                        <outlet property="mainWebView" destination="d3u-Bm-E52" id="VTO-DB-6fL"/>
-                        <outlet property="refreshButton" destination="ZMy-ye-q3F" id="Zdn-Lk-nCu"/>
+                        <outlet property="backButton" destination="GTN-Gf-WVL" id="okJ-Vh-Ifv"/>
+                        <outlet property="exportButton" destination="NaB-kp-b5o" id="BV3-v2-Na7"/>
+                        <outlet property="fixedSpace1" destination="4px-Dx-SRO" id="BmP-ae-KNt"/>
+                        <outlet property="fixedSpace2" destination="Psq-Gv-lKy" id="3qW-ae-7Lt"/>
+                        <outlet property="fixedSpace4" destination="Ae2-kq-tBd" id="gAq-2y-0GO"/>
+                        <outlet property="fixedSpace5" destination="lxe-SZ-cTQ" id="SXU-Gl-mZO"/>
+                        <outlet property="flexSpace3" destination="Gha-iI-MRu" id="g2e-51-6lK"/>
+                        <outlet property="forwardButton" destination="NTE-zG-fis" id="R9y-TI-iO8"/>
+                        <outlet property="mainWebView" destination="d3u-Bm-E52" id="wzE-w4-6nM"/>
+                        <outlet property="refreshButton" destination="ZMy-ye-q3F" id="YX0-ds-cw7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K1L-BY-tUg" userLabel="First Responder" sceneMemberID="firstResponder"/>
