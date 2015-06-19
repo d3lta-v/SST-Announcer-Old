@@ -29,7 +29,7 @@
 		
 		self.activityIndicator.hidesWhenStopped = YES;
 		
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+		if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 		{
 			self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 			self.titleLabel.textColor = [UIColor colorWithRed:113.0/255.0 green:120.0/255.0 blue:128.0/255.0 alpha:1.0];

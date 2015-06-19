@@ -132,11 +132,11 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
         if let url = receivedUrl { // Better idea to unwrap optional
             let safariActivity = TUSafariActivity()
             let actViewController = UIActivityViewController(activityItems: [url], applicationActivities: [safariActivity])
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+                self.presentViewController(actViewController, animated: true, completion: nil)
+            } else {
                 let popup = UIPopoverController(contentViewController: actViewController)
                 popup.presentPopoverFromBarButtonItem(exportButton, permittedArrowDirections: .Any, animated: true)
-            } else {
-                self.presentViewController(actViewController, animated: true, completion: nil)
             }
         }
     }

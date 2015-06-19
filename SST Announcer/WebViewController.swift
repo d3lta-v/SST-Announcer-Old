@@ -356,7 +356,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             }
         }
         
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Phone) {
+        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
             self.presentViewController(activity, animated: true, completion: nil)
         } else {
             let popup = UIPopoverController(contentViewController: activity)
