@@ -12,7 +12,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     
     // MARK: - Variables declaration
     var receivedUrl : String = String()
-    @IBOutlet weak var exportBarButton: UIBarButtonItem!
+    @IBOutlet var exportBarButton: UIBarButtonItem!
     @IBOutlet var webView: UIWebView!
     @IBOutlet var textView: DTAttributedTextView!
     private var progressView : WebViewProgressView!

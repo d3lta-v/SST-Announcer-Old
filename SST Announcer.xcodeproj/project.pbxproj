@@ -58,13 +58,6 @@
 			remoteGlobalIDString = 227E71401B1D44DF00215577;
 			remoteInfo = "SST Announcer";
 		};
-		227E719D1B1D504700215577 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
-			remoteInfo = DemoApp;
-		};
 		227E719F1B1D504700215577 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
@@ -312,7 +305,6 @@
 		227E71921B1D504600215577 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				227E719E1B1D504700215577 /* RTDemoApp.app */,
 				227E71A01B1D504700215577 /* DTCoreText.framework */,
 				227E71A21B1D504700215577 /* libDTCoreText.a */,
 				227E71A41B1D504700215577 /* UnitTest.xctest */,
@@ -452,13 +444,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		227E719E1B1D504700215577 /* RTDemoApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = RTDemoApp.app;
-			remoteRef = 227E719D1B1D504700215577 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		227E71A01B1D504700215577 /* DTCoreText.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;

@@ -21,9 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		36F8CE961593590500E9599C /* DTTextBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = A7081EA11503645F002987F1 /* DTTextBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36F8CE971593590800E9599C /* DTTextBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = A7081EA11503645F002987F1 /* DTTextBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36F8CECC1593AA3C00E9599C /* DTHTMLAttributedStringBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = A7949A4514CAF58C00A8CCDE /* DTHTMLAttributedStringBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,7 +68,6 @@
 		A700289E16FB220B00AFEDA3 /* DTAnchorHTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = A700289816FB220B00AFEDA3 /* DTAnchorHTMLElement.m */; };
 		A700289F16FB220B00AFEDA3 /* DTAnchorHTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = A700289816FB220B00AFEDA3 /* DTAnchorHTMLElement.m */; };
 		A70028A016FB220B00AFEDA3 /* DTAnchorHTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = A700289816FB220B00AFEDA3 /* DTAnchorHTMLElement.m */; };
-		A704C93A13901FDB0045CFC6 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A704C93913901FDB0045CFC6 /* ImageIO.framework */; };
 		A7081EA415036460002987F1 /* DTTextBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = A7081EA11503645F002987F1 /* DTTextBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A7081EA515036460002987F1 /* DTTextBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = A7081EA215036460002987F1 /* DTTextBlock.m */; };
 		A7081EA615036460002987F1 /* DTTextBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = A7081EA215036460002987F1 /* DTTextBlock.m */; };
@@ -116,13 +112,11 @@
 		A73AE7971686FC6A009CF8C3 /* DTHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A73AE7901686FC6A009CF8C3 /* DTHTMLWriter.m */; };
 		A73AE79A1686FC6A009CF8C3 /* DTHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A73AE7901686FC6A009CF8C3 /* DTHTMLWriter.m */; };
 		A73AE79B1686FC6A009CF8C3 /* DTHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A73AE7901686FC6A009CF8C3 /* DTHTMLWriter.m */; };
-		A73BC42912DA014300F064C6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A73BC42812DA014300F064C6 /* CoreText.framework */; };
 		A73FC35B1834F5D200ACF490 /* DTCoreTextLayoutFrameTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A73FC35A1834F5D200ACF490 /* DTCoreTextLayoutFrameTest.m */; };
 		A74F6FD616DBA48E00C12307 /* DTCoreTextParagraphStyleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A74F6FD516DBA48E00C12307 /* DTCoreTextParagraphStyleTest.m */; };
 		A758EE6B1965A2A400773D22 /* libDTAnimatedGIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7F0C43A1965A0D600D7FAFB /* libDTAnimatedGIF.a */; };
 		A758FC9614DBC7A2007DF8B2 /* default.css in Sources */ = {isa = PBXBuildFile; fileRef = A76994F914DBB5F70047CC8D /* default.css */; };
 		A758FC9814DBCF20007DF8B2 /* default.css in Sources */ = {isa = PBXBuildFile; fileRef = A76994F914DBB5F70047CC8D /* default.css */; };
-		A75C6C72141798CE00AEE350 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A75C6C71141798CE00AEE350 /* MobileCoreServices.framework */; };
 		A760F54014F56E8E00AD1B0E /* DTImage+HTML.h in Headers */ = {isa = PBXBuildFile; fileRef = A7C5D01314D7E3BB00AF1D75 /* DTImage+HTML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A760F54114F56E9000AD1B0E /* DTImage+HTML.h in Headers */ = {isa = PBXBuildFile; fileRef = A7C5D01314D7E3BB00AF1D75 /* DTImage+HTML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A762704017155420005F0CEC /* DTCoreTextFontCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = A788C91914863E8700E1AFD9 /* DTCoreTextFontCollection.m */; };
@@ -146,7 +140,6 @@
 		A76D45181732A512006A7CDA /* NSDictionary+DTCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = A76D45121732A512006A7CDA /* NSDictionary+DTCoreText.m */; };
 		A76D45191732A512006A7CDA /* NSDictionary+DTCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = A76D45121732A512006A7CDA /* NSDictionary+DTCoreText.m */; };
 		A76D451A1732A512006A7CDA /* NSDictionary+DTCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = A76D45121732A512006A7CDA /* NSDictionary+DTCoreText.m */; };
-		A76E5B4912DD9AF500711782 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A76E5B4812DD9AF500711782 /* QuartzCore.framework */; };
 		A776DBE81716A8EE00E71F36 /* NSStringParagraphTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A776DBE71716A8EE00E71F36 /* NSStringParagraphTest.m */; };
 		A777B26C17FAB78C007B8D41 /* libDTFoundation_Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A781FE9517FAABE500A1F5E8 /* libDTFoundation_Mac.a */; };
 		A777B26D17FAB790007B8D41 /* libDTHTMLParser_Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A781FE9D17FAABE500A1F5E8 /* libDTHTMLParser_Mac.a */; };
@@ -252,7 +245,6 @@
 		A788CA0514863E8700E1AFD9 /* DTColor+Compatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = A788C95314863E8700E1AFD9 /* DTColor+Compatibility.m */; };
 		A788CA0614863E8700E1AFD9 /* DTColor+Compatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = A788C95314863E8700E1AFD9 /* DTColor+Compatibility.m */; };
 		A788CA1814863EC600E1AFD9 /* DTCoreText-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = A788CA1514863EC600E1AFD9 /* DTCoreText-Prefix.pch */; settings = {ATTRIBUTES = (Public, ); }; };
-		A788CA601486416A00E1AFD9 /* libDTCoreText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A70F11DE148632CD009202BF /* libDTCoreText.a */; };
 		A788CA6C1486456100E1AFD9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		A788CA80148647AC00E1AFD9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		A788CA82148647BC00E1AFD9 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A704C93913901FDB0045CFC6 /* ImageIO.framework */; };
@@ -307,7 +299,6 @@
 		A78EEA6316774B5F003B5540 /* UIFont+DTCoreText.h in Headers */ = {isa = PBXBuildFile; fileRef = A78EEA6016774B5F003B5540 /* UIFont+DTCoreText.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A78EEA6416774B5F003B5540 /* UIFont+DTCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = A78EEA6116774B5F003B5540 /* UIFont+DTCoreText.m */; };
 		A78EEA6516774B5F003B5540 /* UIFont+DTCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = A78EEA6116774B5F003B5540 /* UIFont+DTCoreText.m */; };
-		A7949A0014C6256B00A8CCDE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A79499FF14C6256B00A8CCDE /* libxml2.dylib */; };
 		A7949A5014CC44D300A8CCDE /* DTCoreTextConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A7949A4F14CC44D200A8CCDE /* DTCoreTextConstants.m */; };
 		A7949A5114CC44D300A8CCDE /* DTCoreTextConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A7949A4F14CC44D200A8CCDE /* DTCoreTextConstants.m */; };
 		A7949A9D14CC566100A8CCDE /* DTCoreTextConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A7949A9C14CC565F00A8CCDE /* DTCoreTextConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -378,12 +369,9 @@
 		A7C7AD0F14DA7C2D005A9C69 /* NSAttributedStringHTMLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7AD0A14DA7C2B005A9C69 /* NSAttributedStringHTMLTest.m */; };
 		A7C7AD1014DA7C2D005A9C69 /* NSStringHTMLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7AD0C14DA7C2C005A9C69 /* NSStringHTMLTest.m */; };
 		A7C7AD1114DA7C2D005A9C69 /* UIColorHTMLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7AD0E14DA7C2C005A9C69 /* UIColorHTMLTest.m */; };
-		A7CF230A16DE1DF7005A4A6E /* AppledocSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7CF230916DE1DF7005A4A6E /* AppledocSettings.plist */; };
 		A7DBC1AA1689B846003F1D38 /* ListItemBulletColorAndFont.html in Resources */ = {isa = PBXBuildFile; fileRef = A7DBC1A91689B846003F1D38 /* ListItemBulletColorAndFont.html */; };
 		A7DBC1B31689B989003F1D38 /* SpaceBetweenUnderlines.html in Resources */ = {isa = PBXBuildFile; fileRef = A7DBC1B21689B989003F1D38 /* SpaceBetweenUnderlines.html */; };
 		A7DBC1B71689BA20003F1D38 /* DTHTMLAttributedStringBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DBC1B61689BA20003F1D38 /* DTHTMLAttributedStringBuilderTest.m */; };
-		A7DBE49B12E6E53C00F25897 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7DBE49A12E6E53C00F25897 /* MediaPlayer.framework */; };
-		A7DBE4F812E6E5B000F25897 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7DBE4F712E6E5B000F25897 /* AVFoundation.framework */; };
 		A7DDDCA519F1615500EAE9BA /* RetinaDataURL.html in Resources */ = {isa = PBXBuildFile; fileRef = A7DDDCA419F1615500EAE9BA /* RetinaDataURL.html */; };
 		A7DDDCA619F1615500EAE9BA /* RetinaDataURL.html in Resources */ = {isa = PBXBuildFile; fileRef = A7DDDCA419F1615500EAE9BA /* RetinaDataURL.html */; };
 		A7DDDCBB19F166B700EAE9BA /* NavTag.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7DDDCBA19F166B700EAE9BA /* NavTag.plist */; };
@@ -828,13 +816,6 @@
 			remoteGlobalIDString = A710A4FF1607556000437D36;
 			remoteInfo = "Static Library (Mac)";
 		};
-		A788CA611486428F00E1AFD9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A70F11DD148632CD009202BF;
-			remoteInfo = "Static Library";
-		};
 		A78D9F941965B83200C80986 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -902,7 +883,6 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* RTDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		944A9E6318B5A7F000E41481 /* DTCSSListStyleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCSSListStyleTest.m; sourceTree = "<group>"; };
@@ -1134,24 +1114,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A7949A0014C6256B00A8CCDE /* libxml2.dylib in Frameworks */,
-				A788CA601486416A00E1AFD9 /* libDTCoreText.a in Frameworks */,
-				A75C6C72141798CE00AEE350 /* MobileCoreServices.framework in Frameworks */,
-				A704C93A13901FDB0045CFC6 /* ImageIO.framework in Frameworks */,
-				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
-				A73BC42912DA014300F064C6 /* CoreText.framework in Frameworks */,
-				A76E5B4912DD9AF500711782 /* QuartzCore.framework in Frameworks */,
-				A7DBE49B12E6E53C00F25897 /* MediaPlayer.framework in Frameworks */,
-				A7DBE4F812E6E5B000F25897 /* AVFoundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A70F119614863198009202BF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1223,7 +1185,6 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* RTDemoApp.app */,
 				A70F119B14863198009202BF /* DTCoreText.framework */,
 				A70F11DE148632CD009202BF /* libDTCoreText.a */,
 				A788CA681486456100E1AFD9 /* UnitTest.xctest */,
@@ -1947,24 +1908,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* DemoApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "DemoApp" */;
-			buildPhases = (
-				1D60588D0D05DD3D006BFB54 /* Resources */,
-				1D60588E0D05DD3D006BFB54 /* Sources */,
-				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A788CA621486428F00E1AFD9 /* PBXTargetDependency */,
-			);
-			name = DemoApp;
-			productName = DTCoreText;
-			productReference = 1D6058910D05DD3D006BFB54 /* RTDemoApp.app */;
-			productType = "com.apple.product-type.application";
-		};
 		A70F119A14863198009202BF /* Static Framework */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A70F11A314863198009202BF /* Build configuration list for PBXNativeTarget "Static Framework" */;
@@ -2122,7 +2065,6 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* DemoApp */,
 				A70F119A14863198009202BF /* Static Framework */,
 				A70F11DD148632CD009202BF /* Static Library */,
 				A788CA671486456100E1AFD9 /* UnitTest */,
@@ -2313,14 +2255,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		1D60588D0D05DD3D006BFB54 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A7CF230A16DE1DF7005A4A6E /* AppledocSettings.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A70F119814863198009202BF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2427,13 +2361,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1D60588E0D05DD3D006BFB54 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A70F119514863198009202BF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2764,11 +2691,6 @@
 			name = "Static Library (Mac)";
 			targetProxy = A781FECE17FAAD5A00A1F5E8 /* PBXContainerItemProxy */;
 		};
-		A788CA621486428F00E1AFD9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A70F11DD148632CD009202BF /* Static Library */;
-			targetProxy = A788CA611486428F00E1AFD9 /* PBXContainerItemProxy */;
-		};
 		A78D9F951965B83200C80986 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E2262DC51638331500BFDAD7 /* Mac Framework */;
@@ -2797,41 +2719,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		1D6058940D05DD3E006BFB54 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "Demo/DemoApp-Prefix.pch";
-				GCC_THUMB_SUPPORT = NO;
-				INFOPLIST_FILE = "Demo/DemoApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RTDemoApp;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		1D6058950D05DD3E006BFB54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_PREFIX_HEADER = "Demo/DemoApp-Prefix.pch";
-				GCC_THUMB_SUPPORT = NO;
-				INFOPLIST_FILE = "Demo/DemoApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RTDemoApp;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		A70F11A414863198009202BF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3154,24 +3041,6 @@
 			};
 			name = Coverage;
 		};
-		A7DC5CFC17F833F1006ADDF5 /* Coverage */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "Demo/DemoApp-Prefix.pch";
-				GCC_THUMB_SUPPORT = NO;
-				INFOPLIST_FILE = "Demo/DemoApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = RTDemoApp;
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Coverage;
-		};
 		A7DC5CFD17F833F1006ADDF5 /* Coverage */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3469,16 +3338,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "DemoApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1D6058940D05DD3E006BFB54 /* Debug */,
-				A7DC5CFC17F833F1006ADDF5 /* Coverage */,
-				1D6058950D05DD3E006BFB54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A70F11A314863198009202BF /* Build configuration list for PBXNativeTarget "Static Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
