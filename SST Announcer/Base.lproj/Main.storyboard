@@ -124,7 +124,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="7ou-xW-uBJ"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="nrG-YL-6PZ">
                             <connections>
-                                <action selector="exportButton:" destination="ykt-Mv-hg2" id="mst-3L-RwF"/>
+                                <action selector="exportButton:" destination="ykt-Mv-hg2" id="k0B-wy-7uo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
