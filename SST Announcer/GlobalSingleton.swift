@@ -14,7 +14,6 @@ class GlobalSingleton: NSObject {
     // Variables
     private var remoteNotificationURL : String = ""
     private var didReceivePushNotification : Bool = false
-    //static var dispatchToken: dispatch_once_t = 0;
     
     override init() {
         //println("__INIT__")

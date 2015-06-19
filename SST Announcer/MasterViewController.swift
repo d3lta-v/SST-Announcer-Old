@@ -59,11 +59,14 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
         
         getFeedsOnce()
+        
+        // Check for push notifications
+        let singleton = GlobalSingleton.sharedInstance
+        if singleton.getDidReceivePushNotification() == true {
+            self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        }
     }
     
-    override func viewWillDisappear(animated: Bool) {
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -78,12 +81,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         
         dispatch_once(&TokenHolder.token) {
             // Getfeeds uses a proper Swift implementation of dispatch once
-            
-            // Check for globalsingleton push notifications
-            let singleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() == true {
-                self.pushNotificationsReceived()
-            }
             
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             

@@ -58,20 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
     }
     
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        if identifier == "declineAction" {
-            if objc_getClass("UIAlertController") == nil { // iOS 8 UIAlertController
-                let declineAlert = UIAlertController(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", preferredStyle: .Alert)
-                let okayAction = UIAlertAction(title: "Okay", style: .Default) {(action)in}
-                declineAlert.addAction(okayAction)
-            } else {
-                let declineAlert = UIAlertView(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", delegate: self, cancelButtonTitle: "Okay")
-                declineAlert.alertViewStyle = .Default
-                declineAlert.show()
-            }
-        }
-    }
-    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
@@ -82,26 +68,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if error.code == 3010 {
             println("Push notifications are not supported in the iOS Simulator.")
         } else {
-            println("Failed to register for push: %@", error)
-        }
-    }
-    
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        let singleton = GlobalSingleton.sharedInstance
-        
-        if let url = userInfo["url"] as? String {
-            singleton.setRemoteNotificationURLWithString(url)
-            singleton.setDidReceivePushNotificationWithBool(true)
-            NSNotificationCenter.defaultCenter().postNotificationName("pushReceived", object: self)
-        }
-        
-        if application.applicationState == UIApplicationState.Inactive {
-            PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+            if objc_getClass("UIAlertController") == nil { // iOS 8 UIAlertController
+                let declineAlert = UIAlertController(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", preferredStyle: .Alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .Default) {(action)in}
+                declineAlert.addAction(okayAction)
+            } else {
+                let declineAlert = UIAlertView(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", delegate: self, cancelButtonTitle: "Okay")
+                declineAlert.alertViewStyle = .Default
+                declineAlert.show()
+            }
+            println("Failed to register for push: \(error.description)")
         }
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        if application.applicationState == UIApplicationState.Inactive {
+        let singleton = GlobalSingleton.sharedInstance
+        
+        if let url: AnyObject = userInfo["url"] {
+            if let urlString = url as? String {
+                singleton.setRemoteNotificationURLWithString(urlString)
+                singleton.setDidReceivePushNotificationWithBool(true)
+                NSNotificationCenter.defaultCenter().postNotificationName("pushReceived", object: self)
+            }
+        }
+        
+        if application.applicationState == .Inactive || application.applicationState == .Background {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
     }
