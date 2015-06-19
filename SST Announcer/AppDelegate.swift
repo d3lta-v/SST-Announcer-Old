@@ -51,6 +51,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerForRemoteNotificationTypes(types)
         }
         
+        // Push notification handling when app is not running, with really tight code checking. Nothing gets left behind!
+        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            if let urlString = notificationPayload["url"] as? String {
+                let singleton = GlobalSingleton.sharedInstance
+                singleton.setDidReceivePushNotificationWithBool(true)
+                singleton.setRemoteNotificationURLWithString(urlString)
+            }
+        }
+        
         return true
     }
     
@@ -68,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if error.code == 3010 {
             println("Push notifications are not supported in the iOS Simulator.")
         } else {
-            if objc_getClass("UIAlertController") == nil { // iOS 8 UIAlertController
+            /*if objc_getClass("UIAlertController") == nil { // iOS 8 UIAlertController
                 let declineAlert = UIAlertController(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", preferredStyle: .Alert)
                 let okayAction = UIAlertAction(title: "Okay", style: .Default) {(action)in}
                 declineAlert.addAction(okayAction)
@@ -76,16 +85,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let declineAlert = UIAlertView(title: "You disabled push notifications!", message: "Push notifications is a core part of this app's functionality. If you disable push notifications, this app will only be a feed reader.\n\nIf you want to enable push later on, you can go to Settings > Notifications and enable Announcer.", delegate: self, cancelButtonTitle: "Okay")
                 declineAlert.alertViewStyle = .Default
                 declineAlert.show()
-            }
+            }*/
             println("Failed to register for push: \(error.description)")
         }
     }
     
+    // Note to self: didReceiveRemoteNotification is called when app is still running
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        let singleton = GlobalSingleton.sharedInstance
         
         if let url: AnyObject = userInfo["url"] {
             if let urlString = url as? String {
+                let singleton = GlobalSingleton.sharedInstance
                 singleton.setRemoteNotificationURLWithString(urlString)
                 singleton.setDidReceivePushNotificationWithBool(true)
                 NSNotificationCenter.defaultCenter().postNotificationName("pushReceived", object: self)
@@ -100,6 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        // Force sync NSUserDefaults, to prevent data loss 
         NSUserDefaults.standardUserDefaults().synchronize()
     }
 
