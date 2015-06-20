@@ -133,7 +133,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
     }
 
     func applicationWillTerminate(application: UIApplication) {
