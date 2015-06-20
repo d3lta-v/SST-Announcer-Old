@@ -163,6 +163,7 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
             buffer = NSMutableData()
             println(error)
             dispatch_sync(dispatch_get_main_queue(), {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.navigationController?.finishProgress()
                 self.refreshControl?.endRefreshing()
                 ProgressHUD.showError("Error loading!")

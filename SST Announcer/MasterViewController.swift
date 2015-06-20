@@ -180,9 +180,12 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             // Clear buffer
             buffer = NSMutableData()
             println(error)
-            self.navigationController?.finishProgress()
-            self.refreshControl?.endRefreshing()
-            ProgressHUD.showError("Error loading!")
+            dispatch_sync(dispatch_get_main_queue(), {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                self.navigationController?.finishProgress()
+                self.refreshControl?.endRefreshing()
+                ProgressHUD.showError("Error loading!")
+            })
         }
     }
     

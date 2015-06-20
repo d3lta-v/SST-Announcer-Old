@@ -147,9 +147,12 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
             // Clear buffer
             buffer = NSMutableData()
             println(error)
-            self.navigationController?.setIndeterminate(false)
-            self.refreshControl?.endRefreshing()
-            ProgressHUD.showError("Error loading!")
+            dispatch_sync(dispatch_get_main_queue(), {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                self.navigationController?.setIndeterminate(false)
+                self.refreshControl?.endRefreshing()
+                ProgressHUD.showError("Error loading!")
+            })
         }
     }
     
