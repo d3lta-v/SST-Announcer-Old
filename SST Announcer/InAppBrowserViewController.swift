@@ -60,6 +60,8 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.navigationController?.setToolbarHidden(false, animated: false)
         let toolbarArray = [fixedSpace1, backButton, fixedSpace2, forwardButton, flexSpace3, refreshButton, fixedSpace4, exportButton, fixedSpace5]
         self.setToolbarItems(toolbarArray, animated: false)
@@ -70,6 +72,8 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
     override func viewWillDisappear(animated: Bool) {
         progressView.removeFromSuperview()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {

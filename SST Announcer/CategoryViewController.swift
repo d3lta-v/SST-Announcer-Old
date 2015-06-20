@@ -63,6 +63,8 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
@@ -74,6 +76,8 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     
     override func viewWillDisappear(animated: Bool) {
         self.navigationController?.setIndeterminate(false)
+        
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {

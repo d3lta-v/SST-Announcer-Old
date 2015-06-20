@@ -55,10 +55,16 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Add observer for push to catch push notification messages
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
         
         getFeedsOnce()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         // Check for push notifications
         let singleton = GlobalSingleton.sharedInstance

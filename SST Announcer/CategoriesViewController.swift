@@ -49,6 +49,8 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         getFeedsOnce()
     }
     
@@ -58,6 +60,8 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
                 self.navigationController?.setProgress(0, animated: false)
             }
         }
+        
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {

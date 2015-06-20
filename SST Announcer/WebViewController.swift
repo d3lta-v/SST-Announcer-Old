@@ -51,12 +51,10 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         loadFeed(self.receivedUrl)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        
-    }
-    
     override func viewWillDisappear(animated: Bool) {
         progressView.removeFromSuperview()
+        
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
