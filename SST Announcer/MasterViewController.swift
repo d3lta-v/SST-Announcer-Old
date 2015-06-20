@@ -91,10 +91,8 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
             // Start the refresher
-            self.delay(0.05) {
-                self.refreshControl?.beginRefreshing()
-                self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: true)
-            }
+            self.refreshControl?.beginRefreshing()
+            self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: false)
             
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -105,7 +103,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             
             // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                //self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
                 //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
                 self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
             })

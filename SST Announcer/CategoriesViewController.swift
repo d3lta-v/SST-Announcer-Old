@@ -81,10 +81,8 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             
             // Start the refresher
-            self.delay(0.05) {
-                self.refreshControl?.beginRefreshing()
-                self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: true)
-            }
+            self.refreshControl?.beginRefreshing()
+            self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: false)
             
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -95,7 +93,6 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
             
             // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                //self.loadFeedWithURLString("http://feeds.feedburner.com/SSTBlog")
                 //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
                 self.loadFeedWithURLString("https://simux.org/api/cache/categories.xml")
             })
@@ -165,9 +162,11 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
             // Clear buffer
             buffer = NSMutableData()
             println(error)
-            self.navigationController?.finishProgress()
-            self.refreshControl?.endRefreshing()
-            ProgressHUD.showError("Error loading!")
+            dispatch_sync(dispatch_get_main_queue(), {
+                self.navigationController?.finishProgress()
+                self.refreshControl?.endRefreshing()
+                ProgressHUD.showError("Error loading!")
+            })
         }
     }
     
