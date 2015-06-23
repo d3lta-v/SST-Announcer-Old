@@ -106,6 +106,27 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
                 self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
             })
+            
+            // Check if user enabled push, after a 5 second delay
+            #if !((arch(i386) || arch(x86_64)) && os(iOS)) // Preprocessor macro for checking iOS sims
+            self.delay(5) {
+                let application = UIApplication.sharedApplication()
+                if application.respondsToSelector("isRegisteredForRemoteNotifications") { // iOS 8 feature
+                    if application.isRegisteredForRemoteNotifications() == false {
+                        let alert = UIAlertController(title: "You disabled push!", message: "This app relies heavily on push notifications for time-specific delivery of feeds. ", preferredStyle: .Alert)
+                        let okay = UIAlertAction(title: "Okay", style: UIAlertActionStyle.Cancel, handler: nil)
+                        alert.addAction(okay)
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                } else {
+                    let types = application.enabledRemoteNotificationTypes()
+                    if types == UIRemoteNotificationType.None {
+                        let alert = UIAlertView(title: "You disabled push!", message: "This app relies heavily on push notifications for time-specific delivery of feeds. ", delegate: nil, cancelButtonTitle: "Okay")
+                        alert.show()
+                    }
+                }
+            }
+            #endif
         }
     }
     
