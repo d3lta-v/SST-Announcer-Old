@@ -10,7 +10,8 @@ import UIKit
 
 import Parse
 import Bolts
-import ParseCrashReporting
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,8 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        // Fabric Init
+        Fabric.with([Crashlytics()])
+        
         // Parse Init
-        ParseCrashReporting.enable()
         Parse.setApplicationId("5OtbHnpgcIWBOOBSDsN75dbLGYyD1zYrbK1NtUsI", clientKey: "c3KRrAwmvY8GGLR7iNh9WwhNRMLKiew0YOa5gqv6")
         
         // Register for Push Notitications
