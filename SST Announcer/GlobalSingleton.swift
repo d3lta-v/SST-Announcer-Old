@@ -10,29 +10,29 @@ import UIKit
 
 class GlobalSingleton: NSObject {
     static let sharedInstance = GlobalSingleton()
-    
+
     // Variables
-    private var remoteNotificationURL : String = ""
-    private var didReceivePushNotification : Bool = false
-    
+    private var remoteNotificationURL: String = ""
+    private var didReceivePushNotification: Bool = false
+
     override init() {
         //println("__INIT__")
     }
-    
+
     // Data retrieval methods
     func getRemoteNotificationURL() -> String {
         return remoteNotificationURL
     }
-    
+
     func getDidReceivePushNotification() -> Bool {
         return didReceivePushNotification
     }
-    
+
     // Data input methods
     func setRemoteNotificationURLWithString(urlString: String) {
         remoteNotificationURL = urlString
     }
-    
+
     func setDidReceivePushNotificationWithBool(pushNotifcationReceivedBool: Bool) {
         didReceivePushNotification = pushNotifcationReceivedBool;
     }

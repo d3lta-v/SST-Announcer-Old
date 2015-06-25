@@ -9,13 +9,13 @@
 import UIKit
 
 class WebViewProgressView: UIView {
-    
+
     var progress: Float = 0.0
     var progressBarView: UIView!
     var barAnimationDuration: NSTimeInterval!
     var fadeAnimationDuration: NSTimeInterval!
     var fadeOutDelay: NSTimeInterval!
-    
+
     // MARK: Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,12 +25,12 @@ class WebViewProgressView: UIView {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         configureViews()
     }
-    
+
     // MARK: Private Method
     private func configureViews() {
         self.userInteractionEnabled = false
@@ -43,12 +43,12 @@ class WebViewProgressView: UIView {
         }
         progressBarView.backgroundColor = tintColor
         self.addSubview(progressBarView)
-        
+
         barAnimationDuration = 0.1
         fadeAnimationDuration = 0.27
         fadeOutDelay = 0.1
     }
-    
+
     // MARK: Public Method
     func setProgress(progress: Float, animated: Bool = false) {
         var isGrowing = progress > 0.0
@@ -57,7 +57,7 @@ class WebViewProgressView: UIView {
             frame.size.width = CGFloat(progress) * self.bounds.size.width
             self.progressBarView.frame = frame
         }, completion: nil)
-        
+
         if progress >= 1.0 {
             UIView.animateWithDuration(animated ? fadeAnimationDuration : 0.0, delay: fadeOutDelay, options: .CurveEaseInOut, animations: {
                 self.progressBarView.alpha = 0.0

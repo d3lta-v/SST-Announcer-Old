@@ -18,7 +18,7 @@
 		227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E71461B1D44DF00215577 /* AppDelegate.swift */; };
 		227E714C1B1D44DF00215577 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 227E714A1B1D44DF00215577 /* Main.storyboard */; };
 		227E714E1B1D44DF00215577 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 227E714D1B1D44DF00215577 /* Images.xcassets */; };
-		227E715D1B1D44DF00215577 /* SST_AnnouncerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E715C1B1D44DF00215577 /* SST_AnnouncerTests.swift */; };
+		227E715D1B1D44DF00215577 /* AnnouncerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E715C1B1D44DF00215577 /* AnnouncerTests.swift */; };
 		227E71731B1D4BEA00215577 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71711B1D4BEA00215577 /* Bolts.framework */; };
 		227E71741B1D4BEA00215577 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71721B1D4BEA00215577 /* Parse.framework */; };
 		227E71761B1D4C0500215577 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71751B1D4C0500215577 /* AudioToolbox.framework */; };
@@ -44,7 +44,6 @@
 		22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DC1B2024A600468987 /* SwiftWebViewProgress.swift */; };
 		22C4F1DF1B2024A600468987 /* SwiftWebViewProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */; };
 		22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */; };
-		22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E31B21194300468987 /* SwiftyJSON.swift */; };
 		22C5EFDB1B32E1E800C92AC6 /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22C5EFD81B32E1E800C92AC6 /* ProgressHUD.bundle */; };
 		22C5EFDC1B32E1E800C92AC6 /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C5EFDA1B32E1E800C92AC6 /* ProgressHUD.m */; };
 		22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FD3B7D1B27268000F87089 /* Settings.bundle */; };
@@ -119,7 +118,7 @@
 		227E714D1B1D44DF00215577 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		227E71561B1D44DF00215577 /* SST AnnouncerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SST AnnouncerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		227E715B1B1D44DF00215577 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		227E715C1B1D44DF00215577 /* SST_AnnouncerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SST_AnnouncerTests.swift; sourceTree = "<group>"; };
+		227E715C1B1D44DF00215577 /* AnnouncerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncerTests.swift; sourceTree = "<group>"; };
 		227E71711B1D4BEA00215577 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		227E71721B1D4BEA00215577 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		227E71751B1D4C0500215577 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -147,7 +146,6 @@
 		22C4F1DC1B2024A600468987 /* SwiftWebViewProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgress.swift; sourceTree = "<group>"; };
 		22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgressView.swift; sourceTree = "<group>"; };
 		22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMUXCRParser.swift; sourceTree = "<group>"; };
-		22C4F1E31B21194300468987 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		22C5EFD51B32C38800C92AC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		22C5EFD81B32E1E800C92AC6 /* ProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ProgressHUD.bundle; sourceTree = "<group>"; };
 		22C5EFD91B32E1E800C92AC6 /* ProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHUD.h; sourceTree = "<group>"; };
@@ -275,7 +273,7 @@
 		227E71591B1D44DF00215577 /* SST AnnouncerTests */ = {
 			isa = PBXGroup;
 			children = (
-				227E715C1B1D44DF00215577 /* SST_AnnouncerTests.swift */,
+				227E715C1B1D44DF00215577 /* AnnouncerTests.swift */,
 				227E715A1B1D44DF00215577 /* Supporting Files */,
 			);
 			path = "SST AnnouncerTests";
@@ -298,7 +296,6 @@
 				227E71711B1D4BEA00215577 /* Bolts.framework */,
 				22C5EFD71B32E1E800C92AC6 /* ProgressHUD */,
 				224C7B041B2EE03A00912977 /* M13ProgressSuite */,
-				22C4F1E21B21194300468987 /* SwiftyJSON */,
 				22C4F1DB1B2024A600468987 /* SwiftWebViewProgress */,
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
 				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
@@ -338,14 +335,6 @@
 			path = SwiftWebViewProgress;
 			sourceTree = "<group>";
 		};
-		22C4F1E21B21194300468987 /* SwiftyJSON */ = {
-			isa = PBXGroup;
-			children = (
-				22C4F1E31B21194300468987 /* SwiftyJSON.swift */,
-			);
-			path = SwiftyJSON;
-			sourceTree = "<group>";
-		};
 		22C5EFD71B32E1E800C92AC6 /* ProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -366,7 +355,8 @@
 				227E713D1B1D44DF00215577 /* Sources */,
 				227E713E1B1D44DF00215577 /* Frameworks */,
 				227E713F1B1D44DF00215577 /* Resources */,
-				225B48791B3ACB200068E2A6 /* ShellScript */,
+				225B48791B3ACB200068E2A6 /* Fabric Framework */,
+				225B487E1B3B8F060068E2A6 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -377,9 +367,9 @@
 			productReference = 227E71411B1D44DF00215577 /* Announcer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		227E71551B1D44DF00215577 /* SST AnnouncerTests */ = {
+		227E71551B1D44DF00215577 /* AnnouncerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 227E71631B1D44DF00215577 /* Build configuration list for PBXNativeTarget "SST AnnouncerTests" */;
+			buildConfigurationList = 227E71631B1D44DF00215577 /* Build configuration list for PBXNativeTarget "AnnouncerTests" */;
 			buildPhases = (
 				227E71521B1D44DF00215577 /* Sources */,
 				227E71531B1D44DF00215577 /* Frameworks */,
@@ -390,7 +380,7 @@
 			dependencies = (
 				227E71581B1D44DF00215577 /* PBXTargetDependency */,
 			);
-			name = "SST AnnouncerTests";
+			name = AnnouncerTests;
 			productName = "SST AnnouncerTests";
 			productReference = 227E71561B1D44DF00215577 /* SST AnnouncerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -442,7 +432,7 @@
 			projectRoot = "";
 			targets = (
 				227E71401B1D44DF00215577 /* Announcer */,
-				227E71551B1D44DF00215577 /* SST AnnouncerTests */,
+				227E71551B1D44DF00215577 /* AnnouncerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -515,18 +505,33 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		225B48791B3ACB200068E2A6 /* ShellScript */ = {
+		225B48791B3ACB200068E2A6 /* Fabric Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Fabric Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run de3632aab97f255ce3c808218359f9b2396667b9 9e8abb417e434024604c64b60afcc591f5d3973c71d61dec4a1282232dd2f2b5";
+		};
+		225B487E1B3B8F060068E2A6 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = /usr/local/bin/swiftlint;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -545,7 +550,6 @@
 				224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */,
 				224C7B0D1B30423C00912977 /* CategoryViewController.swift in Sources */,
 				227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */,
-				22C4F1E41B21194300468987 /* SwiftyJSON.swift in Sources */,
 				22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */,
 				227E71901B1D4F1C00215577 /* MasterViewController.swift in Sources */,
 				224C7B091B2FD83000912977 /* FeedItem.swift in Sources */,
@@ -557,7 +561,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				227E715D1B1D44DF00215577 /* SST_AnnouncerTests.swift in Sources */,
+				227E715D1B1D44DF00215577 /* AnnouncerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,7 +773,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		227E71631B1D44DF00215577 /* Build configuration list for PBXNativeTarget "SST AnnouncerTests" */ = {
+		227E71631B1D44DF00215577 /* Build configuration list for PBXNativeTarget "AnnouncerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				227E71641B1D44DF00215577 /* Debug */,
