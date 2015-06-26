@@ -80,17 +80,15 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
 
             var title: String!
             var description: String!
-            SIMUXCRParser().convertHTML(url) { (returnTuple: (title: String, description: String), errorPresent: Bool) in
-                title = returnTuple.title
-                description = returnTuple.description
-                description = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            SIMUXCRParser().convertHTML(url) { (title: String, description: String) in
+                let editedDescription = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
 
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 println(title)
                 dispatch_sync(dispatch_get_main_queue(), {
                     self.title = title
 
-                    htmlString = description
+                    htmlString = editedDescription
                     self.initAttributedTextViewWithString(htmlString)
                 })
             }

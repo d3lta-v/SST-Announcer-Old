@@ -30,7 +30,7 @@ class SIMUXCRParser: NSObject {
 
     // MARK: - Public exposed functions
 
-    func convertHTML(htmlString: String!, completionClosure: (result: (title: String, description: String), errorPresent: Bool) -> Void) {
+    func convertHTML(htmlString: String!, completionClosure: (title: String, description: String) -> Void) {
         var returnTuple = (title: "", description: "") // Init empty named tuple
 
         // Test for connectivity to statixind.net and if not available, fallback to another server
@@ -74,7 +74,7 @@ class SIMUXCRParser: NSObject {
                 returnTuple.description = returnTuple.description.stringByDecodingHTMLEntities
             }
 
-            completionClosure(result: returnTuple, errorPresent: self.errorBoolean)
+            completionClosure(title: returnTuple.title, description: returnTuple.description)
         }
 
         getData.resume()
