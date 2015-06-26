@@ -81,14 +81,9 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             var title: String!
             var description: String!
             SIMUXCRParser().convertHTML(url) { (returnTuple: (title: String, description: String), errorPresent: Bool) in
-                if !errorPresent {
-                    title = returnTuple.title
-                    description = returnTuple.description
-                    description = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                } else {
-                    title = "Error"
-                    description = "<p align=\"center\">There was a problem loading this article, please check your connection, or try opening the URL in Safari via the share button above.</p>"
-                }
+                title = returnTuple.title
+                description = returnTuple.description
+                description = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
 
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 println(title)

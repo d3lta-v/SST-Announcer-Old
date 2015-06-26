@@ -70,6 +70,8 @@ class SIMUXCRParser: NSObject {
             if self.errorBoolean {
                 returnTuple.title = "Error"
                 returnTuple.description = "<p align=\"center\">There was a problem loading this article, please check your connection, or try opening the URL in Safari via the share button above.</p>"
+            } else {
+                returnTuple.description = returnTuple.description.stringByDecodingHTMLEntities
             }
 
             completionClosure(result: returnTuple, errorPresent: self.errorBoolean)
