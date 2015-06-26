@@ -149,9 +149,48 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
     }
 
     private func initAttributedTextViewWithString(string: String!) {
+        // Support for Dynamic Type!!
+        let preferredSizeCategory = UIApplication.sharedApplication().preferredContentSizeCategory
+        println(preferredSizeCategory)
+
+        var size = "" // Font size
+
+        switch preferredSizeCategory {
+        case UIContentSizeCategoryExtraSmall:
+            size = "13.5px"
+            break
+
+        case UIContentSizeCategorySmall:
+            size = "14px"
+            break
+
+        case UIContentSizeCategoryMedium:
+            size = "15.5px"
+            break
+
+        case UIContentSizeCategoryLarge:
+            size = "17px"
+            break
+
+        case UIContentSizeCategoryExtraLarge:
+            size = "18.5px"
+            break
+
+        case UIContentSizeCategoryExtraExtraLarge:
+            size = "20px"
+            break
+
+        case UIContentSizeCategoryExtraExtraExtraLarge:
+            size = "21.5px"
+            break
+
+        default:
+            size = "16.4px"
+        }
+
         let builderOptions = [
-            DTDefaultFontFamily: "Helvetica Neue",
-            DTDefaultFontSize: "16.4px",
+            DTDefaultFontFamily: UIFont.systemFontOfSize(UIFont.systemFontSize()).familyName,
+            DTDefaultFontSize: size,
             DTDefaultLineHeightMultiplier: "1.43",
             DTDefaultLinkColor: "#146FDF",
             DTDefaultLinkDecoration: ""
@@ -160,7 +199,7 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         self.textView.textDelegate = self
         self.textView.shouldDrawImages = true
         self.textView.attributedString = stringBuilder.generatedAttributedString()
-        self.textView.contentInset = UIEdgeInsetsMake(85, 15, 40, 15)
+        self.textView.contentInset = UIEdgeInsetsMake(85, 15, 70, 15)
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.navigationController?.setIndeterminate(false)

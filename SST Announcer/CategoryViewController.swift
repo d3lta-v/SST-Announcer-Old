@@ -58,6 +58,9 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
 
+        self.tableView.estimatedRowHeight = 55
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+
         self.navigationController?.showProgress()
         self.navigationController?.setIndeterminate(true)
     }
@@ -280,10 +283,6 @@ class CategoryViewController: UITableViewController, NSXMLParserDelegate, UITabl
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("MasterToDetail", sender: self)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 50 // Constant 50pts height for row
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

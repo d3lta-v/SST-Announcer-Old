@@ -51,6 +51,9 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
+
+        self.tableView.estimatedRowHeight = 55
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -349,10 +352,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("MasterToDetail", sender: self)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 50 // Constant 50pts height for row
     }
 
     // MARK: - Navigation

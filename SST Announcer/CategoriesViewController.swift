@@ -46,6 +46,9 @@ class CategoriesViewController: UITableViewController, NSXMLParserDelegate, UITa
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
         self.refreshControl = refreshControl
+
+        self.tableView.estimatedRowHeight = 44
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func viewWillAppear(animated: Bool) {
