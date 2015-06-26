@@ -128,7 +128,7 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
                 } else {
                     let types = application.enabledRemoteNotificationTypes()
                     if types == UIRemoteNotificationType.None {
-                        let alert = UIAlertView(title: "You disabled push!",message: "This app relies heavily on push notifications for time-specific delivery of feeds.",delegate: nil,cancelButtonTitle: "Okay")
+                        let alert = UIAlertView(title:"You disabled push!",message:"This app relies on push notifications for time-specific delivery of feeds.",delegate: nil,cancelButtonTitle:"Okay")
                         alert.show()
                     }
                 }
