@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, NSURLSessionDelegate, NSURLSessionDataDelegate {
+class MasterViewController: UITableViewController, UISearchBarDelegate, UISearchDisplayDelegate {
 
     // MARK: - Private variables declaration
 
@@ -183,49 +183,6 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             dispatch_get_main_queue(), closure)
     }
 
-    // MARK: - NSURLSession delegates
-
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
-        expectedContentLength = Int(response.expectedContentLength)
-        completionHandler(NSURLSessionResponseDisposition.Allow)
-    }
-
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        buffer.appendData(data)
-
-        let percentDownload = Float(buffer.length) / Float(expectedContentLength)
-        self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
-    }
-
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        if error == nil { // If no error
-            if let dataStr = NSString(data: buffer, encoding: NSUTF8StringEncoding) as? String {
-                self.parser = NSXMLParser(data: (dataStr).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-                self.parser.delegate = self
-                self.parser.shouldResolveExternalEntities = false
-                self.parser.parse()
-            } else {
-                buffer = NSMutableData()
-                dispatch_sync(dispatch_get_main_queue(), {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    self.navigationController?.finishProgress()
-                    self.refreshControl?.endRefreshing()
-                    ProgressHUD.showError("Error loading!")
-                })
-            }
-        } else {
-            // Clear buffer
-            buffer = NSMutableData()
-            println(error)
-            dispatch_sync(dispatch_get_main_queue(), {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                self.navigationController?.finishProgress()
-                self.refreshControl?.endRefreshing()
-                ProgressHUD.showError("Error loading!")
-            })
-        }
-    }
-
     // MARK: - Search functionality
 
     func filterContentForSearchText(searchText: String) {
@@ -240,8 +197,100 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
         return true
     }
 
-    // MARK: - NSXMLParser delegate
+    // MARK: - Navigation
 
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+
+        if segue.identifier == "MasterToDetail" {
+            let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
+            if singleton.getDidReceivePushNotification() {
+                NSNotificationCenter.defaultCenter().removeObserver(self)
+                (segue.destinationViewController as? WebViewController)?.receivedUrl = singleton.getRemoteNotificationURL()
+                singleton.setDidReceivePushNotificationWithBool(false)
+            } else {
+                if self.searchDisplayController?.active == true {
+                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
+                        let passedString = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].content)"
+                        (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
+                    } else {
+                        (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
+                    }
+                } else {
+                    if let indexPath = self.tableView.indexPathForSelectedRow() {
+                        let passedString = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
+                        (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
+                    } else {
+                        (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - UITableView Delegates
+
+extension MasterViewController : UITableViewDelegate, UITableViewDataSource {
+    // MARK: Table view data source
+
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // Return the number of sections.
+        return 1
+    }
+
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // Return the number of rows in the section.
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            return self.searchResults.count
+        } else {
+            return self.feeds.count
+        }
+    }
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as? UITableViewCell
+
+        var cellItem: FeedItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
+
+        // Configure the cell...
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            cellItem = self.searchResults[indexPath.row]
+            //cell.textLabel?.text = self.searchResults[indexPath.row].title
+        } else {
+            if !feeds.isEmpty {
+                cellItem = self.feeds[indexPath.row]
+                if cellItem.title == "" {
+                    cellItem.title = "<No Title>"
+                }
+            }
+        }
+
+        if let cellUnwrapped = cell {
+            cellUnwrapped.textLabel?.text = cellItem.title
+            cellUnwrapped.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
+            cellUnwrapped.accessoryType = .DisclosureIndicator
+            return cellUnwrapped
+        } else {
+            cell!.textLabel?.text = cellItem.title
+            cell!.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
+            return cell!
+        }
+    }
+
+    // MARK: Table view delegate
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+}
+
+// MARK: - NSXMLParserDelegate
+
+extension MasterViewController : NSXMLParserDelegate {
     func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         self.element = elementName
         if self.element == "item" { // If new item is retrieved, clear the temporary item object
@@ -300,90 +349,49 @@ class MasterViewController: UITableViewController, NSXMLParserDelegate, UITableV
             ProgressHUD.showError("Error Parsing!")
         })
     }
+}
 
-    // MARK: - Table view data source
+// MARK: - NSURLSession Delegates
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // Return the number of sections.
-        return 1
+extension MasterViewController : NSURLSessionDelegate, NSURLSessionDataDelegate {
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+        expectedContentLength = Int(response.expectedContentLength)
+        completionHandler(NSURLSessionResponseDisposition.Allow)
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Return the number of rows in the section.
-        if tableView == self.searchDisplayController!.searchResultsTableView {
-            return self.searchResults.count
-        } else {
-            return self.feeds.count
-        }
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+        buffer.appendData(data)
+
+        let percentDownload = Float(buffer.length) / Float(expectedContentLength)
+        self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as? UITableViewCell
-
-        var cellItem: FeedItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
-
-        // Configure the cell...
-        if tableView == self.searchDisplayController!.searchResultsTableView {
-            cellItem = self.searchResults[indexPath.row]
-            //cell.textLabel?.text = self.searchResults[indexPath.row].title
-        } else {
-            if !feeds.isEmpty {
-                cellItem = self.feeds[indexPath.row]
-                if cellItem.title == "" {
-                    cellItem.title = "<No Title>"
-                }
-            }
-        }
-
-        if let cellUnwrapped = cell {
-            cellUnwrapped.textLabel?.text = cellItem.title
-            cellUnwrapped.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
-            cellUnwrapped.accessoryType = .DisclosureIndicator
-            return cellUnwrapped
-        } else {
-            cell!.textLabel?.text = cellItem.title
-            cell!.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
-            return cell!
-        }
-    }
-
-    // MARK: - Table view delegate
-
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("MasterToDetail", sender: self)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-
-        if segue.identifier == "MasterToDetail" {
-            let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() {
-                NSNotificationCenter.defaultCenter().removeObserver(self)
-                (segue.destinationViewController as? WebViewController)?.receivedUrl = singleton.getRemoteNotificationURL()
-                singleton.setDidReceivePushNotificationWithBool(false)
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        if error == nil { // If no error
+            if let dataStr = NSString(data: buffer, encoding: NSUTF8StringEncoding) as? String {
+                self.parser = NSXMLParser(data: (dataStr).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+                self.parser.delegate = self
+                self.parser.shouldResolveExternalEntities = false
+                self.parser.parse()
             } else {
-                if self.searchDisplayController?.active == true {
-                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
-                        let passedString = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].content)"
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
-                    } else {
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
-                    }
-                } else {
-                    if let indexPath = self.tableView.indexPathForSelectedRow() {
-                        let passedString = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
-                    } else {
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
-                    }
-                }
+                buffer = NSMutableData()
+                dispatch_sync(dispatch_get_main_queue(), {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                    self.navigationController?.finishProgress()
+                    self.refreshControl?.endRefreshing()
+                    ProgressHUD.showError("Error loading!")
+                })
             }
+        } else {
+            // Clear buffer
+            buffer = NSMutableData()
+            println(error)
+            dispatch_sync(dispatch_get_main_queue(), {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                self.navigationController?.finishProgress()
+                self.refreshControl?.endRefreshing()
+                ProgressHUD.showError("Error loading!")
+            })
         }
     }
 }

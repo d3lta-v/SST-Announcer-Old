@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, DTLazyImageViewDelegate, UIWebViewDelegate, WebViewProgressDelegate , DTWebVideoViewDelegate {
+class WebViewController: UIViewController {
 
     // MARK: - Variables declaration
     var receivedUrl: String = String()
@@ -256,24 +256,66 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
             dispatch_get_main_queue(), closure)
     }
 
-    func linkPushed(button: DTLinkButton) {
-        let url = button.URL
+    // MARK: - IBActions
 
-        if UIApplication.sharedApplication().canOpenURL(url.absoluteURL!) {
-            self.linkUrl = url
-            self.performSegueWithIdentifier("ToBrowser", sender: self)
+    @IBAction func exportButton(sender: AnyObject) {
+        let safariActivity = TUSafariActivity()
+        var activity = UIActivityViewController()
+
+        if self.receivedUrl.hasPrefix("h") {
+            activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl)!], applicationActivities: [safariActivity])
         } else {
-            if url.host == nil && url.path == nil {
-                let fragment = url.fragment
+            // First few times I'm using Swift optional checking!1!1
+            if let index1 = self.receivedUrl.rangeOfString("[")?.endIndex, index2 = self.receivedUrl.rangeOfString("]")?.startIndex {
+                let range = Range(start: index1, end: index2)
 
-                if fragment != nil {
-                    self.textView.scrollToAnchorNamed(fragment, animated: false)
-                }
+                activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl.substringWithRange(range))!], applicationActivities: [safariActivity])
             }
+        }
+
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(activity, animated: true, completion: nil)
+        } else {
+            let popup = UIPopoverController(contentViewController: activity)
+            popup.presentPopoverFromBarButtonItem(exportBarButton, permittedArrowDirections: .Any, animated: true)
         }
     }
 
-    // MARK: - DTAttributedTextContentViewDelegate
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        let vc = segue.destinationViewController.topViewController as? InAppBrowserViewController
+
+        vc?.receivedUrl = linkUrl
+    }
+
+}
+
+// MARK: - UIWebViewDelegate, WebViewProgressDelegate Methods
+
+extension WebViewController : UIWebViewDelegate, WebViewProgressDelegate {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+        if error.code != -999 {
+            ProgressHUD.showError("Loading failed!")
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+
+    func webViewProgress(webViewProgress: WebViewProgress, updateProgress progress: Float) {
+        progressView.setProgress(progress, animated: true)
+    }
+}
+
+// MARK: - DTCoreText Delegates
+
+extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageViewDelegate, DTWebVideoViewDelegate {
     func attributedTextContentView(attributedTextContentView: DTAttributedTextContentView!, viewForLink url: NSURL!, identifier: String!, frame: CGRect) -> UIView! {
         let linkButton: DTLinkButton = DTLinkButton(frame: frame)
         linkButton.URL = url
@@ -327,9 +369,6 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         return nil
     }
 
-
-    // MARK: - DTLazyImageViewDelegate
-
     func lazyImageView(lazyImageView: DTLazyImageView!, didChangeImageSize size: CGSize) {
         let url = lazyImageView.url
         var imageSize = size
@@ -359,59 +398,21 @@ class WebViewController: UIViewController, DTAttributedTextContentViewDelegate, 
         }
     }
 
-    // MARK: - UIWebViewDelegate Methods
 
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
-        if error.code != -999 {
-            ProgressHUD.showError("Loading failed!")
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        }
-    }
+    func linkPushed(button: DTLinkButton) {
+        let url = button.URL
 
-    func webViewDidFinishLoad(webView: UIWebView) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-    }
-
-    // MARK: - WebViewProgressDelegate Methods
-
-    func webViewProgress(webViewProgress: WebViewProgress, updateProgress progress: Float) {
-        progressView.setProgress(progress, animated: true)
-    }
-
-    // MARK: - IBActions
-
-    @IBAction func exportButton(sender: AnyObject) {
-        let safariActivity = TUSafariActivity()
-        var activity = UIActivityViewController()
-
-        if self.receivedUrl.hasPrefix("h") {
-            activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl)!], applicationActivities: [safariActivity])
+        if UIApplication.sharedApplication().canOpenURL(url.absoluteURL!) {
+            self.linkUrl = url
+            self.performSegueWithIdentifier("ToBrowser", sender: self)
         } else {
-            // First few times I'm using Swift optional checking!1!1
-            if let index1 = self.receivedUrl.rangeOfString("[")?.endIndex, index2 = self.receivedUrl.rangeOfString("]")?.startIndex {
-                let range = Range(start: index1, end: index2)
+            if url.host == nil && url.path == nil {
+                let fragment = url.fragment
 
-                activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl.substringWithRange(range))!], applicationActivities: [safariActivity])
+                if fragment != nil {
+                    self.textView.scrollToAnchorNamed(fragment, animated: false)
+                }
             }
         }
-
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            self.presentViewController(activity, animated: true, completion: nil)
-        } else {
-            let popup = UIPopoverController(contentViewController: activity)
-            popup.presentPopoverFromBarButtonItem(exportBarButton, permittedArrowDirections: .Any, animated: true)
-        }
     }
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        let vc = segue.destinationViewController.topViewController as? InAppBrowserViewController
-
-        vc?.receivedUrl = linkUrl
-    }
-
 }
