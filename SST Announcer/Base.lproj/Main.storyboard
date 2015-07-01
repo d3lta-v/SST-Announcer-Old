@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wwG-ig-RhO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wwG-ig-RhO">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -56,7 +56,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qRi-qk-FJX">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -330,7 +330,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hy6-Kv-jue">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -364,11 +364,7 @@
         <scene sceneID="uQk-IY-No4">
             <objects>
                 <navigationController id="Pbe-Tq-v1Q" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Categories" image="Categories" id="cgM-PV-CVL">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Categories_Selected"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Categories" image="Categories" id="cgM-PV-CVL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xef-ed-BkJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -385,11 +381,7 @@
         <scene sceneID="pIt-xS-qTT">
             <objects>
                 <navigationController id="0E6-tX-dVY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="About" image="About" id="Wui-CE-IfE">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="About_Selected"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="About" image="About" id="Wui-CE-IfE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4X3-c1-Z3b">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -415,14 +407,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SSTInc" translatesAutoresizingMaskIntoConstraints="NO" id="M4K-kC-YQT">
-                                <rect key="frame" x="206" y="124" width="188" height="110"/>
+                                <rect key="frame" x="206" y="132" width="188" height="110"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="188" id="7PE-Wz-ha5"/>
                                     <constraint firstAttribute="height" constant="110" id="MRc-lb-cDG"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CEO: Christopher Kok" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIJ-jK-uaD">
-                                <rect key="frame" x="218" y="326" width="165" height="21"/>
+                                <rect key="frame" x="218" y="324" width="165" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="7LA-4t-PoS"/>
                                     <constraint firstAttribute="width" constant="165" id="NS4-Xh-7zV"/>
@@ -432,7 +424,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COO: Liaw Xiao Tao" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i30-sV-GGm">
-                                <rect key="frame" x="226" y="355" width="148" height="21"/>
+                                <rect key="frame" x="226" y="353" width="148" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="7Sw-m4-wx5"/>
                                     <constraint firstAttribute="width" constant="148" id="GQk-iD-n9M"/>
@@ -442,7 +434,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CTO/Chief Engineer: Pan Ziyue" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iim-db-aHY">
-                                <rect key="frame" x="186" y="384" width="228" height="21"/>
+                                <rect key="frame" x="186" y="382" width="228" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="228" id="8J9-AP-1z6"/>
                                     <constraint firstAttribute="height" constant="21" id="w1q-Z1-kgg"/>
@@ -452,7 +444,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uses the SIMUXCR Parsing System" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zo-g1-4zL">
-                                <rect key="frame" x="169" y="425" width="262" height="21"/>
+                                <rect key="frame" x="169" y="423" width="262" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="262" id="nOB-qW-3zB"/>
                                     <constraint firstAttribute="height" constant="21" id="rrV-a0-Gfe"/>
@@ -462,7 +454,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uses DTCoreText for HTML rendering" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5FK-8r-vMd">
-                                <rect key="frame" x="162" y="454" width="276" height="21"/>
+                                <rect key="frame" x="162" y="452" width="276" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="276" id="95v-Ir-fgQ"/>
                                     <constraint firstAttribute="height" constant="21" id="HAX-6s-iWu"/>
@@ -472,7 +464,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Developed by StatiX Industries of SST INC" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="hUC-bk-jQo">
-                                <rect key="frame" x="175" y="264" width="250" height="42"/>
+                                <rect key="frame" x="175" y="262" width="250" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="IDg-kz-6Ws"/>
                                     <constraint firstAttribute="width" constant="250" id="cWT-Qu-Dsc"/>
@@ -485,6 +477,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="i30-sV-GGm" firstAttribute="top" secondItem="gIJ-jK-uaD" secondAttribute="bottom" constant="8" id="14B-9I-lNB"/>
+                            <constraint firstAttribute="centerY" secondItem="hUC-bk-jQo" secondAttribute="centerY" constant="17" id="1nM-dH-wdi"/>
                             <constraint firstAttribute="centerX" secondItem="5FK-8r-vMd" secondAttribute="centerX" id="4bx-Or-Hjy"/>
                             <constraint firstAttribute="centerX" secondItem="Iim-db-aHY" secondAttribute="centerX" id="CZ4-LB-Xge"/>
                             <constraint firstItem="gIJ-jK-uaD" firstAttribute="top" secondItem="hUC-bk-jQo" secondAttribute="bottom" constant="20" id="Hgf-1s-vsP"/>
@@ -492,9 +485,8 @@
                             <constraint firstAttribute="centerX" secondItem="gIJ-jK-uaD" secondAttribute="centerX" id="M2S-KI-MEU"/>
                             <constraint firstAttribute="centerX" secondItem="M4K-kC-YQT" secondAttribute="centerX" id="N8N-Hn-P8A"/>
                             <constraint firstItem="5FK-8r-vMd" firstAttribute="top" secondItem="6zo-g1-4zL" secondAttribute="bottom" constant="8" id="R5n-xt-NoU"/>
-                            <constraint firstAttribute="centerY" secondItem="hUC-bk-jQo" secondAttribute="centerY" constant="15" id="RKu-fr-uVQ"/>
                             <constraint firstAttribute="centerX" secondItem="hUC-bk-jQo" secondAttribute="centerX" id="Uvz-ob-DVD"/>
-                            <constraint firstItem="hUC-bk-jQo" firstAttribute="top" secondItem="M4K-kC-YQT" secondAttribute="bottom" constant="30" id="Wet-P9-Mwr"/>
+                            <constraint firstItem="hUC-bk-jQo" firstAttribute="top" secondItem="M4K-kC-YQT" secondAttribute="bottom" constant="20" id="Wet-P9-Mwr"/>
                             <constraint firstAttribute="centerX" secondItem="i30-sV-GGm" secondAttribute="centerX" id="Xc7-RU-eNO"/>
                             <constraint firstAttribute="centerX" secondItem="6zo-g1-4zL" secondAttribute="centerX" id="u4y-fc-b1j"/>
                             <constraint firstItem="Iim-db-aHY" firstAttribute="top" secondItem="i30-sV-GGm" secondAttribute="bottom" constant="8" id="wAp-Yg-PxO"/>
@@ -526,10 +518,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="About" width="33" height="33"/>
-        <image name="About_Selected" width="33" height="33"/>
+        <image name="About" width="30" height="30"/>
         <image name="Categories" width="30" height="30"/>
-        <image name="Categories_Selected" width="30" height="30"/>
         <image name="Feed" width="30" height="30"/>
         <image name="Feed_Selected" width="30" height="30"/>
         <image name="SSTInc" width="238" height="141"/>

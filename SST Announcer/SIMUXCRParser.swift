@@ -33,7 +33,7 @@ class SIMUXCRParser: NSObject {
     func convertHTML(htmlString: String!, completionClosure: (title: String, description: String) -> Void) {
         var returnTuple = (title: "", description: "") // Init empty named tuple
 
-        // Test for connectivity to statixind.net and if not available, fallback to another server
+        // Test for connectivity to simux.org and if not available, fallback to another server
         let determinateTuple = chooseServer()
         let urlFirstSegment = determinateTuple.urlPrepend
         self.errorBoolean = determinateTuple.error
@@ -42,8 +42,7 @@ class SIMUXCRParser: NSObject {
         let url = NSURL(string: "\(urlFirstSegment)\(htmlString)&format=json")
         let getData = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
             if error == nil {
-                if let dataUnwrapped = data {
-                    var jsonError: NSError?
+                if let dataUnwrapped = data, var jsonError: NSError? = nil {
                     if let jsonObject = NSJSONSerialization.JSONObjectWithData(dataUnwrapped, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as? NSDictionary {
                         if jsonError == nil {
                             if let items = jsonObject["item"] as? NSDictionary, title = items["title"] as? String, description = items["description"] as? String {
