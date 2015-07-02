@@ -12,9 +12,9 @@ class WebViewController: UIViewController {
 
     // MARK: - Variables declaration
     var receivedUrl: String = String()
-    @IBOutlet var exportBarButton: UIBarButtonItem!
-    @IBOutlet var webView: UIWebView!
-    @IBOutlet var textView: DTAttributedTextView!
+    @IBOutlet weak var exportBarButton: UIBarButtonItem!
+    @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var textView: DTAttributedTextView!
     private var progressView: WebViewProgressView!
     private var progressProxy: WebViewProgress!
     private var linkUrl = NSURL(string: "")!

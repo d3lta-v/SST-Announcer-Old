@@ -12,18 +12,18 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
 
     // MARK: - Private variables declaration
 
-    @IBOutlet var mainWebView: UIWebView!
+    @IBOutlet weak var mainWebView: UIWebView!
 
-    @IBOutlet var backButton: UIBarButtonItem!
-    @IBOutlet var forwardButton: UIBarButtonItem!
-    @IBOutlet var refreshButton: UIBarButtonItem!
-    @IBOutlet var exportButton: UIBarButtonItem!
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var forwardButton: UIBarButtonItem!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
+    @IBOutlet weak var exportButton: UIBarButtonItem!
 
-    @IBOutlet var fixedSpace1: UIBarButtonItem!
-    @IBOutlet var fixedSpace2: UIBarButtonItem!
-    @IBOutlet var flexSpace3: UIBarButtonItem!
-    @IBOutlet var fixedSpace4: UIBarButtonItem!
-    @IBOutlet var fixedSpace5: UIBarButtonItem!
+    @IBOutlet weak var fixedSpace1: UIBarButtonItem!
+    @IBOutlet weak var fixedSpace2: UIBarButtonItem!
+    @IBOutlet weak var flexSpace3: UIBarButtonItem!
+    @IBOutlet weak var fixedSpace4: UIBarButtonItem!
+    @IBOutlet weak var fixedSpace5: UIBarButtonItem!
 
     private var progressView: WebViewProgressView!
     private var progressProxy: WebViewProgress!
