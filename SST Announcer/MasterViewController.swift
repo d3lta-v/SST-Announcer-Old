@@ -305,7 +305,7 @@ extension MasterViewController : NSXMLParserDelegate {
     }
 
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if var testString = string { // Unwrap string? to check if it really works
+        if var testString = string { // Unwrap string? to check if it is safe
             if self.element == "title" {
                 self.tempItem.title = self.tempItem.title + testString
             } else if self.element == "link" {
