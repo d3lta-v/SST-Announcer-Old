@@ -1,4 +1,4 @@
-**SST Announcer, WORK IN PROGRESS**
+**SST Announcer**
 ==========================
 Made by StatiX Industries  
 
@@ -38,14 +38,18 @@ StatiX Industries:
 
 ##Caveats:
 * The Xcode Project file must be opened in Xcode 6 for iOS 8 SDK
+* SwiftLint is required. If you do not need SwiftLint, you have to remove the final build phrase
+* All the external dependencies MUST be met in order to compile the project (including account-specific dependencies such as Fabric). If you choose not to, you have to delete the run scripts phrase and delete the dependency entirely from the project.
 
 
 ##Dependencies:
-* MRProgress
-* DTCoreText
+* ProgressHUD (https://github.com/relatedcode/ProgressHUD)
+* DTCoreText (https://github.com/Cocoanetics/DTCoreText)
 * Parse
-* SwiftyJSON
-* TUSafariActivity
+* Fabric/Crashlytics
+* TUSafariActivity (https://github.com/davbeck/TUSafariActivity)
+* M13ProgressSuite (https://github.com/Marxon13/M13ProgressSuite)
+* SwiftWebViewProgress (https://github.com/mokumoku/SwiftWebViewProgress)
 
 
 ##License:
