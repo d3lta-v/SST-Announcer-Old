@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SIMUXCRParser: NSObject {
+public class SIMUXCRParser: NSObject {
 
     // MARK: - Private Variables
 
@@ -30,7 +30,7 @@ class SIMUXCRParser: NSObject {
 
     // MARK: - Public exposed functions
 
-    func convertHTML(htmlString: String!, completionClosure: (title: String, description: String) -> Void) {
+    public func convertHTML(htmlString: String!, completionClosure: (title: String, description: String) -> Void) {
         var returnTuple = (title: "", description: "") // Init empty named tuple
 
         // Test for connectivity to simux.org and if not available, fallback to another server
