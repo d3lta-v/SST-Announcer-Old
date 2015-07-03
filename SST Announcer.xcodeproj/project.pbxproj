@@ -195,20 +195,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		224C7B041B2EE03A00912977 /* M13ProgressSuite */ = {
+		2244287F1B46C2350050CF2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				224C7B051B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.h */,
-				224C7B061B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m */,
-			);
-			path = M13ProgressSuite;
-			sourceTree = "<group>";
-		};
-		227E71381B1D44DF00215577 = {
-			isa = PBXGroup;
-			children = (
-				22FD3B5D1B27178200F87089 /* README.md */,
-				22FD3B671B27179A00F87089 /* LICENSE */,
 				227E71B01B1D527500215577 /* libxml2.dylib */,
 				227E71891B1D4C5400215577 /* libsqlite3.dylib */,
 				227E71871B1D4C4B00215577 /* libz.dylib */,
@@ -225,8 +214,27 @@
 				227E71791B1D4C2000215577 /* CoreGraphics.framework */,
 				227E71771B1D4C0C00215577 /* CFNetwork.framework */,
 				227E71751B1D4C0500215577 /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		224C7B041B2EE03A00912977 /* M13ProgressSuite */ = {
+			isa = PBXGroup;
+			children = (
+				224C7B051B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.h */,
+				224C7B061B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m */,
+			);
+			path = M13ProgressSuite;
+			sourceTree = "<group>";
+		};
+		227E71381B1D44DF00215577 = {
+			isa = PBXGroup;
+			children = (
+				22FD3B5D1B27178200F87089 /* README.md */,
+				22FD3B671B27179A00F87089 /* LICENSE */,
 				227E71431B1D44DF00215577 /* SST Announcer */,
 				227E71591B1D44DF00215577 /* SST AnnouncerTests */,
+				2244287F1B46C2350050CF2B /* Frameworks */,
 				227E71421B1D44DF00215577 /* Products */,
 			);
 			sourceTree = "<group>";
