@@ -90,11 +90,9 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
             if let feedsObject: AnyObject = userDefaults.objectForKey("cachedCategories") {
-                if let feedData = feedsObject as? NSData {
-                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                        self.feeds = feeds
-                        self.tableView.reloadData()
-                    }
+                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData((feedsObject as? NSData)!) as? [FeedItem] {
+                    self.feeds = feeds
+                    self.tableView.reloadData()
                 }
             }
 

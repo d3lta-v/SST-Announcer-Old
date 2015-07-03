@@ -99,10 +99,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
             if let feedsObject: AnyObject = userDefaults.objectForKey("cachedFeeds") {
-                if let unarchivedData: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithData((feedsObject as? NSData)!) {
-                    if let feeds = unarchivedData as? [FeedItem] {
-                        self.feeds = feeds
-                    }
+                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData((feedsObject as? NSData)!) as? [FeedItem] {
+                    self.feeds = feeds
                 }
 
                 self.tableView.reloadData()
