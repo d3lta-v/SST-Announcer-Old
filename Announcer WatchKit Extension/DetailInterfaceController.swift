@@ -33,6 +33,8 @@ class DetailInterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        
+        updateUserActivity("net.statixind.Announcer.article", userInfo: ["title": self.feedItem.title], webpageURL: nil)
     }
 
     override func didDeactivate() {

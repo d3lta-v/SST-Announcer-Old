@@ -125,6 +125,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate
     }
 
+    // MARK: - WatchKit and Handoff
+
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
         if let userInfo = userInfo, request = userInfo["request"] as? String {
             if request == "refreshData" {
@@ -139,6 +141,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         reply([:])
+    }
+
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
+        if let window = self.window, rvc = window.rootViewController as? UITabBarController {
+            rvc.selectedIndex = 0
+            let navControl = rvc.selectedViewController as! UINavigationController
+            navControl.popToRootViewControllerAnimated(true)
+            navControl.childViewControllers.first?.restoreUserActivityState(userActivity)
+        }
+        return true
     }
 
 }

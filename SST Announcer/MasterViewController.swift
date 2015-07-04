@@ -224,6 +224,21 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             }
         }
     }
+
+    // MARK: - Handoff
+
+    override func restoreUserActivityState(activity: NSUserActivity) {
+        if let titleString = activity.userInfo?["title"] as? String {
+            println(titleString)
+            for var i = 0; i < feeds.count; i++ {
+                if feeds[i].title == titleString {
+                    let indexPath = NSIndexPath(forRow: i, inSection: 0)
+                    self.tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: UITableViewScrollPosition.None)
+                    break
+                }
+            }
+        }
+    }
 }
 
 // MARK: - UITableView Delegates

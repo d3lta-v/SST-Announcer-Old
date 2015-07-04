@@ -5,17 +5,17 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Announcer-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Announcer_WatchKit_Extension">
+                <controller identifier="MasterInterface" title="Announcer" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Announcer_WatchKit_Extension">
                     <items>
                         <table alignment="center" id="80M-DH-3O7">
                             <items>
                                 <tableRow identifier="FeedRow" id="4lN-Do-eP0" customClass="FeedRow" customModule="Announcer_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="4ot-wd-Z14">
                                         <items>
-                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.90000000000000002" id="uCv-9S-SWB" userLabel="Title">
+                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.94999999999999996" id="uCv-9S-SWB" userLabel="Title">
                                                 <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                             </label>
                                             <label alignment="left" verticalAlignment="bottom" text="Loading..." minimumScaleFactor="0.80000000000000004" id="z9w-di-OVJ" userLabel="Subtitle">
@@ -42,10 +42,10 @@
             </objects>
             <point key="canvasLocation" x="220" y="346"/>
         </scene>
-        <!--Detail Interface Controller-->
+        <!--DetailInterfaceController-->
         <scene sceneID="irg-H6-3pw">
             <objects>
-                <controller id="8W9-OO-eox" customClass="DetailInterfaceController" customModule="Announcer_WatchKit_Extension">
+                <controller identifier="DetailInterfaceController" id="8W9-OO-eox" customClass="DetailInterfaceController" customModule="Announcer_WatchKit_Extension">
                     <items>
                         <group width="1" alignment="center" layout="vertical" id="Itg-KN-5Ho">
                             <items>
@@ -81,23 +81,16 @@
             <objects>
                 <notificationController id="YCC-NB-fut">
                     <items>
-                        <label alignment="left" text="Alert Label" id="IdU-wH-bcW"/>
+                        <label alignment="left" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
                     </items>
-                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
+                    <notificationCategory key="notificationCategory" identifier="default" id="JfB-70-Muf"/>
                     <connections>
                         <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
-                        <segue destination="4sK-HA-Art" kind="relationship" relationship="dynamicNotificationInterface" id="kXh-Jw-8B1"/>
                     </connections>
                 </notificationController>
             </objects>
             <point key="canvasLocation" x="220" y="643"/>
         </scene>
-        <!--Notification Controller-->
-        <scene sceneID="ZPc-GJ-vnh">
-            <objects>
-                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="Announcer_WatchKit_App" customModuleProvider="target"/>
-            </objects>
-            <point key="canvasLocation" x="468" y="643"/>
-        </scene>
     </scenes>
+    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

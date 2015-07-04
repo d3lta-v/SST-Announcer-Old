@@ -57,5 +57,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>net.statixind.Announcer.article</string>
+	</array>
 </dict>
 </plist>
