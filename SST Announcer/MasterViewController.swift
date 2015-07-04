@@ -20,6 +20,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
     private var element: String = ""
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
+    private let helper = FeedHelper()
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -97,12 +98,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: false)
 
             // Load cached version first, while checking for existence of the cached feeds
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            if let feedsObject: AnyObject = userDefaults.objectForKey("cachedFeeds") {
-                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData((feedsObject as? NSData)!) as? [FeedItem] {
-                    self.feeds = feeds
-                }
-
+            if let feeds = self.helper.getCachedFeeds() {
+                self.feeds = feeds
                 self.tableView.reloadData()
             }
 
@@ -331,8 +328,7 @@ extension MasterViewController : NSXMLParserDelegate {
             self.refreshControl?.endRefreshing()
 
             // Archive and cache feeds into persistent storage (cool beans)
-            let cachedData = NSKeyedArchiver.archivedDataWithRootObject(self.feeds)
-            NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedFeeds")
+            self.helper.setCachedFeeds(self.feeds)
 
             let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
             if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {

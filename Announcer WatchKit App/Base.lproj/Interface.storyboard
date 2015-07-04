@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Announcer_WatchKit_Extension">
+                    <items>
+                        <table alignment="center" id="80M-DH-3O7">
+                            <items>
+                                <tableRow identifier="FeedRow" id="4lN-Do-eP0" customClass="FeedRow" customModule="Announcer_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="4ot-wd-Z14">
+                                        <items>
+                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.90000000000000002" id="uCv-9S-SWB" userLabel="Title">
+                                                <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                            </label>
+                                            <label alignment="left" verticalAlignment="bottom" text="Loading..." minimumScaleFactor="0.80000000000000004" id="z9w-di-OVJ" userLabel="Subtitle">
+                                                <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                            </label>
+                                        </items>
+                                        <edgeInsets key="margins" left="2" right="2" top="2" bottom="2"/>
+                                        <connections>
+                                            <segue destination="8W9-OO-eox" kind="push" identifier="toDetail" id="IW0-yh-ASb"/>
+                                        </connections>
+                                    </group>
+                                    <connections>
+                                        <outlet property="detailLabel" destination="z9w-di-OVJ" id="r96-Ze-FzL"/>
+                                        <outlet property="titleLabel" destination="uCv-9S-SWB" id="2qq-1t-H4D"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="feedsTable" destination="80M-DH-3O7" id="63d-8E-TG6"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="220" y="346"/>
+        </scene>
+        <!--Detail Interface Controller-->
+        <scene sceneID="irg-H6-3pw">
+            <objects>
+                <controller id="8W9-OO-eox" customClass="DetailInterfaceController" customModule="Announcer_WatchKit_Extension">
+                    <items>
+                        <group width="1" alignment="center" layout="vertical" id="Itg-KN-5Ho">
+                            <items>
+                                <label alignment="left" verticalAlignment="bottom" text="Author" minimumScaleFactor="0.69999999999999996" id="bgn-S1-edS">
+                                    <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                </label>
+                                <label alignment="left" text="Title" numberOfLines="0" id="X4E-cn-kKt">
+                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                </label>
+                            </items>
+                            <edgeInsets key="margins" left="2" right="2" top="2" bottom="2"/>
+                        </group>
+                        <separator alignment="center" id="lpH-CH-SrG">
+                            <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </separator>
+                        <group width="1" alignment="center" id="BwD-x6-4Zc">
+                            <items>
+                                <label width="136" alignment="center" text="Description" numberOfLines="0" id="Ghj-8C-94C"/>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="authorLabel" destination="bgn-S1-edS" id="8lg-bU-S9K"/>
+                        <outlet property="descriptionLabel" destination="Ghj-8C-94C" id="dPs-rw-L3p"/>
+                        <outlet property="titleLabel" destination="X4E-cn-kKt" id="qUC-pR-aeU"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="468" y="346"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="AEw-b0-oYE">
+            <objects>
+                <notificationController id="YCC-NB-fut">
+                    <items>
+                        <label alignment="left" text="Alert Label" id="IdU-wH-bcW"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
+                        <segue destination="4sK-HA-Art" kind="relationship" relationship="dynamicNotificationInterface" id="kXh-Jw-8B1"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="220" y="643"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="ZPc-GJ-vnh">
+            <objects>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="Announcer_WatchKit_App" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="468" y="643"/>
+        </scene>
+    </scenes>
+</document>

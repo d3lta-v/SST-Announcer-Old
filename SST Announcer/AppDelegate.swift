@@ -125,4 +125,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate
     }
 
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        if let userInfo = userInfo, request = userInfo["request"] as? String {
+            if request == "refreshData" {
+                let helper = FeedHelper()
+                if let feeds = helper.requestFeedsSynchronous() {
+                    NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
+                    reply(["feedData": NSKeyedArchiver.archivedDataWithRootObject(feeds)])
+                } else {
+                    reply([:])
+                }
+                return
+            }
+        }
+        reply([:])
+    }
+
 }
