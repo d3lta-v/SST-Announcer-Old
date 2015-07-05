@@ -82,7 +82,6 @@ class WebViewController: UIViewController {
                 let editedDescription = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
 
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                println(title)
                 dispatch_sync(dispatch_get_main_queue(), {
                     self.title = title
 
@@ -190,16 +189,14 @@ class WebViewController: UIViewController {
     private func cleanHtml(html: String!) -> String! {
         var htmlVariable: String = html
 
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("style=\"[a-zA-Z0-9:;#\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("height=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("width=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("border=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" style=\"[a-zA-Z0-9:;#\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" height=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" width=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" border=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "<br>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br \\>", withString: "<div></div>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b[r][^>]*/>", withString: "<br \\>", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<!--(.*?)-->", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br><div>", withString: "<div>")
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<span><br ></span>", withString: "")
 
         return htmlVariable
     }
