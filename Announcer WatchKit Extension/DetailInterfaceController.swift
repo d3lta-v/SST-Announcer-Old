@@ -33,7 +33,7 @@ class DetailInterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        
+
         updateUserActivity("net.statixind.Announcer.article", userInfo: ["title": self.feedItem.title], webpageURL: nil)
     }
 
@@ -48,7 +48,8 @@ class DetailInterfaceController: WKInterfaceController {
         titleLabel.setText(feedItem.title)
         authorLabel.setText(feedItem.author)
         if checkIfStringHasIncompatibleViews(feedItem.content) {
-            let attributedWarning = NSAttributedString(string: "This message contains elements Apple Watch can't display. You can read a text version below.\n\n", attributes: [NSForegroundColorAttributeName: UIColor(red: 0, green: 122/255, blue: 1, alpha: 1)])
+            let ios7Color = UIColor(red: 0, green: 122/255, blue: 1, alpha: 1)
+            let attributedWarning = NSAttributedString(string: "This message contains elements Apple Watch can't display. You can read a text version below.\n\n", attributes: [NSForegroundColorAttributeName:ios7Color])
             var processedAttributedText = NSAttributedString(string: "Error", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
             if let processedText = stripAndProcessHTMLString(feedItem.content) {
                 processedAttributedText = NSAttributedString(string: processedText, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])

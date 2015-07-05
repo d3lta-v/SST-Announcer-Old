@@ -15,10 +15,10 @@
                                 <tableRow identifier="FeedRow" id="4lN-Do-eP0" customClass="FeedRow" customModule="Announcer_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="4ot-wd-Z14">
                                         <items>
-                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.94999999999999996" id="uCv-9S-SWB" userLabel="Title">
+                                            <label alignment="left" text="Loading..." numberOfLines="2" id="uCv-9S-SWB" userLabel="Title">
                                                 <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                             </label>
-                                            <label alignment="left" verticalAlignment="bottom" text="Loading..." minimumScaleFactor="0.80000000000000004" id="z9w-di-OVJ" userLabel="Subtitle">
+                                            <label alignment="left" verticalAlignment="bottom" text="Loading..." minimumScaleFactor="0.90000000000000002" id="z9w-di-OVJ" userLabel="Subtitle">
                                                 <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                             </label>
                                         </items>
@@ -35,6 +35,15 @@
                             </items>
                         </table>
                     </items>
+                    <menu key="menu" id="QJ3-NC-XlU">
+                        <items>
+                            <menuItem title="Refresh" icon="resume" id="Z9I-Ck-Yk9">
+                                <connections>
+                                    <action selector="refresh" destination="AgC-eL-Hgc" id="1iS-LN-hkX"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <connections>
                         <outlet property="feedsTable" destination="80M-DH-3O7" id="63d-8E-TG6"/>
                     </connections>

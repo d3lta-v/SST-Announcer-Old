@@ -217,7 +217,7 @@ class WebViewController: UIViewController {
         if let feedItem = self.receivedFeedItem {
             let safariActivity = TUSafariActivity()
             var activity = UIActivityViewController(activityItems: [NSURL(string: feedItem.link)!], applicationActivities: [safariActivity])
-            
+
             if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
                 self.presentViewController(activity, animated: true, completion: nil)
             } else {

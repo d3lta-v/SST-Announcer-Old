@@ -14,7 +14,7 @@ public class FeedItem: NSObject, NSCoding {
     public var date: String
     public var author: String
     public var content: String // Originally known as description
-    
+
     public init(title: String, link: String, date: String, author: String, content: String) {
         self.title = title
         self.link = link
@@ -22,7 +22,7 @@ public class FeedItem: NSObject, NSCoding {
         self.author = author
         self.content = content
     }
-    
+
     // MARK: NSCoding
     public required init(coder aDecoder: NSCoder) {
         self.title = (aDecoder.decodeObjectForKey("title") as? String)!
@@ -30,10 +30,10 @@ public class FeedItem: NSObject, NSCoding {
         self.date = (aDecoder.decodeObjectForKey("date") as? String)!
         self.author = (aDecoder.decodeObjectForKey("author") as? String)!
         self.content = (aDecoder.decodeObjectForKey("content") as? String)!
-        
+
         super.init()
     }
-    
+
     public func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(self.title, forKey: "title")
         aCoder.encodeObject(self.link, forKey: "link")
@@ -46,14 +46,14 @@ public class FeedItem: NSObject, NSCoding {
 public class FeedHelper: NSObject {
     //let defaults = NSUserDefaults.standardUserDefaults()
     let defaults = NSUserDefaults(suiteName: "group.Announcer")
-    
+
     var element = ""
     private var tempItem: FeedItem
     private var feeds: [FeedItem]
     private let dateFormatter: NSDateFormatter
     private var parser: NSXMLParser
     private var parseFinished = false
-    
+
     public func getCachedFeeds() -> ([FeedItem]?) {
         if let feedsObj = defaults?.objectForKey("cachedFeeds") as? NSData {
             NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
@@ -66,19 +66,19 @@ public class FeedHelper: NSObject {
             return nil
         }
     }
-    
+
     public func setCachedFeeds(feeds: [FeedItem]) {
         NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
         let cachedData = NSKeyedArchiver.archivedDataWithRootObject(feeds)
         defaults?.setObject(cachedData, forKey: "cachedFeeds")
     }
-    
+
     public func requestFeedsSynchronous() -> [FeedItem]? {
         let request = NSURLRequest(URL: NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")!)
         var response: NSURLResponse?
         var error: NSError?
         self.feeds = [FeedItem]()
-        
+
         if let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error) {
             if error == nil {
                 return decodeResponseData(data)
@@ -86,7 +86,7 @@ public class FeedHelper: NSObject {
         }
         return nil
     }
-    
+
     private func decodeResponseData(buffer: NSData) -> [FeedItem]? {
         parser = NSXMLParser(data: buffer)
         parser.delegate = self
@@ -98,7 +98,7 @@ public class FeedHelper: NSObject {
             return nil
         }
     }
-    
+
     public override init() {
         dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -106,7 +106,7 @@ public class FeedHelper: NSObject {
         tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
         feeds = [FeedItem]()
         parser = NSXMLParser()
-        
+
         super.init()
     }
 }
@@ -118,13 +118,13 @@ extension FeedHelper : NSXMLParserDelegate {
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
         }
     }
-    
+
     public func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
             self.feeds.append(self.tempItem)
         }
     }
-    
+
     public func parser(parser: NSXMLParser, foundCharacters string: String?) {
         if var testString = string { // Unwrap string? to check if it is safe
             if self.element == "title" {
@@ -142,11 +142,11 @@ extension FeedHelper : NSXMLParserDelegate {
             }
         }
     }
-    
+
     public func parserDidEndDocument(parser: NSXMLParser) {
         parseFinished = true
     }
-    
+
     public func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         parseFinished = true
     }

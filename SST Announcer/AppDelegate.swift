@@ -146,9 +146,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
         if let window = self.window, rvc = window.rootViewController as? UITabBarController {
             rvc.selectedIndex = 0
-            let navControl = rvc.selectedViewController as! UINavigationController
-            navControl.popToRootViewControllerAnimated(true)
-            navControl.childViewControllers.first?.restoreUserActivityState(userActivity)
+            if let navControl = rvc.selectedViewController as? UINavigationController {
+                navControl.popToRootViewControllerAnimated(true)
+                navControl.childViewControllers.first?.restoreUserActivityState(userActivity)
+            }
         }
         return true
     }

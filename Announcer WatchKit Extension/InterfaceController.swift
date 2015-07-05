@@ -16,6 +16,8 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet weak var feedsTable: WKInterfaceTable!
     private let helper = FeedHelper()
     private var feeds: [FeedItem]!
+    private let longDateFormatter = NSDateFormatter()
+    private let shortDateFormatter = NSDateFormatter()
 
     // MARK: - Lifecycle
 
@@ -23,6 +25,13 @@ class InterfaceController: WKInterfaceController {
         super.awakeWithContext(context)
 
         // Configure interface objects here.
+        // Configure dateFormatter
+        let standardLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+        longDateFormatter.locale = standardLocale
+        longDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
+        shortDateFormatter.locale = standardLocale
+        shortDateFormatter.dateFormat = "dd/MM/yy"
+
         invalidateUserActivity() // we don't want handoff, YET
 
         setTitle("Announcer")
@@ -38,9 +47,11 @@ class InterfaceController: WKInterfaceController {
                 if let feedData = reply["feedData"] as? NSData {
                     NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
                     if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                        self.helper.setCachedFeeds(feeds)
-                        self.feeds = feeds
-                        self.reloadTable()
+                        if feeds.count != 0 {
+                            self.helper.setCachedFeeds(feeds)
+                            self.feeds = feeds
+                            self.reloadTable()
+                        }
                     }
                 }
             }
@@ -56,7 +67,7 @@ class InterfaceController: WKInterfaceController {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-    
+
     override func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
         if let notifIdentifier = identifier {
             if notifIdentifier == "viewFeedAction" {
@@ -71,12 +82,18 @@ class InterfaceController: WKInterfaceController {
                                 self.helper.setCachedFeeds(feeds)
                                 self.feeds = feeds
                                 self.reloadTable()
-                                
+
                                 // Start going through the table for data
                                 if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
                                     for var i = 0; i<self.feeds.count; i++ {
                                         if self.feeds[i].link == urlPayload {
-                                            self.pushControllerWithName("DetailInterfaceController", context: FeedItem(title: self.feeds[i].title, link: self.feeds[i].link, date: self.feeds[i].date, author: self.feeds[i].author, content: self.feeds[i].content))
+                                            let context = FeedItem(
+                                                title: self.feeds[i].title,
+                                                link: self.feeds[i].link,
+                                                date: self.feeds[i].date,
+                                                author: self.feeds[i].author,
+                                                content: self.feeds[i].content)
+                                            self.pushControllerWithName("DetailInterfaceController", context: context)
                                             break
                                         }
                                     }
@@ -87,7 +104,13 @@ class InterfaceController: WKInterfaceController {
                             if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
                                 for var i = 0; i<self.feeds.count; i++ {
                                     if self.feeds[i].link == urlPayload {
-                                        self.pushControllerWithName("DetailInterfaceController", context: FeedItem(title: self.feeds[i].title, link: self.feeds[i].link, date: self.feeds[i].date, author: self.feeds[i].author, content: self.feeds[i].content))
+                                        let context = FeedItem(
+                                            title: self.feeds[i].title,
+                                            link: self.feeds[i].link,
+                                            date: self.feeds[i].date,
+                                            author: self.feeds[i].author,
+                                            content: self.feeds[i].content)
+                                        self.pushControllerWithName("DetailInterfaceController", context: context)
                                         break
                                     }
                                 }
@@ -108,9 +131,36 @@ class InterfaceController: WKInterfaceController {
         for (index, feed) in enumerate(feeds) {
             if let row = feedsTable.rowControllerAtIndex(index) as? FeedRow {
                 row.titleLabel.setText(feed.title)
-                row.detailLabel.setText("\(feed.date) \(feed.author)")
+                let shortDate = shortDateFormatter.stringFromDate(longDateFormatter.dateFromString(feed.date)!)
+                row.detailLabel.setText("\(shortDate) \(feed.author)")
             }
         }
+    }
+
+    // MARK: - Actions
+
+    @IBAction func refresh() {
+        // Attempt a initial forced data refresh
+        if let feedsUnwrapped = helper.getCachedFeeds() {
+            feeds = feedsUnwrapped
+            reloadTable()
+        }
+
+        // Then try a network refresh
+        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
+            if let reply = replyInfo {
+                if let feedData = reply["feedData"] as? NSData {
+                    NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
+                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
+                        if feeds.count != 0 {
+                            self.helper.setCachedFeeds(feeds)
+                            self.feeds = feeds
+                            self.reloadTable()
+                        }
+                    }
+                }
+            }
+        })
     }
 
     // MARK: - Navigation
