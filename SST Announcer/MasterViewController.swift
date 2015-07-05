@@ -208,9 +208,15 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
                 (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "", link: singleton.getRemoteNotificationURL(), date: "", author: "", content: "")
                 singleton.setDidReceivePushNotificationWithBool(false)
             } else if handoffActivated == true {
-                (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.feeds[handoffIndex]
-                handoffActivated = false
-                handoffIndex = -1
+                if self.feeds.isEmpty {
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
+                    handoffActivated = false
+                    handoffIndex = -1
+                } else {
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.feeds[handoffIndex]
+                    handoffActivated = false
+                    handoffIndex = -1
+                }
             } else {
                 if self.searchDisplayController?.active == true {
                     if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
@@ -238,7 +244,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
                 if feeds[i].title == titleString {
                     handoffActivated = true
                     handoffIndex = i
-                    self.performSegueWithIdentifier("gotoDetail", sender: self)
+                    self.performSegueWithIdentifier("MasterToDetail", sender: self)
                     break
                 }
             }

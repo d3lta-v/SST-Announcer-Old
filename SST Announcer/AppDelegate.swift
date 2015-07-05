@@ -98,6 +98,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
     }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        if identifier == "default" {
+            if let urlString = userInfo["url"] as? String {
+                let singleton = GlobalSingleton.sharedInstance
+                singleton.setDidReceivePushNotificationWithBool(true)
+                singleton.setRemoteNotificationURLWithString(urlString)
+            }
+        }
+    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Force sync NSUserDefaults, to prevent data loss
@@ -125,7 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate
     }
 
-    // MARK: - WatchKit and Handoff
+    // MARK: - WatchKit, custom notifications and Handoff
 
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
         if let userInfo = userInfo, request = userInfo["request"] as? String {
@@ -164,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewAction.authenticationRequired = true
 
         let defaultCategory = UIMutableUserNotificationCategory()
-        defaultCategory.setActions([viewAction], forContext: UIUserNotificationActionContext.Minimal)
+        defaultCategory.setActions([viewAction], forContext: UIUserNotificationActionContext.Default)
         defaultCategory.identifier = "default"
 
         categories.insert(defaultCategory)
