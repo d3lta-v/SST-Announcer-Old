@@ -11,7 +11,7 @@ import UIKit
 class WebViewController: UIViewController {
 
     // MARK: - Variables declaration
-    var receivedUrl: String = String()
+    var receivedFeedItem: FeedItem?
     @IBOutlet weak var exportBarButton: UIBarButtonItem!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var textView: DTAttributedTextView!
@@ -48,7 +48,7 @@ class WebViewController: UIViewController {
         progressView = WebViewProgressView(frame: barFrame)
         progressView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
 
-        loadFeed(self.receivedUrl)
+        loadFeed(self.receivedFeedItem)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -64,23 +64,21 @@ class WebViewController: UIViewController {
 
     // MARK: - Private functions
 
-    private func loadFeed(url: String!) {
-        // NOTE: URL is not actually an URL and only under some circumstances (i.e. retrieving from push notification) it IS an URL
-
+    private func loadFeed(item: FeedItem!) {
         var htmlString = ""
         var useSIMUX = false
 
-        if url == "error" {
+        if item.title == "Error" {
             self.title = "Error"
             htmlString = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>"
-        } else if url.hasPrefix("h") { //First letter of http, to reduce memory usage
+        } else if item.title.isEmpty { // Nothing in the title, since it came from a push
             self.navigationController?.setIndeterminate(true)
             useSIMUX = true
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
             var title: String!
             var description: String!
-            SIMUXCRParser().convertHTML(url) { (title: String, description: String) in
+            SIMUXCRParser().convertHTML(item.link) { (title: String, description: String) in
                 let editedDescription = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
 
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -93,59 +91,21 @@ class WebViewController: UIViewController {
                 })
             }
         } else {
-            htmlString = useDirect()
+            self.title = item.title
+            htmlString = item.content
         }
 
-        // Check for iframes before calling the builder, for better performance
+        // Check for iframes and other special content before calling the builder, for better performance
         if htmlString.rangeOfString("<iframe") != nil {
-            if url.hasPrefix("h") {
-                useBrowser(url, usedTable: false)
-            } else {
-                if let index1 = url.rangeOfString("[")?.endIndex, index2 = url.rangeOfString("]")?.startIndex {
-                    let range = Range(start: index1, end: index2)
-                    useBrowser(url.substringWithRange(range), usedTable: false)
-                }
-            }
+            useBrowser(item.link, usedTable: false)
         } else if htmlString.rangeOfString("<table") != nil {
-            if url.hasPrefix("h") {
-                useBrowser(url, usedTable: true)
-            } else {
-                if let index1 = url.rangeOfString("[")?.endIndex, index2 = url.rangeOfString("]")?.startIndex {
-                    let range = Range(start: index1, end: index2)
-                    useBrowser(url.substringWithRange(range), usedTable: true)
-                }
-            }
+            useBrowser(item.link, usedTable: true)
         } else {
             if useSIMUX == false {
+                htmlString = cleanHtml(htmlString)
                 initAttributedTextViewWithString(htmlString)
             }
         }
-    }
-
-    private func useDirect() -> (String) {
-        var title = ""
-        var actualUrl = ""
-        var description = ""
-
-        // Get title range
-        if let index1 = self.receivedUrl.rangeOfString("{")?.endIndex, index2 = self.receivedUrl.rangeOfString("}")?.startIndex {
-            let range = Range(start: index1, end: index2)
-            title = self.receivedUrl.substringWithRange(range)
-        }
-
-        // Get description
-        if let startDescriptionIndex = self.receivedUrl.rangeOfString("]")?.endIndex {
-            description = self.receivedUrl.substringFromIndex(startDescriptionIndex)
-            // String replacing, this is going to get messy, thank god for OOP
-            description = cleanHtml(description)
-        } else {
-            title = "error"
-            description = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back and reselect the page.</p>"
-        }
-
-        // Putting the variables into action
-        self.title = title
-        return description
     }
 
     private func initAttributedTextViewWithString(string: String!) {
@@ -226,21 +186,18 @@ class WebViewController: UIViewController {
         }
     }
 
+    // The super cleanHtml REGEX engine
     private func cleanHtml(html: String!) -> String! {
         var htmlVariable: String = html
 
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>")
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("style=\"[a-zA-Z0-9:;#\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("height=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("width=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("border=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "<br>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br \\>", withString: "<div></div>")
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div[^>]*>", withString: "<div>", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<span[^>]*>", withString: "<span>", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b[r][^>]*/>", withString: "<br \\>", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("width=[^ ]*", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("height=[^ ]*", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<img src=\"//[^>]*>", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<!--(.*?)-->", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br ></div>", withString: "<br>", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b>", withString: "")
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("</b>", withString: "")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br><div>", withString: "<div>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<span><br ></span>", withString: "")
 
@@ -259,25 +216,16 @@ class WebViewController: UIViewController {
     // MARK: - IBActions
 
     @IBAction func exportButton(sender: AnyObject) {
-        let safariActivity = TUSafariActivity()
-        var activity = UIActivityViewController()
-
-        if self.receivedUrl.hasPrefix("h") {
-            activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl)!], applicationActivities: [safariActivity])
-        } else {
-            // First few times I'm using Swift optional checking!1!1
-            if let index1 = self.receivedUrl.rangeOfString("[")?.endIndex, index2 = self.receivedUrl.rangeOfString("]")?.startIndex {
-                let range = Range(start: index1, end: index2)
-
-                activity = UIActivityViewController(activityItems: [NSURL(string: self.receivedUrl.substringWithRange(range))!], applicationActivities: [safariActivity])
+        if let feedItem = self.receivedFeedItem {
+            let safariActivity = TUSafariActivity()
+            var activity = UIActivityViewController(activityItems: [NSURL(string: feedItem.link)!], applicationActivities: [safariActivity])
+            
+            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+                self.presentViewController(activity, animated: true, completion: nil)
+            } else {
+                let popup = UIPopoverController(contentViewController: activity)
+                popup.presentPopoverFromBarButtonItem(exportBarButton, permittedArrowDirections: .Any, animated: true)
             }
-        }
-
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            self.presentViewController(activity, animated: true, completion: nil)
-        } else {
-            let popup = UIPopoverController(contentViewController: activity)
-            popup.presentPopoverFromBarButtonItem(exportBarButton, permittedArrowDirections: .Any, animated: true)
         }
     }
 

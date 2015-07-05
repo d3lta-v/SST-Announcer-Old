@@ -203,22 +203,20 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
             if singleton.getDidReceivePushNotification() {
                 NSNotificationCenter.defaultCenter().removeObserver(self)
-                (segue.destinationViewController as? WebViewController)?.receivedUrl = singleton.getRemoteNotificationURL()
+                (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "", link: singleton.getRemoteNotificationURL(), date: "", author: "", content: "")
                 singleton.setDidReceivePushNotificationWithBool(false)
             } else {
                 if self.searchDisplayController?.active == true {
                     if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
-                        let passedString = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].content)"
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
+                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.searchResults[indexPath.row]
                     } else {
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
+                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
                     }
                 } else {
                     if let indexPath = self.tableView.indexPathForSelectedRow() {
-                        let passedString = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
+                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.feeds[indexPath.row]
                     } else {
-                        (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
+                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
                     }
                 }
             }

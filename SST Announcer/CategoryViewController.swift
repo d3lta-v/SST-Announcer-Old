@@ -148,17 +148,15 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
         if segue.identifier == "MasterToDetail" {
             if self.searchDisplayController?.active == true {
                 if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
-                    let passedString = "{\(self.searchResults[indexPath.row].title)}[\(self.searchResults[indexPath.row].link)]\(self.searchResults[indexPath.row].content)"
-                    (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = searchResults[indexPath.row]
                 } else {
-                    (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
                 }
             } else {
                 if let indexPath = self.tableView.indexPathForSelectedRow() {
-                    let passedString = "{\(self.feeds[indexPath.row].title)}[\(self.feeds[indexPath.row].link)]\(self.feeds[indexPath.row].content)"
-                    (segue.destinationViewController as? WebViewController)?.receivedUrl = passedString
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = feeds[indexPath.row]
                 } else {
-                    (segue.destinationViewController as? WebViewController)?.receivedUrl = "error"
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
                 }
             }
         }

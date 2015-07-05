@@ -63,7 +63,7 @@ class DetailInterfaceController: WKInterfaceController {
     }
 
     func checkIfStringHasIncompatibleViews(string: String) -> Bool {
-        if string.rangeOfString("<img") != nil || string.rangeOfString("<iframe") != nil {
+        if string.rangeOfString("<img") != nil || string.rangeOfString("<iframe") != nil || string.rangeOfString("<table") != nil {
             return true
         }
         return false
