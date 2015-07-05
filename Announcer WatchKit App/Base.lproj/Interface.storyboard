@@ -92,7 +92,7 @@
                     <items>
                         <label width="124" alignment="center" verticalAlignment="center" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
                     </items>
-                    <notificationCategory key="notificationCategory" identifier="default" id="JfB-70-Muf"/>
+                    <notificationCategory key="notificationCategory" identifier="viewFeed" id="JfB-70-Muf"/>
                     <connections>
                         <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
                     </connections>

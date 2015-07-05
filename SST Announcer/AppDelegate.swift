@@ -98,9 +98,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
         }
     }
-    
+
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        if identifier == "default" {
+        if identifier == "viewFeed" {
             if let urlString = userInfo["url"] as? String {
                 let singleton = GlobalSingleton.sharedInstance
                 singleton.setDidReceivePushNotificationWithBool(true)
@@ -169,13 +169,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let viewAction = UIMutableUserNotificationAction()
         viewAction.title = "View Article"
-        viewAction.identifier = "viewFeedAction"
+        viewAction.identifier = "viewFeed"
         viewAction.activationMode = UIUserNotificationActivationMode.Foreground
-        viewAction.authenticationRequired = true
 
         let defaultCategory = UIMutableUserNotificationCategory()
         defaultCategory.setActions([viewAction], forContext: UIUserNotificationActionContext.Default)
-        defaultCategory.identifier = "default"
+        defaultCategory.identifier = "viewFeed"
 
         categories.insert(defaultCategory)
 

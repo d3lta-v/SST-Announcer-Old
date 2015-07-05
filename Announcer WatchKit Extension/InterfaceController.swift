@@ -70,7 +70,7 @@ class InterfaceController: WKInterfaceController {
 
     override func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
         if let notifIdentifier = identifier {
-            if notifIdentifier == "viewFeedAction" {
+            if notifIdentifier == "viewFeed" {
                 // Execute actions from payload
 
                 // Load feeds first.
