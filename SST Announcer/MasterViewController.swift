@@ -21,6 +21,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
     private let helper = FeedHelper()
+    private var handoffActivated = false
+    private var handoffIndex = -1
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -205,6 +207,10 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
                 NSNotificationCenter.defaultCenter().removeObserver(self)
                 (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "", link: singleton.getRemoteNotificationURL(), date: "", author: "", content: "")
                 singleton.setDidReceivePushNotificationWithBool(false)
+            } else if handoffActivated == true {
+                (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.feeds[handoffIndex]
+                handoffActivated = false
+                handoffIndex = -1
             } else {
                 if self.searchDisplayController?.active == true {
                     if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
@@ -230,8 +236,9 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             println(titleString)
             for var i = 0; i < feeds.count; i++ {
                 if feeds[i].title == titleString {
-                    let indexPath = NSIndexPath(forRow: i, inSection: 0)
-                    self.tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: UITableViewScrollPosition.None)
+                    handoffActivated = true
+                    handoffIndex = i
+                    self.performSegueWithIdentifier("gotoDetail", sender: self)
                     break
                 }
             }
