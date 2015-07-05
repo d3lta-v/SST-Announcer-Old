@@ -193,6 +193,7 @@ class WebViewController: UIViewController {
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" height=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" width=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" border=\"[a-zA-Z0-9:;\\.\\s\\(\\)\\-\\,]*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" imageanchor=\"1\"", withString: "")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "<br>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br \\>", withString: "<div></div>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b[r][^>]*/>", withString: "<br \\>", options: .RegularExpressionSearch, range: nil)
