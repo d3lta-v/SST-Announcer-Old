@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         if application.respondsToSelector("registerUserNotificationSettings:") {
             let userNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
-            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: getCategory())
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         } else {
@@ -152,6 +152,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         return true
+    }
+
+    func getCategory() -> Set<UIMutableUserNotificationCategory> {
+        var categories = Set<UIMutableUserNotificationCategory>()
+
+        let viewAction = UIMutableUserNotificationAction()
+        viewAction.title = "View Article"
+        viewAction.identifier = "viewFeedAction"
+        viewAction.activationMode = UIUserNotificationActivationMode.Foreground
+        viewAction.authenticationRequired = true
+
+        let defaultCategory = UIMutableUserNotificationCategory()
+        defaultCategory.setActions([viewAction], forContext: UIUserNotificationActionContext.Minimal)
+        defaultCategory.identifier = "default"
+
+        categories.insert(defaultCategory)
+
+        return categories
     }
 
 }
