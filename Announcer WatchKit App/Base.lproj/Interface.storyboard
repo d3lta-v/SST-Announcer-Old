@@ -90,7 +90,12 @@
             <objects>
                 <notificationController id="YCC-NB-fut">
                     <items>
-                        <label width="124" alignment="center" verticalAlignment="center" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
+                        <group width="1" alignment="center" id="Zaa-aH-atm">
+                            <items>
+                                <label width="1" alignment="center" verticalAlignment="center" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
+                            </items>
+                            <edgeInsets key="margins" left="5" right="5" top="5" bottom="5"/>
+                        </group>
                     </items>
                     <notificationCategory key="notificationCategory" identifier="viewFeed" id="JfB-70-Muf"/>
                     <connections>
