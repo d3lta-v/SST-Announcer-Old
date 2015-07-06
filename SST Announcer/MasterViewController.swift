@@ -240,13 +240,23 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
     override func restoreUserActivityState(activity: NSUserActivity) {
         if let titleString = activity.userInfo?["title"] as? String {
             println(titleString)
-            for var i = 0; i < feeds.count; i++ {
-                if feeds[i].title == titleString {
-                    handoffActivated = true
-                    handoffIndex = i
-                    self.performSegueWithIdentifier("MasterToDetail", sender: self)
-                    break
+            if feeds.count <= 5 {
+                delay(0.1) {
+                    self.initiateHandoffAction(titleString)
                 }
+            } else {
+                self.initiateHandoffAction(titleString)
+            }
+        }
+    }
+
+    func initiateHandoffAction(titleString: String) {
+        for var i = 0; i < feeds.count; i++ {
+            if feeds[i].title == titleString {
+                handoffActivated = true
+                handoffIndex = i
+                self.performSegueWithIdentifier("MasterToDetail", sender: self)
+                break
             }
         }
     }
