@@ -42,16 +42,13 @@ class InterfaceController: WKInterfaceController {
 
         // Attempt to load new data from parent application
         WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-                //println("Reply: \(replyInfo)") // called when parent app is finished
-            if let reply = replyInfo {
-                if let feedData = reply["feedData"] as? NSData {
-                    NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                        if feeds.count != 0 {
-                            self.helper.setCachedFeeds(feeds)
-                            self.feeds = feeds
-                            self.reloadTable()
-                        }
+            if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
+                NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
+                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
+                    if feeds.count != 0 {
+                        self.helper.setCachedFeeds(feeds)
+                        self.feeds = feeds
+                        self.reloadTable()
                     }
                 }
             }
@@ -75,49 +72,42 @@ class InterfaceController: WKInterfaceController {
 
                 // Load feeds first.
                 WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-                    if let reply = replyInfo {
-                        if let feedData = reply["feedData"] as? NSData {
-                            NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                            if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                                self.helper.setCachedFeeds(feeds)
-                                self.feeds = feeds
-                                self.reloadTable()
-
-                                // Start going through the table for data
-                                if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                                    for var i = 0; i<self.feeds.count; i++ {
-                                        if self.feeds[i].link == urlPayload {
-                                            let context = FeedItem(
-                                                title: self.feeds[i].title,
-                                                link: self.feeds[i].link,
-                                                date: self.feeds[i].date,
-                                                author: self.feeds[i].author,
-                                                content: self.feeds[i].content)
-                                            self.pushControllerWithName("DetailInterfaceController", context: context)
-                                            break
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            // Try again, this time with only the current cached table
+                    if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
+                        NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
+                        if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
+                            self.helper.setCachedFeeds(feeds)
+                            self.feeds = feeds
+                            self.reloadTable()
+                            
+                            // Start going through the table for data
                             if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                                for var i = 0; i<self.feeds.count; i++ {
-                                    if self.feeds[i].link == urlPayload {
-                                        let context = FeedItem(
-                                            title: self.feeds[i].title,
-                                            link: self.feeds[i].link,
-                                            date: self.feeds[i].date,
-                                            author: self.feeds[i].author,
-                                            content: self.feeds[i].content)
-                                        self.pushControllerWithName("DetailInterfaceController", context: context)
-                                        break
-                                    }
-                                }
+                                self.initiatePushNotificationReading(urlPayload)
                             }
+                        }
+                    } else {
+                        // Try again, this time with only the current cached table
+                        if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
+                            self.initiatePushNotificationReading(urlPayload)
                         }
                     }
                 })
+            }
+        }
+    }
+
+    // MARK: - Private functions
+
+    func initiatePushNotificationReading(payload: String) {
+        for var i = 0; i<self.feeds.count; i++ {
+            if self.feeds[i].link == payload {
+                let context = FeedItem(
+                    title: self.feeds[i].title,
+                    link: self.feeds[i].link,
+                    date: self.feeds[i].date,
+                    author: self.feeds[i].author,
+                    content: self.feeds[i].content)
+                self.pushControllerWithName("DetailInterfaceController", context: context)
+                break
             }
         }
     }
@@ -130,6 +120,9 @@ class InterfaceController: WKInterfaceController {
         }
         for (index, feed) in enumerate(feeds) {
             if let row = feedsTable.rowControllerAtIndex(index) as? FeedRow {
+                if feeds[index].title == "" {
+                    feeds[index].title = "<No Title>"
+                }
                 row.titleLabel.setText(feed.title)
                 let shortDate = shortDateFormatter.stringFromDate(longDateFormatter.dateFromString(feed.date)!)
                 row.detailLabel.setText("\(shortDate) \(feed.author)")
