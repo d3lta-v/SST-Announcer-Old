@@ -13,7 +13,7 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
     // MARK: - Private variables declaration
 
     // MARK: Basic structure
-    private var parser: NSXMLParser
+    private var parser: NSXMLParser!
     private var tempItem: FeedItem
     private var feeds: [FeedItem]
     private var newFeeds: [FeedItem] // NewFeeds is actually to "cache" a copy of the new feeds, and sync it to the old feeds
@@ -22,15 +22,13 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
-    private var buffer = NSMutableData()
+    private var buffer: NSMutableData? = NSMutableData()
     private var expectedContentLength = 0
 
     // MARK: - Lifecycle
 
     required init!(coder aDecoder: NSCoder!) {
         // Variables initialization
-        parser = NSXMLParser()
-
         feeds = [FeedItem]()
         newFeeds = [FeedItem]()
         tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
@@ -47,8 +45,10 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
         self.refreshControl = refreshControl
 
-        self.tableView.estimatedRowHeight = 44
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
+            self.tableView.estimatedRowHeight = 44
+            self.tableView.rowHeight = UITableViewAutomaticDimension
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -89,8 +89,8 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
 
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
-            if let feedsObject: AnyObject = userDefaults.objectForKey("cachedCategories") {
-                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData((feedsObject as? NSData)!) as? [FeedItem] {
+            if let feedsObject = userDefaults.objectForKey("cachedCategories") as? NSData {
+                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedsObject) as? [FeedItem] {
                     self.feeds = feeds
                     self.tableView.reloadData()
                 }
@@ -251,31 +251,25 @@ extension CategoriesViewController : NSXMLParserDelegate {
     }
 
     func parserDidEndDocument(parser: NSXMLParser) {
-        dispatch_sync(dispatch_get_main_queue(), {
-            self.synchroniseFeedArrayAndTable()
+        self.synchroniseFeedArrayAndTable()
 
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            self.navigationController?.finishProgress()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        self.navigationController?.finishProgress()
+        self.refreshControl?.endRefreshing()
 
-            // For UIRefreshControl
-            self.refreshControl?.endRefreshing()
+        // Archive and cache feeds into persistent storage (cool beans)
+        let cachedData = NSKeyedArchiver.archivedDataWithRootObject(self.feeds)
+        NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedCategories")
 
-            // Archive and cache feeds into persistent storage (cool beans)
-            let cachedData = NSKeyedArchiver.archivedDataWithRootObject(self.feeds)
-            NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedCategories")
-
-            let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
-                self.performSegueWithIdentifier("MasterToDetail", sender: self)
-            }
-        })
+        let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
+        if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
+            self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        }
     }
 
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-        dispatch_sync(dispatch_get_main_queue(), {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            ProgressHUD.showError("Error Parsing!")
-        })
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        ProgressHUD.showError("Error Parsing!")
     }
 }
 
@@ -288,19 +282,23 @@ extension CategoriesViewController : NSURLSessionDelegate, NSURLSessionDataDeleg
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        buffer.appendData(data)
+        if let bufferUnwrapped = buffer {
+            bufferUnwrapped.appendData(data)
 
-        let percentDownload = Float(buffer.length) / Float(expectedContentLength)
-        self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
+            let percentDownload = Float(bufferUnwrapped.length) / Float(expectedContentLength)
+            self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
+        }
     }
 
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if error == nil { // If no error
-            if let dataStr = NSString(data: buffer, encoding: NSUTF8StringEncoding) as? String {
-                self.parser = NSXMLParser(data: (dataStr).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-                self.parser.delegate = self
-                self.parser.shouldResolveExternalEntities = false
-                self.parser.parse()
+            if let data = buffer {
+                dispatch_sync(dispatch_get_main_queue(), {
+                    self.parser = NSXMLParser(data: data)
+                    self.parser.delegate = self
+                    self.parser.shouldResolveExternalEntities = false
+                    self.parser.parse()
+                })
             } else {
                 buffer = NSMutableData()
                 dispatch_sync(dispatch_get_main_queue(), {

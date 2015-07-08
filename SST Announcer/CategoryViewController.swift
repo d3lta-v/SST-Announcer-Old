@@ -13,7 +13,7 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
     // MARK: - Private variables declaration
 
     // MARK: Basic structure
-    private var parser: NSXMLParser
+    private var parser: NSXMLParser!
     private var tempItem: FeedItem
     private var feeds: [FeedItem]
     private var newFeeds: [FeedItem] // NewFeeds is actually to "cache" a copy of the new feeds, and synchronise it to the old feeds
@@ -23,7 +23,7 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
-    private var buffer = NSMutableData()
+    private var buffer: NSMutableData? = NSMutableData()
     private var expectedContentLength = 0
 
     // MARK: New variable: the URL variable for inputting a URL from previous view controller
@@ -33,8 +33,6 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
 
     required init!(coder aDecoder: NSCoder!) {
         // Variables initialization
-        parser = NSXMLParser()
-
         feeds = [FeedItem]()
         newFeeds = [FeedItem]()
         tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
@@ -58,8 +56,13 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
 
-        self.tableView.estimatedRowHeight = 55
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
+            self.tableView.estimatedRowHeight = 55
+            self.tableView.rowHeight = UITableViewAutomaticDimension
+        } else {
+            // Manually set ALL the cell heights
+            setTableRowHeight()
+        }
 
         self.navigationController?.showProgress()
         self.navigationController?.setIndeterminate(true)
@@ -116,6 +119,50 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
                 self.loadFeedWithURLString(url)
             }
         })
+    }
+
+    private func setTableRowHeight() {
+        let preferredSizeCategory = UIApplication.sharedApplication().preferredContentSizeCategory
+        switch preferredSizeCategory {
+        case UIContentSizeCategoryExtraSmall:
+            self.tableView.rowHeight = 40
+            break
+        case UIContentSizeCategorySmall:
+            self.tableView.rowHeight = 45
+            break
+        case UIContentSizeCategoryMedium:
+            self.tableView.rowHeight = 50
+            break
+        case UIContentSizeCategoryLarge:
+            self.tableView.rowHeight = 55
+            break
+        case UIContentSizeCategoryExtraLarge:
+            self.tableView.rowHeight = 60
+            break
+        case UIContentSizeCategoryExtraExtraLarge:
+            self.tableView.rowHeight = 65
+            break
+        case UIContentSizeCategoryExtraExtraExtraLarge:
+            self.tableView.rowHeight = 70
+            break
+        case UIContentSizeCategoryAccessibilityMedium:
+            self.tableView.rowHeight = 75
+            break
+        case UIContentSizeCategoryAccessibilityLarge:
+            self.tableView.rowHeight = 80
+            break
+        case UIContentSizeCategoryAccessibilityExtraLarge:
+            self.tableView.rowHeight = 85
+            break
+        case UIContentSizeCategoryAccessibilityExtraExtraLarge:
+            self.tableView.rowHeight = 90
+            break
+        case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
+            self.tableView.rowHeight = 95
+            break
+        default:
+            self.tableView.rowHeight = 55
+        }
     }
 
     private func delay(delay: Double, closure:()->()) {
@@ -255,21 +302,17 @@ extension CategoryViewController : NSXMLParserDelegate {
     }
 
     func parserDidEndDocument(parser: NSXMLParser) {
-        dispatch_sync(dispatch_get_main_queue(), {
-            self.synchroniseFeedArrayAndTable()
+        self.synchroniseFeedArrayAndTable()
 
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            self.navigationController?.setIndeterminate(false)
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        self.navigationController?.setIndeterminate(false)
 
-            // For UIRefreshControl
-            self.refreshControl?.endRefreshing()
-        })
+        // For UIRefreshControl
+        self.refreshControl?.endRefreshing()
     }
 
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-        dispatch_sync(dispatch_get_main_queue(), {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        })
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
 
@@ -282,16 +325,20 @@ extension CategoryViewController : NSURLSessionDelegate, NSURLSessionDataDelegat
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        buffer.appendData(data)
+        if let buffer = self.buffer {
+            buffer.appendData(data)
+        }
     }
 
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if error == nil { // If no error
-            if let dataStr = NSString(data: buffer, encoding: NSUTF8StringEncoding) as? String {
-                self.parser = NSXMLParser(data: (dataStr).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-                self.parser.delegate = self
-                self.parser.shouldResolveExternalEntities = false
-                self.parser.parse()
+            if let data = buffer {
+                dispatch_sync(dispatch_get_main_queue(), {
+                    self.parser = NSXMLParser(data: data)
+                    self.parser.delegate = self
+                    self.parser.shouldResolveExternalEntities = false
+                    self.parser.parse()
+                })
             } else {
                 buffer = NSMutableData()
                 dispatch_sync(dispatch_get_main_queue(), {

@@ -13,7 +13,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
     // MARK: - Private variables declaration
 
     // MARK: Basic structure
-    private var parser: NSXMLParser
+    private var parser: NSXMLParser!
     private var tempItem: FeedItem
     private var feeds: [FeedItem]
     private var newFeeds: [FeedItem] // NewFeeds is actually to "cache" a copy of the new feeds, and synchronise it to the old feeds
@@ -26,15 +26,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
-    private var buffer = NSMutableData()
+    private var buffer: NSMutableData? = NSMutableData()
     private var expectedContentLength = 0
 
     // MARK: - Lifecycle
 
     required init!(coder aDecoder: NSCoder!) {
         // Variables initialization
-        parser = NSXMLParser()
-
         feeds = [FeedItem]()
         newFeeds = [FeedItem]()
         tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
@@ -55,8 +53,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
 
-        self.tableView.estimatedRowHeight = 55
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
+            self.tableView.estimatedRowHeight = 55
+            self.tableView.rowHeight = UITableViewAutomaticDimension
+        } else {
+            // Manually set ALL the cell heights
+            setTableRowHeight()
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -150,7 +153,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
         session.finishTasksAndInvalidate()
     }
 
-    private func pushNotificationsReceived() {
+    func pushNotificationsReceived() {
         if self.navigationController!.viewControllers.count < 2 {
             self.performSegueWithIdentifier("MasterToDetail", sender: self)
         }
@@ -169,6 +172,50 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
             self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
         })
+    }
+
+    private func setTableRowHeight() {
+        let preferredSizeCategory = UIApplication.sharedApplication().preferredContentSizeCategory
+        switch preferredSizeCategory {
+        case UIContentSizeCategoryExtraSmall:
+            self.tableView.rowHeight = 40
+            break
+        case UIContentSizeCategorySmall:
+            self.tableView.rowHeight = 45
+            break
+        case UIContentSizeCategoryMedium:
+            self.tableView.rowHeight = 50
+            break
+        case UIContentSizeCategoryLarge:
+            self.tableView.rowHeight = 55
+            break
+        case UIContentSizeCategoryExtraLarge:
+            self.tableView.rowHeight = 60
+            break
+        case UIContentSizeCategoryExtraExtraLarge:
+            self.tableView.rowHeight = 65
+            break
+        case UIContentSizeCategoryExtraExtraExtraLarge:
+            self.tableView.rowHeight = 70
+            break
+        case UIContentSizeCategoryAccessibilityMedium:
+            self.tableView.rowHeight = 75
+            break
+        case UIContentSizeCategoryAccessibilityLarge:
+            self.tableView.rowHeight = 80
+            break
+        case UIContentSizeCategoryAccessibilityExtraLarge:
+            self.tableView.rowHeight = 85
+            break
+        case UIContentSizeCategoryAccessibilityExtraExtraLarge:
+            self.tableView.rowHeight = 90
+            break
+        case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
+            self.tableView.rowHeight = 95
+            break
+        default:
+            self.tableView.rowHeight = 55
+        }
     }
 
     private func delay(delay: Double, closure:()->()) {
@@ -354,30 +401,26 @@ extension MasterViewController : NSXMLParserDelegate {
     }
 
     func parserDidEndDocument(parser: NSXMLParser) {
-        dispatch_sync(dispatch_get_main_queue(), {
-            self.synchroniseFeedArrayAndTable()
+        self.synchroniseFeedArrayAndTable()
 
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            self.navigationController?.finishProgress()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        self.navigationController?.finishProgress()
 
-            // For UIRefreshControl
-            self.refreshControl?.endRefreshing()
+        // For UIRefreshControl
+        self.refreshControl?.endRefreshing()
 
-            // Archive and cache feeds into persistent storage (cool beans)
-            self.helper.setCachedFeeds(self.feeds)
+        // Archive and cache feeds into persistent storage (cool beans)
+        self.helper.setCachedFeeds(self.feeds)
 
-            let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
-                self.performSegueWithIdentifier("MasterToDetail", sender: self)
-            }
-        })
+        let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
+        if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
+            self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        }
     }
 
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
-        dispatch_sync(dispatch_get_main_queue(), {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            ProgressHUD.showError("Error Parsing!")
-        })
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        ProgressHUD.showError("Error Parsing!")
     }
 }
 
@@ -390,19 +433,23 @@ extension MasterViewController : NSURLSessionDelegate, NSURLSessionDataDelegate 
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        buffer.appendData(data)
+        if let bufferUnwrapped = buffer {
+            bufferUnwrapped.appendData(data)
 
-        let percentDownload = Float(buffer.length) / Float(expectedContentLength)
-        self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
+            let percentDownload = Float(bufferUnwrapped.length) / Float(expectedContentLength)
+            self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
+        }
     }
 
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if error == nil { // If no error
-            if let dataStr = NSString(data: buffer, encoding: NSUTF8StringEncoding) as? String {
-                self.parser = NSXMLParser(data: (dataStr).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
-                self.parser.delegate = self
-                self.parser.shouldResolveExternalEntities = false
-                self.parser.parse()
+            if let data = buffer {
+                dispatch_sync(dispatch_get_main_queue(), {
+                    self.parser = NSXMLParser(data: data)
+                    self.parser.delegate = self
+                    self.parser.shouldResolveExternalEntities = false
+                    self.parser.parse()
+                })
             } else {
                 buffer = NSMutableData()
                 dispatch_sync(dispatch_get_main_queue(), {
