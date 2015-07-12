@@ -109,17 +109,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             }
 
             // Then load the web version on a seperate thread
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                let server = self.chooseServerForReliability()
-                if server.serverError {
-                    dispatch_sync(dispatch_get_main_queue(), {
-                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                        ProgressHUD.showError("Error Parsing!")
-                    })
-                } else {
-                    self.loadFeedWithURLString(server.urlString)
-                }
-            })
+            self.loadFromReliableServer()
 
             // Check if user enabled push, after a 5 second delay
             #if !((arch(i386) || arch(x86_64)) && os(iOS)) // Preprocessor macro for checking iOS sims
@@ -176,8 +166,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
         buffer = NSMutableData()
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-            self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
+            self.loadFromReliableServer()
         })
     }
 
@@ -250,6 +239,20 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
         } else {
             return ("https://simux.org/api/cache/blogrss.xml", errorPgm)
         }
+    }
+
+    private func loadFromReliableServer() {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            let server = self.chooseServerForReliability()
+            if server.serverError {
+                dispatch_sync(dispatch_get_main_queue(), {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                    ProgressHUD.showError("Error Parsing!")
+                })
+            } else {
+                self.loadFeedWithURLString(server.urlString)
+            }
+        })
     }
 
     private func delay(delay: Double, closure:()->()) {
