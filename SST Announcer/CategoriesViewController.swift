@@ -100,7 +100,7 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
                 let server = self.chooseServerForReliability()
-                if server.down {
+                if server.serverError {
                     dispatch_sync(dispatch_get_main_queue(), {
                         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                         ProgressHUD.showError("Error Parsing!")
@@ -141,7 +141,7 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
         })
     }
 
-    private func chooseServerForReliability() -> (urlString: String, down: Bool) {
+    private func chooseServerForReliability() -> (urlString: String, serverError: Bool) {
         let testUrl = NSURL(string: "https://simux.org/api/check.json")
         var errorPgm = false
         var useFallback = false
