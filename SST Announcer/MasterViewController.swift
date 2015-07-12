@@ -110,8 +110,15 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
 
             // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-                self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
+                let server = self.chooseServerForReliability()
+                if server.down {
+                    dispatch_sync(dispatch_get_main_queue(), {
+                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                        ProgressHUD.showError("Error Parsing!")
+                    })
+                } else {
+                    self.loadFeedWithURLString(server.urlString)
+                }
             })
 
             // Check if user enabled push, after a 5 second delay
@@ -215,6 +222,33 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             break
         default:
             self.tableView.rowHeight = 55
+        }
+    }
+
+    private func chooseServerForReliability() -> (urlString: String, down: Bool) {
+        let testUrl = NSURL(string: "https://simux.org/api/check.json")
+        var errorPgm = false
+        var useFallback = false
+        let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!) {(data, response, error) in
+            if error == nil {
+                if let rsp = response as? NSHTTPURLResponse {
+                    if rsp.statusCode != 200 { // Use fallback here
+                        useFallback = true
+                    } else {
+                        useFallback = false
+                    }
+                } else {
+                    errorPgm = true
+                }
+            } else {
+                useFallback = true
+            }
+        }
+
+        if useFallback {
+            return ("https://api.statixind.net/cache/blogrss.xml", errorPgm)
+        } else {
+            return ("https://simux.org/api/cache/blogrss.xml", errorPgm)
         }
     }
 

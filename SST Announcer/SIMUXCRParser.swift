@@ -82,7 +82,7 @@ public class SIMUXCRParser: NSObject {
     // MARK: - Private functions
 
     private func chooseServer() -> (urlPrepend: String, error: Bool) {
-        let testUrl = NSURL(string: "https://simux.org/v1/clear.php/")
+        let testUrl = NSURL(string: "https://simux.org/api/check.json")
         var errorPgm = false
         var useFallback = false
         let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!) {(data, response, error) in
@@ -97,7 +97,7 @@ public class SIMUXCRParser: NSObject {
                     errorPgm = true
                 }
             } else {
-                errorPgm = true
+                useFallback = true
             }
         }
 
