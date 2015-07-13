@@ -48,22 +48,11 @@ public class SIMUXCRParser: NSObject {
                             if let items = jsonObject["item"] as? NSDictionary, title = items["title"] as? String, description = items["description"] as? String {
                                 returnTuple.title = title
                                 returnTuple.description = description
-                            } else {
-                                self.errorBoolean = true
-                            }
-                        } else {
-                            self.errorBoolean = true
-                        }
-                    } else {
-                        self.errorBoolean = true
-                    }
-                } else {
-                    self.errorBoolean = true
-                }
-            } else {
-                println(error)
-                self.errorBoolean = true
-            }
+                            } else {self.errorBoolean = true}
+                        } else {self.errorBoolean = true}
+                    } else {self.errorBoolean = true}
+                } else {self.errorBoolean = true}
+            } else {println(error);self.errorBoolean = true}
 
             // Error parsing mechanism
             if self.errorBoolean {

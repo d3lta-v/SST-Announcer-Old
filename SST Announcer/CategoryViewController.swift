@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CategoryViewController: UITableViewController, UISearchBarDelegate, UISearchDisplayDelegate {
+class CategoryViewController: UITableViewController {
 
     // MARK: - Private variables declaration
 
@@ -20,6 +20,7 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
     private var element: String = ""
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
+    private let helper = FeedHelper()
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -49,7 +50,7 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
         super.viewDidLoad()
 
         // UIBar Back button settings
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, 0), forBarMetrics: UIBarMetrics.Default)
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetZero, forBarMetrics: UIBarMetrics.Default)
 
         // Init refresh controls
         let refreshControl = UIRefreshControl()
@@ -61,7 +62,7 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
             self.tableView.rowHeight = UITableViewAutomaticDimension
         } else {
             // Manually set ALL the cell heights
-            setTableRowHeight()
+            self.tableView.rowHeight = helper.getTableRowHeight(UIApplication.sharedApplication())
         }
 
         self.navigationController?.showProgress()
@@ -121,50 +122,6 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
         })
     }
 
-    private func setTableRowHeight() {
-        let preferredSizeCategory = UIApplication.sharedApplication().preferredContentSizeCategory
-        switch preferredSizeCategory {
-        case UIContentSizeCategoryExtraSmall:
-            self.tableView.rowHeight = 40
-            break
-        case UIContentSizeCategorySmall:
-            self.tableView.rowHeight = 45
-            break
-        case UIContentSizeCategoryMedium:
-            self.tableView.rowHeight = 50
-            break
-        case UIContentSizeCategoryLarge:
-            self.tableView.rowHeight = 55
-            break
-        case UIContentSizeCategoryExtraLarge:
-            self.tableView.rowHeight = 60
-            break
-        case UIContentSizeCategoryExtraExtraLarge:
-            self.tableView.rowHeight = 65
-            break
-        case UIContentSizeCategoryExtraExtraExtraLarge:
-            self.tableView.rowHeight = 70
-            break
-        case UIContentSizeCategoryAccessibilityMedium:
-            self.tableView.rowHeight = 75
-            break
-        case UIContentSizeCategoryAccessibilityLarge:
-            self.tableView.rowHeight = 80
-            break
-        case UIContentSizeCategoryAccessibilityExtraLarge:
-            self.tableView.rowHeight = 85
-            break
-        case UIContentSizeCategoryAccessibilityExtraExtraLarge:
-            self.tableView.rowHeight = 90
-            break
-        case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
-            self.tableView.rowHeight = 95
-            break
-        default:
-            self.tableView.rowHeight = 55
-        }
-    }
-
     private func delay(delay: Double, closure:()->()) {
         dispatch_after(
             dispatch_time(
@@ -174,19 +131,7 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
             dispatch_get_main_queue(), closure)
     }
 
-    // MARK: - Search functionality
-
-    func filterContentForSearchText(searchText: String) {
-        self.searchResults = self.feeds.filter({(post: FeedItem) -> Bool in
-            let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
-            return stringMatch != nil
-        })
-    }
-
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
-        self.filterContentForSearchText(searchString)
-        return true
-    }
+    // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
@@ -194,8 +139,9 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
 
         if segue.identifier == "MasterToDetail" {
             if self.searchDisplayController?.active == true {
-                if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
-                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = searchResults[indexPath.row]
+                let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow()
+                if let indexPth = indexPath {
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = searchResults[indexPth.row]
                 } else {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
                 }
@@ -207,6 +153,22 @@ class CategoryViewController: UITableViewController, UISearchBarDelegate, UISear
                 }
             }
         }
+    }
+}
+
+// MARK: - UISearch Delegates
+
+extension CategoryViewController : UISearchBarDelegate, UISearchControllerDelegate {
+    func filterContentForSearchText(searchText: String) {
+        self.searchResults = self.feeds.filter({(post: FeedItem) -> Bool in
+            let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
+            return stringMatch != nil
+        })
+    }
+
+    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        self.filterContentForSearchText(searchString)
+        return true
     }
 }
 

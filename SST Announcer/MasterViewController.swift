@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UISearchBarDelegate, UISearchDisplayDelegate {
+class MasterViewController: UITableViewController {
 
     // MARK: - Private variables declaration
 
@@ -58,7 +58,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
             self.tableView.rowHeight = UITableViewAutomaticDimension
         } else {
             // Manually set ALL the cell heights
-            setTableRowHeight()
+            self.tableView.rowHeight = helper.getTableRowHeight(UIApplication.sharedApplication())
         }
     }
 
@@ -100,7 +100,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
 
             // Start the refresher
             self.refreshControl?.beginRefreshing()
-            self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: false)
+            let pt = CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!)
+            self.tableView.setContentOffset(pt, animated: false)
 
             // Load cached version first, while checking for existence of the cached feeds
             if let feeds = self.helper.getCachedFeeds() {
@@ -170,55 +171,11 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
         })
     }
 
-    private func setTableRowHeight() {
-        let preferredSizeCategory = UIApplication.sharedApplication().preferredContentSizeCategory
-        switch preferredSizeCategory {
-        case UIContentSizeCategoryExtraSmall:
-            self.tableView.rowHeight = 40
-            break
-        case UIContentSizeCategorySmall:
-            self.tableView.rowHeight = 45
-            break
-        case UIContentSizeCategoryMedium:
-            self.tableView.rowHeight = 50
-            break
-        case UIContentSizeCategoryLarge:
-            self.tableView.rowHeight = 55
-            break
-        case UIContentSizeCategoryExtraLarge:
-            self.tableView.rowHeight = 60
-            break
-        case UIContentSizeCategoryExtraExtraLarge:
-            self.tableView.rowHeight = 65
-            break
-        case UIContentSizeCategoryExtraExtraExtraLarge:
-            self.tableView.rowHeight = 70
-            break
-        case UIContentSizeCategoryAccessibilityMedium:
-            self.tableView.rowHeight = 75
-            break
-        case UIContentSizeCategoryAccessibilityLarge:
-            self.tableView.rowHeight = 80
-            break
-        case UIContentSizeCategoryAccessibilityExtraLarge:
-            self.tableView.rowHeight = 85
-            break
-        case UIContentSizeCategoryAccessibilityExtraExtraLarge:
-            self.tableView.rowHeight = 90
-            break
-        case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
-            self.tableView.rowHeight = 95
-            break
-        default:
-            self.tableView.rowHeight = 55
-        }
-    }
-
     private func chooseServerForReliability() -> (urlString: String, serverError: Bool) {
         let testUrl = NSURL(string: "https://simux.org/api/check.json")
         var errorPgm = false
         var useFallback = false
-        let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!) {(data, response, error) in
+        let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!){(data, response, error) in
             if error == nil {
                 if let rsp = response as? NSHTTPURLResponse {
                     if rsp.statusCode != 200 { // Use fallback here
@@ -262,20 +219,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
                 Int64(delay * Double(NSEC_PER_SEC))
             ),
             dispatch_get_main_queue(), closure)
-    }
-
-    // MARK: - Search functionality
-
-    func filterContentForSearchText(searchText: String) {
-        self.searchResults = self.feeds.filter({(post: FeedItem) -> Bool in
-            let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
-            return stringMatch != nil
-        })
-    }
-
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
-        self.filterContentForSearchText(searchString)
-        return true
     }
 
     // MARK: - Navigation
@@ -343,6 +286,22 @@ class MasterViewController: UITableViewController, UISearchBarDelegate, UISearch
                 break
             }
         }
+    }
+}
+
+// MARK: - UISearch Delegates
+
+extension MasterViewController : UISearchDisplayDelegate, UISearchBarDelegate {
+    func filterContentForSearchText(searchText: String) {
+        self.searchResults = self.feeds.filter({(post: FeedItem) -> Bool in
+            let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
+            return stringMatch != nil
+        })
+    }
+
+    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        self.filterContentForSearchText(searchString)
+        return true
     }
 }
 

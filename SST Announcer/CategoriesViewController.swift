@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISearchDisplayDelegate {
+class CategoriesViewController: UITableViewController {
 
     // MARK: - Private variables declaration
 
@@ -85,7 +85,8 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
 
             // Start the refresher
             self.refreshControl?.beginRefreshing()
-            self.tableView.setContentOffset(CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!), animated: false)
+            let pt = CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!)
+            self.tableView.setContentOffset(pt, animated: false)
 
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -177,20 +178,6 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
             dispatch_get_main_queue(), closure)
     }
 
-    // MARK: - Search functionality
-
-    func filterContentForSearchText(searchText: String) {
-        self.searchResults = self.feeds.filter({(post: FeedItem) -> Bool in
-            let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
-            return stringMatch != nil
-        })
-    }
-
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
-        self.filterContentForSearchText(searchString)
-        return true
-    }
-
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -204,6 +191,22 @@ class CategoriesViewController: UITableViewController, UISearchBarDelegate, UISe
         }
     }
 
+}
+
+// MARK: - UISearch Delegates
+
+extension CategoriesViewController : UISearchControllerDelegate, UISearchDisplayDelegate {
+    func filterContentForSearchText(searchText: String) {
+        self.searchResults = self.feeds.filter({(post: FeedItem) -> Bool in
+            let stringMatch = post.title.lowercaseString.rangeOfString(searchText.lowercaseString)
+            return stringMatch != nil
+        })
+    }
+
+    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        self.filterContentForSearchText(searchString)
+        return true
+    }
 }
 
 // MARK: - Table view Delegates

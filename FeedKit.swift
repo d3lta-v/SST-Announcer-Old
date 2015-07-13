@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 StatiX Industries. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class FeedItem: NSObject, NSCoding {
     public var title: String
@@ -74,17 +74,49 @@ public class FeedHelper: NSObject {
     }
 
     public func requestFeedsSynchronous() -> [FeedItem]? {
-        let request = NSURLRequest(URL: NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")!)
-        var response: NSURLResponse?
-        var error: NSError?
+        let rqst = NSURLRequest(URL: NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")!)
+        var rsp: NSURLResponse?
+        var err: NSError?
         self.feeds = [FeedItem]()
 
-        if let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error) {
-            if error == nil {
+        if let data = NSURLConnection.sendSynchronousRequest(rqst, returningResponse: &rsp, error: &err) {
+            if err == nil {
                 return decodeResponseData(data)
             }
         }
         return nil
+    }
+
+    public func getTableRowHeight(currentApplication: UIApplication) -> CGFloat {
+        let preferredSizeCategory = currentApplication.preferredContentSizeCategory
+        switch preferredSizeCategory {
+        case UIContentSizeCategoryExtraSmall:
+            return 40;
+        case UIContentSizeCategorySmall:
+            return 45;
+        case UIContentSizeCategoryMedium:
+            return 50;
+        case UIContentSizeCategoryLarge:
+            return 55;
+        case UIContentSizeCategoryExtraLarge:
+            return 60;
+        case UIContentSizeCategoryExtraExtraLarge:
+            return 65;
+        case UIContentSizeCategoryExtraExtraExtraLarge:
+            return 70;
+        case UIContentSizeCategoryAccessibilityMedium:
+            return 75;
+        case UIContentSizeCategoryAccessibilityLarge:
+            return 80;
+        case UIContentSizeCategoryAccessibilityExtraLarge:
+            return 85;
+        case UIContentSizeCategoryAccessibilityExtraExtraLarge:
+            return 90;
+        case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
+            return 95;
+        default:
+            return 55
+        }
     }
 
     private func decodeResponseData(buffer: NSData) -> [FeedItem]? {
@@ -132,9 +164,7 @@ extension FeedHelper : NSXMLParserDelegate {
             } else if self.element == "link" {
                 self.tempItem.link = self.tempItem.link + testString
             } else if self.element == "pubDate" {
-                let currentDate = self.dateFormatter.dateFromString(testString.stringByReplacingOccurrencesOfString(":00 +0000", withString: ""))!
-                let newDate = currentDate.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT))
-                self.tempItem.date = dateFormatter.stringFromDate(newDate) //Depends on current difference in timestamp to calculate intellegiently what timezone it should apply to the posts
+                self.tempItem.date = self.tempItem.date + testString
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
             } else if self.element == "description" {

@@ -115,7 +115,8 @@ class WebViewController: UIViewController {
             DTDefaultLinkColor: "#146FDF",
             DTDefaultLinkDecoration: ""
         ]
-        let stringBuilder = DTHTMLAttributedStringBuilder(HTML: string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false), options: builderOptions, documentAttributes: nil)
+        let strData = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        let stringBuilder = DTHTMLAttributedStringBuilder(HTML: strData, options: builderOptions, documentAttributes: nil)
         self.textView.textDelegate = self
         self.textView.shouldDrawImages = true
         self.textView.attributedString = stringBuilder.generatedAttributedString()
@@ -131,41 +132,29 @@ class WebViewController: UIViewController {
         var size = "" // Font size
         switch preferredSizeCategory {
         case UIContentSizeCategoryExtraSmall:
-            size = "13.5px"
-            break
+            size = "13.5px"; break
         case UIContentSizeCategorySmall:
-            size = "14px"
-            break
+            size = "14px"; break
         case UIContentSizeCategoryMedium:
-            size = "15.5px"
-            break
+            size = "15.5px"; break
         case UIContentSizeCategoryLarge:
-            size = "17px"
-            break
+            size = "17px"; break
         case UIContentSizeCategoryExtraLarge:
-            size = "18.5px"
-            break
+            size = "18.5px"; break
         case UIContentSizeCategoryExtraExtraLarge:
-            size = "20px"
-            break
+            size = "20px"; break
         case UIContentSizeCategoryExtraExtraExtraLarge:
-            size = "21.5px"
-            break
+            size = "21.5px"; break
         case UIContentSizeCategoryAccessibilityMedium:
-            size = "24px"
-            break
+            size = "24px"; break
         case UIContentSizeCategoryAccessibilityLarge:
-            size = "27px"
-            break
+            size = "27px"; break
         case UIContentSizeCategoryAccessibilityExtraLarge:
-            size = "30px"
-            break
+            size = "30px"; break
         case UIContentSizeCategoryAccessibilityExtraExtraLarge:
-            size = "33px"
-            break
+            size = "33px"; break
         case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
-            size = "36px"
-            break
+            size = "36px"; break
         default:
             size = "16.4px"
         }

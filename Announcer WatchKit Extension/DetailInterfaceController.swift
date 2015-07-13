@@ -52,7 +52,8 @@ class DetailInterfaceController: WKInterfaceController {
             let attributedWarning = NSAttributedString(string: "This post contains elements Apple Watch can't display. You can read a text version below.\n\n", attributes: [NSForegroundColorAttributeName:ios7Color])
             var processedAttributedText = NSAttributedString(string: "Error", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
             if let processedText = stripAndProcessHTMLString(feedItem.content) {
-                processedAttributedText = NSAttributedString(string: processedText, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+                let attr = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+                processedAttributedText = NSAttributedString(string:processedText, attributes:attr)
             }
             var finalAttrString = NSMutableAttributedString()
             finalAttrString.appendAttributedString(attributedWarning)

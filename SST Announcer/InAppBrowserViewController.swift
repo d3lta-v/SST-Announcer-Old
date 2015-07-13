@@ -47,9 +47,9 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
         mainWebView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
         progressProxy.progressDelegate = self
-        let progressBarHeight: CGFloat = 2.0
-        let navigationBarBounds = self.navigationController!.navigationBar.bounds
-        let barFrame = CGRect(x: 0, y: navigationBarBounds.size.height - progressBarHeight, width: navigationBarBounds.width, height: progressBarHeight)
+        let progBarHeight: CGFloat = 2.0
+        let navBarBounds = self.navigationController!.navigationBar.bounds
+        let barFrame = CGRect(x: 0, y: navBarBounds.size.height - progBarHeight, width: navBarBounds.width, height: progBarHeight)
         progressView = WebViewProgressView(frame: barFrame)
         progressView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
 

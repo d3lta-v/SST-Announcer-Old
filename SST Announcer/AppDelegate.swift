@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-
         // Fabric Init
         Fabric.with([Crashlytics()])
 
@@ -32,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Track an app open here if we launch with a push, unless
             // "content_available" was used to trigger a background push (introduced in iOS 7).
             // In that case, we skip tracking here to avoid double counting the app-open.
-
             let preBackgroundPush = !application.respondsToSelector("backgroundRefreshStatus")
             let oldPushHandlerOnly = !self.respondsToSelector("application:didReceiveRemoteNotification:fetchCompletionHandler:")
             var pushPayload = false
@@ -44,26 +42,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         if application.respondsToSelector("registerUserNotificationSettings:") {
-            let userNotificationTypes = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
+            let userNotificationTypes: UIUserNotificationType = .Alert | .Badge | .Sound
             let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: getCategory())
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         } else {
-            let types = UIRemoteNotificationType.Badge | UIRemoteNotificationType.Alert | UIRemoteNotificationType.Sound
+            let types: UIRemoteNotificationType = .Badge | .Alert | .Sound
             application.registerForRemoteNotificationTypes(types)
         }
-
         // Push notification handling when app is not running, with really tight checking. Nothing gets left!
         if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
             if let urlString = notificationPayload["url"] as? String {
-                let singleton = GlobalSingleton.sharedInstance
-                singleton.setDidReceivePushNotificationWithBool(true)
-                singleton.setRemoteNotificationURLWithString(urlString)
+                globalSingletonPushReceivedWith(urlString)
             }
         }
 
         return true
     }
+
+    // MARK: - Push notifications
 
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
@@ -87,9 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         if let url: AnyObject = userInfo["url"] {
             if let urlString = url as? String {
-                let singleton = GlobalSingleton.sharedInstance
-                singleton.setRemoteNotificationURLWithString(urlString)
-                singleton.setDidReceivePushNotificationWithBool(true)
+                globalSingletonPushReceivedWith(urlString)
                 NSNotificationCenter.defaultCenter().postNotificationName("pushReceived", object: self)
             }
         }
@@ -102,12 +97,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         if identifier == "viewFeed" {
             if let urlString = userInfo["url"] as? String {
-                let singleton = GlobalSingleton.sharedInstance
-                singleton.setDidReceivePushNotificationWithBool(true)
-                singleton.setRemoteNotificationURLWithString(urlString)
+                globalSingletonPushReceivedWith(urlString)
             }
         }
     }
+
+    // MARK: - Application Lifecycle
 
     func applicationWillResignActive(application: UIApplication) {
         // Force sync NSUserDefaults, to prevent data loss
@@ -133,6 +128,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate
+    }
+
+    // MARK: - Private functions
+
+    private func globalSingletonPushReceivedWith(urlString: String) {
+        let singleton = GlobalSingleton.sharedInstance
+        singleton.setRemoteNotificationURLWithString(urlString)
+        singleton.setDidReceivePushNotificationWithBool(true)
     }
 
     // MARK: - WatchKit, custom notifications and Handoff
@@ -173,7 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewAction.activationMode = UIUserNotificationActivationMode.Foreground
 
         let defaultCategory = UIMutableUserNotificationCategory()
-        defaultCategory.setActions([viewAction], forContext: UIUserNotificationActionContext.Default)
+        defaultCategory.setActions([viewAction], forContext: .Default)
         defaultCategory.identifier = "viewFeed"
 
         categories.insert(defaultCategory)
