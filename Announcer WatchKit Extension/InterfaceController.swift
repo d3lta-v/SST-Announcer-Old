@@ -126,7 +126,7 @@ class InterfaceController: WKInterfaceController {
                 row.titleLabel.setText(feed.title)
                 if let shortDate = longDateFormatter.dateFromString(feed.date) {
                     let shortDateString = shortDateFormatter.stringFromDate(shortDate)
-                    row.detailLabel.setText("\(shortDate) \(feed.author)")
+                    row.detailLabel.setText("\(shortDateString) \(feed.author)")
                 }
             }
         }

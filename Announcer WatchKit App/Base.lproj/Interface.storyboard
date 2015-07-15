@@ -22,7 +22,7 @@
                                                 <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                             </label>
                                         </items>
-                                        <edgeInsets key="margins" left="2" right="2" top="2" bottom="2"/>
+                                        <edgeInsets key="margins" left="3" right="3" top="3" bottom="3"/>
                                         <connections>
                                             <segue destination="8W9-OO-eox" kind="push" identifier="toDetail" id="IW0-yh-ASb"/>
                                         </connections>
@@ -65,15 +65,16 @@
                                     <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                 </label>
                             </items>
-                            <edgeInsets key="margins" left="2" right="2" top="2" bottom="2"/>
+                            <edgeInsets key="margins" left="4" right="4" top="4" bottom="4"/>
                         </group>
                         <separator alignment="center" id="lpH-CH-SrG">
                             <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </separator>
                         <group width="1" alignment="center" id="BwD-x6-4Zc">
                             <items>
-                                <label width="136" alignment="center" text="Description" numberOfLines="0" id="Ghj-8C-94C"/>
+                                <label width="1" alignment="center" text="Description" numberOfLines="0" id="Ghj-8C-94C"/>
                             </items>
+                            <edgeInsets key="margins" left="3" right="3" top="3" bottom="3"/>
                         </group>
                     </items>
                     <connections>
@@ -94,7 +95,7 @@
                             <items>
                                 <label width="1" alignment="center" verticalAlignment="center" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
                             </items>
-                            <edgeInsets key="margins" left="7" right="7" top="10" bottom="7"/>
+                            <edgeInsets key="margins" left="7" right="7" top="10" bottom="10"/>
                         </group>
                     </items>
                     <notificationCategory key="notificationCategory" identifier="viewFeed" id="JfB-70-Muf"/>
