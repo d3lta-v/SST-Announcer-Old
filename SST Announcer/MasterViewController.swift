@@ -20,7 +20,7 @@ class MasterViewController: UITableViewController {
     private var element: String = ""
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
-    private let helper = FeedHelper()
+    private let helper = FeedHelper.sharedInstance
     private var handoffActivated = false
     private var handoffIndex = -1
 

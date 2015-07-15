@@ -51,8 +51,8 @@ class CategoriesViewController: UITableViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
 
         getFeedsOnce()
     }
@@ -91,6 +91,7 @@ class CategoriesViewController: UITableViewController {
             // Load cached version first, while checking for existence of the cached feeds
             let userDefaults = NSUserDefaults.standardUserDefaults()
             if let feedsObject = userDefaults.objectForKey("cachedCategories") as? NSData {
+                NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
                 if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedsObject) as? [FeedItem] {
                     self.feeds = feeds
                     self.tableView.reloadData()
@@ -296,6 +297,7 @@ extension CategoriesViewController : NSXMLParserDelegate {
         self.refreshControl?.endRefreshing()
 
         // Archive and cache feeds into persistent storage (cool beans)
+        NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
         let cachedData = NSKeyedArchiver.archivedDataWithRootObject(self.feeds)
         NSUserDefaults.standardUserDefaults().setObject(cachedData, forKey: "cachedCategories")
 

@@ -20,7 +20,7 @@ class CategoryViewController: UITableViewController {
     private var element: String = ""
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
-    private let helper = FeedHelper()
+    private let helper = FeedHelper.sharedInstance
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -64,15 +64,15 @@ class CategoryViewController: UITableViewController {
             // Manually set ALL the cell heights
             self.tableView.rowHeight = helper.getTableRowHeight(UIApplication.sharedApplication())
         }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
         self.navigationController?.showProgress()
         self.navigationController?.setIndeterminate(true)
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             if let url = self.inputURL {
@@ -82,7 +82,10 @@ class CategoryViewController: UITableViewController {
     }
 
     override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.setIndeterminate(false)
+        if self.navigationController?.isShowingProgressBar() == true {
+            self.navigationController?.setIndeterminate(false)
+            self.navigationController?.cancelProgress()
+        }
         super.viewWillDisappear(animated)
     }
 
@@ -101,7 +104,7 @@ class CategoryViewController: UITableViewController {
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
-        //self.navigationController?.showProgress()
+        self.navigationController?.showProgress()
         dataTask.resume()
         session.finishTasksAndInvalidate()
     }
@@ -268,6 +271,7 @@ extension CategoryViewController : NSXMLParserDelegate {
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.navigationController?.setIndeterminate(false)
+        self.navigationController?.cancelProgress()
 
         // For UIRefreshControl
         self.refreshControl?.endRefreshing()

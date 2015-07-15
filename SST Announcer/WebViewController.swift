@@ -30,9 +30,6 @@ class WebViewController: UIViewController {
 
         // Do any additional setup after loading the view.
 
-        // Back button
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: UIBarMetrics.Default)
-
         // Progress
         self.navigationController?.showProgress()
         self.navigationController?.setProgress(0, animated: false)

@@ -98,6 +98,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if identifier == "viewFeed" {
             if let urlString = userInfo["url"] as? String {
                 globalSingletonPushReceivedWith(urlString)
+                resetBadges()
+                if application.applicationState == .Inactive || application.applicationState == .Background {
+                    PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+                }
             }
         }
     }
@@ -117,13 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the app was inactive.
-        let currentInstallation: PFInstallation = PFInstallation.currentInstallation()
-        if currentInstallation.badge != 0 {
-            currentInstallation.badge = 0
-            currentInstallation.saveEventually()
-        }
-
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        resetBadges()
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -138,12 +136,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         singleton.setDidReceivePushNotificationWithBool(true)
     }
 
+    private func resetBadges() {
+        let currentInstallation: PFInstallation = PFInstallation.currentInstallation()
+        if currentInstallation.badge != 0 {
+            currentInstallation.badge = 0
+            currentInstallation.saveEventually()
+        }
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+    }
+
     // MARK: - WatchKit, custom notifications and Handoff
 
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
         if let userInfo = userInfo, request = userInfo["request"] as? String {
             if request == "refreshData" {
-                let helper = FeedHelper()
+                let helper = FeedHelper.sharedInstance
                 if let feeds = helper.requestFeedsSynchronous() {
                     NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
                     reply(["feedData": NSKeyedArchiver.archivedDataWithRootObject(feeds)])
@@ -152,6 +159,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 return
             }
+            // Reset badges when watch app is opened
+            resetBadges()
         }
         reply([:])
     }

@@ -14,7 +14,7 @@ class InterfaceController: WKInterfaceController {
     // MARK: - Private variables
 
     @IBOutlet weak var feedsTable: WKInterfaceTable!
-    private let helper = FeedHelper()
+    private let helper = FeedHelper.sharedInstance
     private var feeds: [FeedItem]!
     private let longDateFormatter = NSDateFormatter()
     private let shortDateFormatter = NSDateFormatter()

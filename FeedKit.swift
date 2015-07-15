@@ -44,10 +44,11 @@ public class FeedItem: NSObject, NSCoding {
 }
 
 public class FeedHelper: NSObject {
-    //let defaults = NSUserDefaults.standardUserDefaults()
-    let defaults = NSUserDefaults(suiteName: "group.Announcer")
+    public static let sharedInstance = FeedHelper()
 
-    var element = ""
+    private let defaults = NSUserDefaults(suiteName: "group.Announcer")
+
+    private var element = ""
     private var tempItem: FeedItem
     private var feeds: [FeedItem]
     private let dateFormatter: NSDateFormatter

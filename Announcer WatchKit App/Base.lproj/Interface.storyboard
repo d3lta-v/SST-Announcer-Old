@@ -94,7 +94,7 @@
                             <items>
                                 <label width="1" alignment="center" verticalAlignment="center" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
                             </items>
-                            <edgeInsets key="margins" left="5" right="5" top="5" bottom="5"/>
+                            <edgeInsets key="margins" left="7" right="7" top="10" bottom="7"/>
                         </group>
                     </items>
                     <notificationCategory key="notificationCategory" identifier="viewFeed" id="JfB-70-Muf"/>
