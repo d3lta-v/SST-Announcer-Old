@@ -392,7 +392,7 @@
 		227E71441B1D44DF00215577 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				227E71661B1D4B1600215577 /* Externals */,
+				227E71661B1D4B1600215577 /* Dependencies */,
 				227E71451B1D44DF00215577 /* Info.plist */,
 				22C900121B46DF540098C27E /* Announcer.entitlements */,
 				22FD3B7D1B27268000F87089 /* Settings.bundle */,
@@ -417,7 +417,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		227E71661B1D4B1600215577 /* Externals */ = {
+		227E71661B1D4B1600215577 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
 				2236944E1B57F4A1000F9626 /* SGNavigationProgress */,
@@ -431,7 +431,7 @@
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
 				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
 			);
-			path = Externals;
+			path = Dependencies;
 			sourceTree = SOURCE_ROOT;
 		};
 		227E71921B1D504600215577 /* Products */ = {
@@ -996,7 +996,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Externals",
+					"$(PROJECT_DIR)/Dependencies",
 					"$(PROJECT_DIR)",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1008,7 +1008,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./SST Announcer/Announcer-Bridging-Header.h";
-				USER_HEADER_SEARCH_PATHS = "Externals/DTCoreText/Externals/DTFoundation/Core/** Externals/DTCoreText/Core/**";
+				USER_HEADER_SEARCH_PATHS = "Dependencies/DTCoreText/Externals/DTFoundation/Core/** Dependencies/DTCoreText/Core/**";
 			};
 			name = Debug;
 		};
@@ -1023,7 +1023,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Externals",
+					"$(PROJECT_DIR)/Dependencies",
 					"$(PROJECT_DIR)",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1036,7 +1036,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "./SST Announcer/Announcer-Bridging-Header.h";
-				USER_HEADER_SEARCH_PATHS = "Externals/DTCoreText/Externals/DTFoundation/Core/** Externals/DTCoreText/Core/**";
+				USER_HEADER_SEARCH_PATHS = "Dependencies/DTCoreText/Externals/DTFoundation/Core/** Dependencies/DTCoreText/Core/**";
 			};
 			name = Release;
 		};
