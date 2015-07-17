@@ -148,6 +148,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - WatchKit, custom notifications and Handoff
 
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        // Reset app badges when Apple Watch polls iPhone
+        resetBadges()
+
         if let userInfo = userInfo, request = userInfo["request"] as? String {
             if request == "refreshData" {
                 let helper = FeedHelper.sharedInstance
@@ -159,9 +162,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 return
             }
-            // Reset badges when watch app is opened
-            resetBadges()
         }
+
         reply([:])
     }
 

@@ -364,7 +364,11 @@
         <scene sceneID="uQk-IY-No4">
             <objects>
                 <navigationController id="Pbe-Tq-v1Q" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Categories" image="Categories" id="cgM-PV-CVL"/>
+                    <tabBarItem key="tabBarItem" title="Categories" image="Categories" id="cgM-PV-CVL">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Categories_Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xef-ed-BkJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -520,6 +524,7 @@
     <resources>
         <image name="About" width="30" height="30"/>
         <image name="Categories" width="30" height="30"/>
+        <image name="Categories_Selected" width="30" height="30"/>
         <image name="Feed" width="30" height="30"/>
         <image name="Feed_Selected" width="30" height="30"/>
         <image name="SSTInc" width="238" height="141"/>

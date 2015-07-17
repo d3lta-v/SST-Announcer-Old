@@ -21,6 +21,7 @@ class CategoryViewController: UITableViewController {
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
     private let helper = FeedHelper.sharedInstance
+    private let indeterminateProgressBar = JDFNavigationBarActivityIndicator()
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -71,8 +72,7 @@ class CategoryViewController: UITableViewController {
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
-        self.navigationController?.showProgress()
-        self.navigationController?.setIndeterminate(true)
+        indeterminateProgressBar.addToNavigationBar(self.navigationController?.navigationBar, startAnimating: true)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             if let url = self.inputURL {
@@ -82,10 +82,9 @@ class CategoryViewController: UITableViewController {
     }
 
     override func viewWillDisappear(animated: Bool) {
-        if self.navigationController?.isShowingProgressBar() == true {
-            self.navigationController?.setIndeterminate(false)
-            self.navigationController?.cancelProgress()
-        }
+        //if self.navigationController?.isShowingProgressBar() == true {
+        indeterminateProgressBar.stopAnimating()
+        //}
         super.viewWillDisappear(animated)
     }
 
@@ -104,7 +103,6 @@ class CategoryViewController: UITableViewController {
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
-        self.navigationController?.showProgress()
         dataTask.resume()
         session.finishTasksAndInvalidate()
     }
@@ -270,8 +268,7 @@ extension CategoryViewController : NSXMLParserDelegate {
         self.synchroniseFeedArrayAndTable()
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.navigationController?.setIndeterminate(false)
-        self.navigationController?.cancelProgress()
+        indeterminateProgressBar.stopAnimating()
 
         // For UIRefreshControl
         self.refreshControl?.endRefreshing()
@@ -309,7 +306,7 @@ extension CategoryViewController : NSURLSessionDelegate, NSURLSessionDataDelegat
                 buffer = NSMutableData()
                 dispatch_sync(dispatch_get_main_queue(), {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    self.navigationController?.finishProgress()
+                    self.indeterminateProgressBar.stopAnimating()
                     self.refreshControl?.endRefreshing()
                     ProgressHUD.showError("Error loading!")
                 })
@@ -320,7 +317,7 @@ extension CategoryViewController : NSURLSessionDelegate, NSURLSessionDataDelegat
             println(error)
             dispatch_sync(dispatch_get_main_queue(), {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                self.navigationController?.setIndeterminate(false)
+                self.indeterminateProgressBar.stopAnimating()
                 self.refreshControl?.endRefreshing()
                 ProgressHUD.showError("Error loading!")
             })

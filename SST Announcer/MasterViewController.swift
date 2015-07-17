@@ -23,6 +23,7 @@ class MasterViewController: UITableViewController {
     private let helper = FeedHelper.sharedInstance
     private var handoffActivated = false
     private var handoffIndex = -1
+    private var progressCancelled = false
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -60,13 +61,12 @@ class MasterViewController: UITableViewController {
             // Manually set ALL the cell heights
             self.tableView.rowHeight = helper.getTableRowHeight(UIApplication.sharedApplication())
         }
+        // Add observer for push to catch push notification messages
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        // Add observer for push to catch push notification messages
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
 
         getFeedsOnce()
     }
@@ -79,6 +79,10 @@ class MasterViewController: UITableViewController {
         if singleton.getDidReceivePushNotification() == true {
             self.performSegueWithIdentifier("MasterToDetail", sender: self)
         }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.cancelSGProgress()
     }
 
     override func didReceiveMemoryWarning() {
@@ -143,15 +147,15 @@ class MasterViewController: UITableViewController {
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
-        self.navigationController?.setProgress(0, animated: false) // force set progress to zero to avoid weird UI
         // Show progress
-        self.navigationController?.showProgress()
-        self.navigationController?.setProgress(0.05, animated: true)
+        dispatch_async(dispatch_get_main_queue(), {
+            self.navigationController?.setSGProgressPercentage(5)
+        })
         dataTask.resume()
         session.finishTasksAndInvalidate()
     }
 
-    func pushNotificationsReceived() {
+    internal func pushNotificationsReceived() {
         if self.navigationController!.viewControllers.count < 2 {
             self.performSegueWithIdentifier("MasterToDetail", sender: self)
         }
@@ -204,7 +208,7 @@ class MasterViewController: UITableViewController {
             if server.serverError {
                 dispatch_sync(dispatch_get_main_queue(), {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    ProgressHUD.showError("Error Parsing!")
+                    ProgressHUD.showError("Error Loading!")
                 })
             } else {
                 self.loadFeedWithURLString(server.urlString)
@@ -236,7 +240,7 @@ class MasterViewController: UITableViewController {
                 singleton.setDidReceivePushNotificationWithBool(false)
             } else if handoffActivated == true {
                 if self.feeds.isEmpty {
-                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The Handoff feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                     handoffActivated = false
                     handoffIndex = -1
                 } else {
@@ -249,13 +253,13 @@ class MasterViewController: UITableViewController {
                     if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.searchResults[indexPath.row]
                     } else {
-                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
+                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The search feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                     }
                 } else {
                     if let indexPath = self.tableView.indexPathForSelectedRow() {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.feeds[indexPath.row]
                     } else {
-                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
+                        (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                     }
                 }
             }
@@ -266,9 +270,8 @@ class MasterViewController: UITableViewController {
 
     override func restoreUserActivityState(activity: NSUserActivity) {
         if let titleString = activity.userInfo?["title"] as? String {
-            println(titleString)
             if feeds.count <= 5 {
-                delay(0.1) {
+                delay(0.2) {
                     self.initiateHandoffAction(titleString)
                 }
             } else {
@@ -400,7 +403,6 @@ extension MasterViewController : NSXMLParserDelegate {
         self.synchroniseFeedArrayAndTable()
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.navigationController?.finishProgress()
 
         // For UIRefreshControl
         self.refreshControl?.endRefreshing()
@@ -432,8 +434,10 @@ extension MasterViewController : NSURLSessionDelegate, NSURLSessionDataDelegate 
         if let bufferUnwrapped = buffer {
             bufferUnwrapped.appendData(data)
 
-            let percentDownload = Float(bufferUnwrapped.length) / Float(expectedContentLength)
-            self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
+            let percentDownload = (Float(bufferUnwrapped.length) / Float(expectedContentLength)) * 100
+            dispatch_async(dispatch_get_main_queue(), {
+                self.navigationController?.setSGProgressPercentage(percentDownload)
+            })
         }
     }
 
@@ -450,7 +454,7 @@ extension MasterViewController : NSURLSessionDelegate, NSURLSessionDataDelegate 
                 buffer = NSMutableData()
                 dispatch_sync(dispatch_get_main_queue(), {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    self.navigationController?.finishProgress()
+                    self.navigationController?.cancelSGProgress()
                     self.refreshControl?.endRefreshing()
                     ProgressHUD.showError("Error loading!")
                 })
@@ -461,7 +465,7 @@ extension MasterViewController : NSURLSessionDelegate, NSURLSessionDataDelegate 
             println(error)
             dispatch_sync(dispatch_get_main_queue(), {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                self.navigationController?.finishProgress()
+                self.navigationController?.cancelSGProgress()
                 self.refreshControl?.endRefreshing()
                 ProgressHUD.showError("Error loading!")
             })

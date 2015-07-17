@@ -18,6 +18,7 @@ class WebViewController: UIViewController {
     private var progressView: WebViewProgressView!
     private var progressProxy: WebViewProgress!
     private var linkUrl = NSURL(string: "")!
+    private let indeterminateProgressBar = JDFNavigationBarActivityIndicator()
 
     // MARK: - Lifecycle
 
@@ -29,10 +30,6 @@ class WebViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-
-        // Progress
-        self.navigationController?.showProgress()
-        self.navigationController?.setProgress(0, animated: false)
 
         // Init web view loading bar
         progressProxy = WebViewProgress()
@@ -66,10 +63,10 @@ class WebViewController: UIViewController {
         var useSIMUX = false
 
         if item.title == "Error" {
-            self.title = "Error"
-            htmlString = "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>"
+            self.title = item.title
+            htmlString = item.content
         } else if item.title.isEmpty { // Nothing in the title, since it came from a push
-            self.navigationController?.setIndeterminate(true)
+            indeterminateProgressBar.addToNavigationBar(self.navigationController?.navigationBar, startAnimating: true)
             useSIMUX = true
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
@@ -120,7 +117,7 @@ class WebViewController: UIViewController {
         self.textView.contentInset = UIEdgeInsetsMake(85, 15, 70, 15)
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.navigationController?.setIndeterminate(false)
+        indeterminateProgressBar.stopAnimating()
     }
 
     private func getPixelSizeForDynamicType() -> (String) {

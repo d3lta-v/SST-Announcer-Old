@@ -58,11 +58,7 @@ class CategoriesViewController: UITableViewController {
     }
 
     override func viewWillDisappear(animated: Bool) {
-        if let showsProgress = self.navigationController?.isShowingProgressBar() {
-            if showsProgress == true {
-                self.navigationController?.setProgress(0, animated: false)
-            }
-        }
+        self.navigationController?.cancelSGProgress()
 
         super.viewWillDisappear(animated)
     }
@@ -122,9 +118,6 @@ class CategoriesViewController: UITableViewController {
         config.HTTPAdditionalHeaders = ["Accept-Encoding":""]
         let session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         let dataTask = session.dataTaskWithRequest(NSURLRequest(URL: url!))
-        self.navigationController?.setProgress(0, animated: false) // force set progress to zero to avoid weird UI
-        self.navigationController?.showProgress()
-        self.navigationController?.setProgress(0.05, animated: true)
         dataTask.resume()
         session.finishTasksAndInvalidate()
     }
@@ -293,7 +286,7 @@ extension CategoriesViewController : NSXMLParserDelegate {
         self.synchroniseFeedArrayAndTable()
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.navigationController?.finishProgress()
+        //self.navigationController?.finishProgress()
         self.refreshControl?.endRefreshing()
 
         // Archive and cache feeds into persistent storage (cool beans)
@@ -325,8 +318,10 @@ extension CategoriesViewController : NSURLSessionDelegate, NSURLSessionDataDeleg
         if let bufferUnwrapped = buffer {
             bufferUnwrapped.appendData(data)
 
-            let percentDownload = Float(bufferUnwrapped.length) / Float(expectedContentLength)
-            self.navigationController?.setProgress(CGFloat(percentDownload), animated: true)
+            let percentDownload = (Float(bufferUnwrapped.length) / Float(expectedContentLength)) * 100
+            dispatch_async(dispatch_get_main_queue(), {
+                self.navigationController?.setSGProgressPercentage(percentDownload)
+            })
         }
     }
 
@@ -343,7 +338,7 @@ extension CategoriesViewController : NSURLSessionDelegate, NSURLSessionDataDeleg
                 buffer = NSMutableData()
                 dispatch_sync(dispatch_get_main_queue(), {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    self.navigationController?.finishProgress()
+                    self.navigationController?.cancelSGProgress()
                     self.refreshControl?.endRefreshing()
                     ProgressHUD.showError("Error loading!")
                 })
@@ -354,7 +349,7 @@ extension CategoriesViewController : NSURLSessionDelegate, NSURLSessionDataDeleg
             println(error)
             dispatch_sync(dispatch_get_main_queue(), {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                self.navigationController?.finishProgress()
+                self.navigationController?.cancelSGProgress()
                 self.refreshControl?.endRefreshing()
                 ProgressHUD.showError("Error loading!")
             })

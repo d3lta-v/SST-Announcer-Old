@@ -70,7 +70,12 @@ class InterfaceController: WKInterfaceController {
             if notifIdentifier == "viewFeed" {
                 // Execute actions from payload
 
-                // Load feeds first.
+                // First attempt (with only the current feeds array)
+                if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
+                    self.initiatePushNotificationReading(urlPayload)
+                }
+
+                // Load feeds if the previous one fails
                 WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
                     if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
                         NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")

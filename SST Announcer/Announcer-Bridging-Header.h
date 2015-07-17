@@ -5,4 +5,5 @@
 #import "ProgressHUD.h"
 #import "DTCoreText.h"
 #import "TUSafariActivity.h"
-#import "UINavigationController+M13ProgressViewBar.h"
+#import "JDFNavigationBarActivityIndicator.h"
+#import "UINavigationController+SGProgress.h"

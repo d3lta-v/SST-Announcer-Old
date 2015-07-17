@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		223694451B5695A2000F9626 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223694441B5695A2000F9626 /* CategoryViewController.swift */; };
+		2236944C1B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 223694481B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m */; };
+		223694531B57F4A1000F9626 /* SGProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 223694501B57F4A1000F9626 /* SGProgressView.m */; };
+		223694541B57F4A1000F9626 /* UINavigationController+SGProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 223694521B57F4A1000F9626 /* UINavigationController+SGProgress.m */; };
 		224428911B46C3550050CF2B /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224428901B46C3550050CF2B /* InterfaceController.swift */; };
 		224428931B46C3550050CF2B /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224428921B46C3550050CF2B /* NotificationController.swift */; };
 		224428951B46C3550050CF2B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224428941B46C3550050CF2B /* Images.xcassets */; };
@@ -15,7 +18,6 @@
 		224428A11B46C3550050CF2B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2244289F1B46C3550050CF2B /* Interface.storyboard */; };
 		224428A31B46C3550050CF2B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224428A21B46C3550050CF2B /* Images.xcassets */; };
 		224428A61B46C3550050CF2B /* Announcer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2244288B1B46C3550050CF2B /* Announcer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		224C7B071B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B061B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m */; };
 		224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C7B0A1B2FE73100912977 /* CategoriesViewController.swift */; };
 		22595B681B4781510027B010 /* DetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22595B671B4781510027B010 /* DetailInterfaceController.swift */; };
 		22595B6A1B47A3C00027B010 /* FeedKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22595B691B47A3C00027B010 /* FeedKit.swift */; };
@@ -142,6 +144,12 @@
 
 /* Begin PBXFileReference section */
 		223694441B5695A2000F9626 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		223694471B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFNavigationBarActivityIndicator.h; sourceTree = "<group>"; };
+		223694481B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFNavigationBarActivityIndicator.m; sourceTree = "<group>"; };
+		2236944F1B57F4A1000F9626 /* SGProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGProgressView.h; sourceTree = "<group>"; };
+		223694501B57F4A1000F9626 /* SGProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGProgressView.m; sourceTree = "<group>"; };
+		223694511B57F4A1000F9626 /* UINavigationController+SGProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+SGProgress.h"; sourceTree = "<group>"; };
+		223694521B57F4A1000F9626 /* UINavigationController+SGProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+SGProgress.m"; sourceTree = "<group>"; };
 		2244288B1B46C3550050CF2B /* Announcer WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Announcer WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2244288E1B46C3550050CF2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2244288F1B46C3550050CF2B /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
@@ -152,8 +160,6 @@
 		2244289E1B46C3550050CF2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224428A01B46C3550050CF2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		224428A21B46C3550050CF2B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		224C7B051B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+M13ProgressViewBar.h"; sourceTree = "<group>"; };
-		224C7B061B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+M13ProgressViewBar.m"; sourceTree = "<group>"; };
 		224C7B0A1B2FE73100912977 /* CategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		22595B671B4781510027B010 /* DetailInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailInterfaceController.swift; sourceTree = "<group>"; };
 		22595B691B47A3C00027B010 /* FeedKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedKit.swift; sourceTree = "<group>"; };
@@ -254,6 +260,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		223694461B57F1CE000F9626 /* JDFNavigationBarActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				223694471B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.h */,
+				223694481B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m */,
+			);
+			path = JDFNavigationBarActivityIndicator;
+			sourceTree = "<group>";
+		};
+		2236944E1B57F4A1000F9626 /* SGNavigationProgress */ = {
+			isa = PBXGroup;
+			children = (
+				2236944F1B57F4A1000F9626 /* SGProgressView.h */,
+				223694501B57F4A1000F9626 /* SGProgressView.m */,
+				223694511B57F4A1000F9626 /* UINavigationController+SGProgress.h */,
+				223694521B57F4A1000F9626 /* UINavigationController+SGProgress.m */,
+			);
+			path = SGNavigationProgress;
+			sourceTree = "<group>";
+		};
 		2244287F1B46C2350050CF2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,15 +342,6 @@
 				2244289E1B46C3550050CF2B /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		224C7B041B2EE03A00912977 /* M13ProgressSuite */ = {
-			isa = PBXGroup;
-			children = (
-				224C7B051B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.h */,
-				224C7B061B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m */,
-			);
-			path = M13ProgressSuite;
 			sourceTree = "<group>";
 		};
 		227E71381B1D44DF00215577 = {
@@ -403,12 +420,13 @@
 		227E71661B1D4B1600215577 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
-				225B487A1B3ACB3E0068E2A6 /* Fabric.framework */,
-				225B487B1B3ACB3E0068E2A6 /* Crashlytics.framework */,
-				227E71721B1D4BEA00215577 /* Parse.framework */,
+				2236944E1B57F4A1000F9626 /* SGNavigationProgress */,
 				227E71711B1D4BEA00215577 /* Bolts.framework */,
+				227E71721B1D4BEA00215577 /* Parse.framework */,
+				225B487B1B3ACB3E0068E2A6 /* Crashlytics.framework */,
+				225B487A1B3ACB3E0068E2A6 /* Fabric.framework */,
+				223694461B57F1CE000F9626 /* JDFNavigationBarActivityIndicator */,
 				22C5EFD71B32E1E800C92AC6 /* ProgressHUD */,
-				224C7B041B2EE03A00912977 /* M13ProgressSuite */,
 				22C4F1DB1B2024A600468987 /* SwiftWebViewProgress */,
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
 				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
@@ -741,14 +759,16 @@
 				223694451B5695A2000F9626 /* CategoryViewController.swift in Sources */,
 				22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */,
 				227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */,
-				224C7B071B2EE03A00912977 /* UINavigationController+M13ProgressViewBar.m in Sources */,
 				22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */,
 				22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */,
 				22C5EFDC1B32E1E800C92AC6 /* ProgressHUD.m in Sources */,
 				224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */,
 				227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */,
+				223694541B57F4A1000F9626 /* UINavigationController+SGProgress.m in Sources */,
 				22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */,
+				223694531B57F4A1000F9626 /* SGProgressView.m in Sources */,
 				227E71901B1D4F1C00215577 /* MasterViewController.swift in Sources */,
+				2236944C1B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m in Sources */,
 				22C4F1CD1B201F1000468987 /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
