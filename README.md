@@ -48,8 +48,9 @@ StatiX Industries:
 * Parse
 * Fabric/Crashlytics
 * TUSafariActivity (https://github.com/davbeck/TUSafariActivity)
-* M13ProgressSuite (https://github.com/Marxon13/M13ProgressSuite)
 * SwiftWebViewProgress (https://github.com/mokumoku/SwiftWebViewProgress)
+* JDFNavigationBarActivityIndicator (https://github.com/JoeFryer/JDFNavigationBarActivityIndicator)
+* SGNavigationProgress (https://github.com/sgryschuk/SGNavigationProgress)
 
 
 ##License:

@@ -28,6 +28,22 @@
 			<key>File</key>
 			<string>TUSafariActivity</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>JDFNavigationBarActivityIndicator</string>
+			<key>File</key>
+			<string>JDFNavigationBarActivityIndicator</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>SGNavigationProgress</string>
+			<key>File</key>
+			<string>SGNavigationProgress</string>
+		</dict>
 	</array>
 </dict>
 </plist>
