@@ -20,7 +20,8 @@ class MasterViewController: UITableViewController {
     private var element: String = ""
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
-    private let helper = FeedHelper.sharedInstance
+    private let helper = GlobalSingleton.sharedInstance
+    private let feedHelper = FeedHelper.sharedInstance
     private var handoffActivated = false
     private var handoffIndex = -1
     private var progressCancelled = false
@@ -77,8 +78,7 @@ class MasterViewController: UITableViewController {
         progressCancelled = false
 
         // Check for push notifications
-        let singleton = GlobalSingleton.sharedInstance
-        if singleton.getDidReceivePushNotification() == true {
+        if helper.getDidReceivePushNotification() == true {
             self.performSegueWithIdentifier("MasterToDetail", sender: self)
         }
     }
@@ -111,7 +111,7 @@ class MasterViewController: UITableViewController {
             self.tableView.setContentOffset(pt, animated: false)
 
             // Load cached version first, while checking for existence of the cached feeds
-            if let feeds = self.helper.getCachedFeeds() {
+            if let feeds = self.feedHelper.getCachedFeeds() {
                 self.feeds = feeds
                 self.tableView.reloadData()
             }
@@ -236,11 +236,10 @@ class MasterViewController: UITableViewController {
         // Pass the selected object to the new view controller.
 
         if segue.identifier == "MasterToDetail" {
-            let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
-            if singleton.getDidReceivePushNotification() {
+            if helper.getDidReceivePushNotification() {
                 NSNotificationCenter.defaultCenter().removeObserver(self)
-                (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "", link: singleton.getRemoteNotificationURL(), date: "", author: "", content: "")
-                singleton.setDidReceivePushNotificationWithBool(false)
+                (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "", link: helper.getRemoteNotificationURL(), date: "", author: "", content: "")
+                helper.setDidReceivePushNotificationWithBool(false)
             } else if handoffActivated == true {
                 if self.feeds.isEmpty {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The Handoff feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
@@ -411,10 +410,9 @@ extension MasterViewController : NSXMLParserDelegate {
         self.refreshControl?.endRefreshing()
 
         // Archive and cache feeds into persistent storage (cool beans)
-        self.helper.setCachedFeeds(self.feeds)
+        self.feedHelper.setCachedFeeds(self.feeds)
 
-        let singleton: GlobalSingleton = GlobalSingleton.sharedInstance
-        if singleton.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
+        if helper.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
             self.performSegueWithIdentifier("MasterToDetail", sender: self)
         }
     }

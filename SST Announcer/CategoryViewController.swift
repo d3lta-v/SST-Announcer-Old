@@ -20,7 +20,7 @@ class CategoryViewController: UITableViewController {
     private var element: String = ""
     private var searchResults: [FeedItem]
     private let dateFormatter: NSDateFormatter
-    private let helper = FeedHelper.sharedInstance
+    private let helper = GlobalSingleton.sharedInstance
     private let indeterminateProgressBar = JDFNavigationBarActivityIndicator()
 
     // MARK: NSURLSession Variables

@@ -88,38 +88,6 @@ public class FeedHelper: NSObject {
         return nil
     }
 
-    public func getTableRowHeight(currentApplication: UIApplication) -> CGFloat {
-        let preferredSizeCategory = currentApplication.preferredContentSizeCategory
-        switch preferredSizeCategory {
-        case UIContentSizeCategoryExtraSmall:
-            return 40;
-        case UIContentSizeCategorySmall:
-            return 45;
-        case UIContentSizeCategoryMedium:
-            return 50;
-        case UIContentSizeCategoryLarge:
-            return 55;
-        case UIContentSizeCategoryExtraLarge:
-            return 60;
-        case UIContentSizeCategoryExtraExtraLarge:
-            return 65;
-        case UIContentSizeCategoryExtraExtraExtraLarge:
-            return 70;
-        case UIContentSizeCategoryAccessibilityMedium:
-            return 75;
-        case UIContentSizeCategoryAccessibilityLarge:
-            return 80;
-        case UIContentSizeCategoryAccessibilityExtraLarge:
-            return 85;
-        case UIContentSizeCategoryAccessibilityExtraExtraLarge:
-            return 90;
-        case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
-            return 95;
-        default:
-            return 55
-        }
-    }
-
     private func decodeResponseData(buffer: NSData) -> [FeedItem]? {
         parser = NSXMLParser(data: buffer)
         parser.delegate = self

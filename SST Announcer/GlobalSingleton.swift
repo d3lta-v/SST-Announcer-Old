@@ -11,7 +11,7 @@ import UIKit
 class GlobalSingleton: NSObject {
     static let sharedInstance = GlobalSingleton()
 
-    // Variables
+    // MARK: Variables / initializers
     private var remoteNotificationURL: String = ""
     private var didReceivePushNotification: Bool = false
 
@@ -19,7 +19,7 @@ class GlobalSingleton: NSObject {
         //println("__INIT__")
     }
 
-    // Data retrieval methods
+    // MARK: Data retrieval methods
     func getRemoteNotificationURL() -> String {
         return remoteNotificationURL
     }
@@ -28,12 +28,45 @@ class GlobalSingleton: NSObject {
         return didReceivePushNotification
     }
 
-    // Data input methods
+    // MARK: Data input methods
     func setRemoteNotificationURLWithString(urlString: String) {
         remoteNotificationURL = urlString
     }
 
     func setDidReceivePushNotificationWithBool(pushNotifcationReceivedBool: Bool) {
         didReceivePushNotification = pushNotifcationReceivedBool;
+    }
+
+    // MARK: Misc UI methods
+    func getTableRowHeight(currentApplication: UIApplication) -> CGFloat {
+        let preferredSizeCategory = currentApplication.preferredContentSizeCategory
+        switch preferredSizeCategory {
+        case UIContentSizeCategoryExtraSmall:
+            return 40;
+        case UIContentSizeCategorySmall:
+            return 45;
+        case UIContentSizeCategoryMedium:
+            return 50;
+        case UIContentSizeCategoryLarge:
+            return 55;
+        case UIContentSizeCategoryExtraLarge:
+            return 60;
+        case UIContentSizeCategoryExtraExtraLarge:
+            return 65;
+        case UIContentSizeCategoryExtraExtraExtraLarge:
+            return 70;
+        case UIContentSizeCategoryAccessibilityMedium:
+            return 75;
+        case UIContentSizeCategoryAccessibilityLarge:
+            return 80;
+        case UIContentSizeCategoryAccessibilityExtraLarge:
+            return 85;
+        case UIContentSizeCategoryAccessibilityExtraExtraLarge:
+            return 90;
+        case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
+            return 95;
+        default:
+            return 55
+        }
     }
 }
