@@ -19,6 +19,7 @@ class CategoriesViewController: UITableViewController {
     private var newFeeds: [FeedItem] // NewFeeds is actually to "cache" a copy of the new feeds, and sync it to the old feeds
     private var element = ""
     private var searchResults: [FeedItem]
+    private var progressCancelled = false
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -54,10 +55,12 @@ class CategoriesViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        progressCancelled = false
         getFeedsOnce()
     }
 
     override func viewWillDisappear(animated: Bool) {
+        progressCancelled = true
         self.navigationController?.cancelSGProgress()
 
         super.viewWillDisappear(animated)
@@ -319,9 +322,11 @@ extension CategoriesViewController : NSURLSessionDelegate, NSURLSessionDataDeleg
             bufferUnwrapped.appendData(data)
 
             let percentDownload = (Float(bufferUnwrapped.length) / Float(expectedContentLength)) * 100
-            dispatch_async(dispatch_get_main_queue(), {
-                self.navigationController?.setSGProgressPercentage(percentDownload)
-            })
+            if !progressCancelled {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.navigationController?.setSGProgressPercentage(percentDownload)
+                })
+            }
         }
     }
 

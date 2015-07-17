@@ -74,6 +74,8 @@ class MasterViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        progressCancelled = false
+
         // Check for push notifications
         let singleton = GlobalSingleton.sharedInstance
         if singleton.getDidReceivePushNotification() == true {
@@ -82,6 +84,7 @@ class MasterViewController: UITableViewController {
     }
 
     override func viewWillDisappear(animated: Bool) {
+        progressCancelled = true
         self.navigationController?.cancelSGProgress()
     }
 
@@ -435,9 +438,11 @@ extension MasterViewController : NSURLSessionDelegate, NSURLSessionDataDelegate 
             bufferUnwrapped.appendData(data)
 
             let percentDownload = (Float(bufferUnwrapped.length) / Float(expectedContentLength)) * 100
-            dispatch_async(dispatch_get_main_queue(), {
-                self.navigationController?.setSGProgressPercentage(percentDownload)
-            })
+            if !progressCancelled {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.navigationController?.setSGProgressPercentage(percentDownload)
+                })
+            }
         }
     }
 
