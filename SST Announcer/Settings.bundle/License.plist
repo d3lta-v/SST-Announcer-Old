@@ -8,7 +8,7 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
-			<string>SwiftWebViewProgress</string>
+			<string>NJKWebViewProgress</string>
 			<key>File</key>
 			<string>WebViewProgress</string>
 		</dict>

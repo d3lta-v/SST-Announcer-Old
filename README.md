@@ -43,12 +43,12 @@ StatiX Industries:
 
 
 ##Dependencies:
-* ProgressHUD (https://github.com/relatedcode/ProgressHUD)
-* DTCoreText (https://github.com/Cocoanetics/DTCoreText)
 * Parse
 * Fabric/Crashlytics
+* ProgressHUD (https://github.com/relatedcode/ProgressHUD)
+* DTCoreText (https://github.com/Cocoanetics/DTCoreText)
 * TUSafariActivity (https://github.com/davbeck/TUSafariActivity)
-* SwiftWebViewProgress (https://github.com/mokumoku/SwiftWebViewProgress)
+* NJKWebViewProgress (https://github.com/ninjinkun/NJKWebViewProgress)
 * JDFNavigationBarActivityIndicator (https://github.com/JoeFryer/JDFNavigationBarActivityIndicator)
 * SGNavigationProgress (https://github.com/sgryschuk/SGNavigationProgress)
 

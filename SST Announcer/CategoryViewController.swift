@@ -58,6 +58,9 @@ class CategoryViewController: UITableViewController {
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
 
+        // Init indeterminate progress indicators
+        indeterminateProgressBar.addToNavigationBar(self.navigationController?.navigationBar, startAnimating: true)
+
         if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
             self.tableView.estimatedRowHeight = 55
             self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -65,15 +68,9 @@ class CategoryViewController: UITableViewController {
             // Manually set ALL the cell heights
             self.tableView.rowHeight = helper.getTableRowHeight(UIApplication.sharedApplication())
         }
-    }
 
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
+        // Start loading
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-
-        indeterminateProgressBar.addToNavigationBar(self.navigationController?.navigationBar, startAnimating: true)
-
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             if let url = self.inputURL {
                 self.loadFeedWithURLString(url)
@@ -144,13 +141,13 @@ class CategoryViewController: UITableViewController {
                 if let indexPth = indexPath {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = searchResults[indexPth.row]
                 } else {
-                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The search feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                 }
             } else {
                 if let indexPath = self.tableView.indexPathForSelectedRow() {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = feeds[indexPath.row]
                 } else {
-                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "")
+                    (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                 }
             }
         }

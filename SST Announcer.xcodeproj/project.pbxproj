@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		222F59F21B59F7DE00180190 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 222F59EF1B59F7DE00180190 /* NJKWebViewProgress.m */; };
 		223694451B5695A2000F9626 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223694441B5695A2000F9626 /* CategoryViewController.swift */; };
 		2236944C1B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 223694481B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m */; };
 		223694531B57F4A1000F9626 /* SGProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 223694501B57F4A1000F9626 /* SGProgressView.m */; };
@@ -52,8 +53,6 @@
 		22C4F1CD1B201F1000468987 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1CC1B201F1000468987 /* WebViewController.swift */; };
 		22C4F1D21B201FC000468987 /* TUSafariActivity.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22C4F1CF1B201FC000468987 /* TUSafariActivity.bundle */; };
 		22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1D11B201FC000468987 /* TUSafariActivity.m */; };
-		22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DC1B2024A600468987 /* SwiftWebViewProgress.swift */; };
-		22C4F1DF1B2024A600468987 /* SwiftWebViewProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */; };
 		22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */; };
 		22C5EFDB1B32E1E800C92AC6 /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22C5EFD81B32E1E800C92AC6 /* ProgressHUD.bundle */; };
 		22C5EFDC1B32E1E800C92AC6 /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C5EFDA1B32E1E800C92AC6 /* ProgressHUD.m */; };
@@ -143,6 +142,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		222F59EE1B59F7DE00180190 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
+		222F59EF1B59F7DE00180190 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
 		223694441B5695A2000F9626 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		223694471B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDFNavigationBarActivityIndicator.h; sourceTree = "<group>"; };
 		223694481B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDFNavigationBarActivityIndicator.m; sourceTree = "<group>"; };
@@ -198,8 +199,6 @@
 		22C4F1CF1B201FC000468987 /* TUSafariActivity.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TUSafariActivity.bundle; sourceTree = "<group>"; };
 		22C4F1D01B201FC000468987 /* TUSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUSafariActivity.h; sourceTree = "<group>"; };
 		22C4F1D11B201FC000468987 /* TUSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSafariActivity.m; sourceTree = "<group>"; };
-		22C4F1DC1B2024A600468987 /* SwiftWebViewProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgress.swift; sourceTree = "<group>"; };
-		22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebViewProgressView.swift; sourceTree = "<group>"; };
 		22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMUXCRParser.swift; sourceTree = "<group>"; };
 		22C5EFD51B32C38800C92AC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		22C5EFD81B32E1E800C92AC6 /* ProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ProgressHUD.bundle; sourceTree = "<group>"; };
@@ -260,6 +259,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		222F59ED1B59F7DE00180190 /* NJKWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				222F59EE1B59F7DE00180190 /* NJKWebViewProgress.h */,
+				222F59EF1B59F7DE00180190 /* NJKWebViewProgress.m */,
+			);
+			path = NJKWebViewProgress;
+			sourceTree = "<group>";
+		};
 		223694461B57F1CE000F9626 /* JDFNavigationBarActivityIndicator */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +428,7 @@
 		227E71661B1D4B1600215577 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				222F59ED1B59F7DE00180190 /* NJKWebViewProgress */,
 				2236944E1B57F4A1000F9626 /* SGNavigationProgress */,
 				227E71711B1D4BEA00215577 /* Bolts.framework */,
 				227E71721B1D4BEA00215577 /* Parse.framework */,
@@ -427,7 +436,6 @@
 				225B487A1B3ACB3E0068E2A6 /* Fabric.framework */,
 				223694461B57F1CE000F9626 /* JDFNavigationBarActivityIndicator */,
 				22C5EFD71B32E1E800C92AC6 /* ProgressHUD */,
-				22C4F1DB1B2024A600468987 /* SwiftWebViewProgress */,
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
 				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
 			);
@@ -455,15 +463,6 @@
 				22C4F1D11B201FC000468987 /* TUSafariActivity.m */,
 			);
 			path = TUSafariActivity;
-			sourceTree = "<group>";
-		};
-		22C4F1DB1B2024A600468987 /* SwiftWebViewProgress */ = {
-			isa = PBXGroup;
-			children = (
-				22C4F1DC1B2024A600468987 /* SwiftWebViewProgress.swift */,
-				22C4F1DD1B2024A600468987 /* SwiftWebViewProgressView.swift */,
-			);
-			path = SwiftWebViewProgress;
 			sourceTree = "<group>";
 		};
 		22C5EFD71B32E1E800C92AC6 /* ProgressHUD */ = {
@@ -755,11 +754,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				22595B6A1B47A3C00027B010 /* FeedKit.swift in Sources */,
-				22C4F1DF1B2024A600468987 /* SwiftWebViewProgressView.swift in Sources */,
 				223694451B5695A2000F9626 /* CategoryViewController.swift in Sources */,
+				222F59F21B59F7DE00180190 /* NJKWebViewProgress.m in Sources */,
 				22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */,
 				227E71471B1D44DF00215577 /* AppDelegate.swift in Sources */,
-				22C4F1DE1B2024A600468987 /* SwiftWebViewProgress.swift in Sources */,
 				22C4F1E11B20C8AF00468987 /* SIMUXCRParser.swift in Sources */,
 				22C5EFDC1B32E1E800C92AC6 /* ProgressHUD.m in Sources */,
 				224C7B0B1B2FE73100912977 /* CategoriesViewController.swift in Sources */,

@@ -7,3 +7,4 @@
 #import "TUSafariActivity.h"
 #import "JDFNavigationBarActivityIndicator.h"
 #import "UINavigationController+SGProgress.h"
+#import "NJKWebViewProgress.h"

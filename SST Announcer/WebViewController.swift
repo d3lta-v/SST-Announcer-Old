@@ -15,9 +15,9 @@ class WebViewController: UIViewController {
     @IBOutlet weak var exportBarButton: UIBarButtonItem!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var textView: DTAttributedTextView!
-    private var progressView: WebViewProgressView!
-    private var progressProxy: WebViewProgress!
+    private var progressProxy: NJKWebViewProgress!
     private var linkUrl = NSURL(string: "")!
+    private var progressCancelled = false
     private let indeterminateProgressBar = JDFNavigationBarActivityIndicator()
 
     // MARK: - Lifecycle
@@ -32,21 +32,17 @@ class WebViewController: UIViewController {
         // Do any additional setup after loading the view.
 
         // Init web view loading bar
-        progressProxy = WebViewProgress()
+        progressProxy = NJKWebViewProgress()
         webView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
         progressProxy.progressDelegate = self
-        let progressBarHeight: CGFloat = 2.5
-        let navigationBarBounds = self.navigationController!.navigationBar.bounds
-        let barFrame = CGRect(x: 0, y: navigationBarBounds.size.height - progressBarHeight, width: navigationBarBounds.width, height: progressBarHeight)
-        progressView = WebViewProgressView(frame: barFrame)
-        progressView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
 
         loadFeed(self.receivedFeedItem)
     }
 
     override func viewWillDisappear(animated: Bool) {
-        progressView.removeFromSuperview()
+        progressCancelled = true
+        self.navigationController?.cancelSGProgress()
 
         super.viewWillDisappear(animated)
     }
@@ -157,8 +153,8 @@ class WebViewController: UIViewController {
     }
 
     private func useBrowser(url: String!, usedTable: Bool!) {
-        self.navigationController!.navigationBar.addSubview(progressView)
-        progressView.setProgress(0, animated: true)
+        //self.navigationController!.navigationBar.addSubview(progressView)
+        //progressView.setProgress(0, animated: true)
 
         textView.alpha = 0
         if usedTable == true {
@@ -225,7 +221,7 @@ class WebViewController: UIViewController {
 
 // MARK: - UIWebViewDelegate, WebViewProgressDelegate Methods
 
-extension WebViewController : UIWebViewDelegate, WebViewProgressDelegate {
+extension WebViewController : UIWebViewDelegate, NJKWebViewProgressDelegate {
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         if error.code != -999 {
             ProgressHUD.showError("Loading failed!")
@@ -237,8 +233,10 @@ extension WebViewController : UIWebViewDelegate, WebViewProgressDelegate {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 
-    func webViewProgress(webViewProgress: WebViewProgress, updateProgress progress: Float) {
-        progressView.setProgress(progress, animated: true)
+    func webViewProgress(webViewProgress: NJKWebViewProgress!, updateProgress progress: Float) {
+        if !progressCancelled {
+            self.navigationController?.setSGProgressPercentage(progress * 100)
+        }
     }
 }
 
@@ -332,8 +330,14 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
         let url = button.URL
 
         if UIApplication.sharedApplication().canOpenURL(url.absoluteURL!) {
-            self.linkUrl = url
-            self.performSegueWithIdentifier("ToBrowser", sender: self)
+            let urlString = url.absoluteString
+
+            if urlString?.hasPrefix("http") == true {
+                self.linkUrl = url
+                self.performSegueWithIdentifier("ToBrowser", sender: self)
+            } else if urlString?.hasPrefix("mailto") == true || urlString?.hasPrefix("tel") == true {
+                UIApplication.sharedApplication().openURL(url)
+            }
         } else {
             if url.host == nil && url.path == nil {
                 let fragment = url.fragment

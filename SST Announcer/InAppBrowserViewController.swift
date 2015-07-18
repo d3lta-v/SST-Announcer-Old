@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewProgressDelegate {
+class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebViewProgressDelegate {
 
     // MARK: - Private variables declaration
 
@@ -25,8 +25,7 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
     @IBOutlet weak var fixedSpace4: UIBarButtonItem!
     @IBOutlet weak var fixedSpace5: UIBarButtonItem!
 
-    private var progressView: WebViewProgressView!
-    private var progressProxy: WebViewProgress!
+    private var progressProxy: NJKWebViewProgress!
     var receivedUrl: NSURL? = NSURL() // Public variable, to be exposed to previous view controller
 
     private var stopBool = false
@@ -43,15 +42,10 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
         // Do any additional setup after loading the view.
 
         // Init web view loading bar
-        progressProxy = WebViewProgress()
+        progressProxy = NJKWebViewProgress()
         mainWebView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
         progressProxy.progressDelegate = self
-        let progBarHeight: CGFloat = 2.0
-        let navBarBounds = self.navigationController!.navigationBar.bounds
-        let barFrame = CGRect(x: 0, y: navBarBounds.size.height - progBarHeight, width: navBarBounds.width, height: progBarHeight)
-        progressView = WebViewProgressView(frame: barFrame)
-        progressView.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
 
         if let url = receivedUrl {
             mainWebView.loadRequest(NSURLRequest(URL: url))
@@ -65,12 +59,9 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
         self.navigationController?.setToolbarHidden(false, animated: false)
         let toolbarArray = [fixedSpace1, backButton, fixedSpace2, forwardButton, flexSpace3, refreshButton, fixedSpace4, exportButton, fixedSpace5]
         self.setToolbarItems(toolbarArray, animated: false)
-        self.navigationController?.navigationBar.addSubview(progressView)
-        progressView.setProgress(0, animated: true)
     }
 
     override func viewWillDisappear(animated: Bool) {
-        progressView.removeFromSuperview()
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
         super.viewWillDisappear(animated)
@@ -93,24 +84,12 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
 
     // MARK: - WebViewProgress delegates
 
-    func webViewProgress(webViewProgress: WebViewProgress, updateProgress progress: Float) {
-        progressView.setProgress(progress, animated: true)
+    func webViewProgress(webViewProgress: NJKWebViewProgress!, updateProgress progress: Float) {
+        self.navigationController?.setSGProgressPercentage(progress * 100)
 
-        if progress < 1 { // Have not finished loading
-            let bttn = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "stopAction")
-            refreshButton = bttn
-            stopBool = true
-        } else if progress == 1 {
-            let bttn = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshAction")
-            refreshButton = bttn
-            stopBool = false
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        if progress > 0.5 { // prevent unnecessary calls
+            self.navigationItem.title = mainWebView.stringByEvaluatingJavaScriptFromString("document.title")
         }
-
-        self.navigationItem.title = mainWebView.stringByEvaluatingJavaScriptFromString("document.title")
-
-        backButton.enabled = mainWebView.canGoBack
-        forwardButton.enabled = mainWebView.canGoForward
     }
 
     // MARK: - UIWebView delegate
@@ -120,6 +99,11 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, WebViewPr
             ProgressHUD.showError("Error loading!")
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+        backButton.enabled = mainWebView.canGoBack
+        forwardButton.enabled = mainWebView.canGoForward
     }
 
     // MARK: - IBActions
