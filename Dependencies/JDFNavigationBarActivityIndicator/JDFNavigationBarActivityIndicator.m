@@ -132,7 +132,7 @@ static CGFloat const JDFNavigationBarActivityIndicatorAnimationDuration = 1.0f;
 {
     if (!_color) {
         if (!self.window.tintColor) {
-            return [UIColor blueColor];
+            return [UIColor colorWithRed:0 green:122.0/255.0 blue:1 alpha:1];
         }
         return self.window.tintColor;
     }
