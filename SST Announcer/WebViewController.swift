@@ -43,6 +43,7 @@ class WebViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         progressCancelled = true
         self.navigationController?.cancelSGProgress()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
         super.viewWillDisappear(animated)
     }
@@ -222,6 +223,10 @@ class WebViewController: UIViewController {
 // MARK: - UIWebViewDelegate, WebViewProgressDelegate Methods
 
 extension WebViewController : UIWebViewDelegate, NJKWebViewProgressDelegate {
+    func webViewDidStartLoad(webView: UIWebView) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         if error.code != -999 {
             ProgressHUD.showError("Loading failed!")
