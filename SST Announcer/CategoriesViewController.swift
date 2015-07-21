@@ -105,10 +105,10 @@ class CategoriesViewController: UITableViewController {
                 if server.serverError {
                     dispatch_sync(dispatch_get_main_queue(), {
                         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                        ProgressHUD.showError("Error Parsing!")
+                        ProgressHUD.showError("Error Loading!")
                     })
                 } else {
-                    self.loadFeedWithURLString(server.urlString)
+                    self.loadFeedWithURLString(server.urlString.stringByReplacingOccurrencesOfString("blogrss.xml", withString: "categories.xml"))
                 }
             })
         }
@@ -136,7 +136,7 @@ class CategoriesViewController: UITableViewController {
         buffer = NSMutableData()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-            self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
+            self.loadFeedWithURLString("https://simux.org/api/cache/categories.xml")
         })
     }
 
