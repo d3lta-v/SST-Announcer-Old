@@ -20,6 +20,7 @@ class CategoriesViewController: UITableViewController {
     private var element = ""
     private var searchResults: [FeedItem]
     private var progressCancelled = false
+    private let helper = GlobalSingleton.sharedInstance
 
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
@@ -100,7 +101,7 @@ class CategoriesViewController: UITableViewController {
             // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-                let server = self.chooseServerForReliability()
+                let server = self.helper.chooseServerForReliability()
                 if server.serverError {
                     dispatch_sync(dispatch_get_main_queue(), {
                         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -137,42 +138,6 @@ class CategoriesViewController: UITableViewController {
             //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
             self.loadFeedWithURLString("https://simux.org/api/cache/blogrss.xml")
         })
-    }
-
-    private func chooseServerForReliability() -> (urlString: String, serverError: Bool) {
-        let testUrl = NSURL(string: "https://simux.org/api/check.json")
-        var errorPgm = false
-        var useFallback = false
-        let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!) {(data, response, error) in
-            if error == nil {
-                if let rsp = response as? NSHTTPURLResponse {
-                    if rsp.statusCode != 200 { // Use fallback here
-                        useFallback = true
-                    } else {
-                        useFallback = false
-                    }
-                } else {
-                    errorPgm = true
-                }
-            } else {
-                useFallback = true
-            }
-        }
-
-        if useFallback {
-            return ("https://api.statixind.net/cache/blogrss.xml", errorPgm)
-        } else {
-            return ("https://simux.org/api/cache/blogrss.xml", errorPgm)
-        }
-    }
-
-    private func delay(delay: Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
     }
 
     // MARK: - Navigation

@@ -69,4 +69,42 @@ class GlobalSingleton: NSObject {
             return 55
         }
     }
+
+    // MARK: Web data transfer methods
+    func chooseServerForReliability() -> (urlString: String, serverError: Bool) {
+        let testUrl = NSURL(string: "https://simux.org/api/check.json")
+        var errorPgm = false
+        var useFallback = false
+        let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!){(data, response, error) in
+            if error == nil {
+                if let rsp = response as? NSHTTPURLResponse {
+                    if rsp.statusCode != 200 { // Use fallback here
+                        useFallback = true
+                    } else {
+                        useFallback = false
+                    }
+                } else {
+                    errorPgm = true
+                }
+            } else {
+                useFallback = true
+            }
+        }
+
+        if useFallback {
+            return ("https://api.statixind.net/cache/blogrss.xml", errorPgm)
+        } else {
+            return ("https://simux.org/api/cache/blogrss.xml", errorPgm)
+        }
+    }
+
+    // MARK: Misc methods
+    func delay(delay: Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
 }

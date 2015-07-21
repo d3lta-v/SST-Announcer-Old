@@ -178,36 +178,9 @@ class MasterViewController: UITableViewController {
         })
     }
 
-    private func chooseServerForReliability() -> (urlString: String, serverError: Bool) {
-        let testUrl = NSURL(string: "https://simux.org/api/check.json")
-        var errorPgm = false
-        var useFallback = false
-        let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!){(data, response, error) in
-            if error == nil {
-                if let rsp = response as? NSHTTPURLResponse {
-                    if rsp.statusCode != 200 { // Use fallback here
-                        useFallback = true
-                    } else {
-                        useFallback = false
-                    }
-                } else {
-                    errorPgm = true
-                }
-            } else {
-                useFallback = true
-            }
-        }
-
-        if useFallback {
-            return ("https://api.statixind.net/cache/blogrss.xml", errorPgm)
-        } else {
-            return ("https://simux.org/api/cache/blogrss.xml", errorPgm)
-        }
-    }
-
     private func loadFromReliableServer() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            let server = self.chooseServerForReliability()
+            let server = self.helper.chooseServerForReliability()
             if server.serverError {
                 dispatch_sync(dispatch_get_main_queue(), {
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -217,15 +190,6 @@ class MasterViewController: UITableViewController {
                 self.loadFeedWithURLString(server.urlString)
             }
         })
-    }
-
-    private func delay(delay: Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
     }
 
     // MARK: - Navigation
@@ -273,7 +237,7 @@ class MasterViewController: UITableViewController {
     override func restoreUserActivityState(activity: NSUserActivity) {
         if let titleString = activity.userInfo?["title"] as? String {
             if feeds.count <= 5 {
-                delay(0.2) {
+                helper.delay(0.2) {
                     self.initiateHandoffAction(titleString)
                 }
             } else {
