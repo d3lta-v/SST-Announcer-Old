@@ -42,15 +42,19 @@ class InterfaceController: WKInterfaceController {
 
         // Attempt to load new data from parent application
         WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-            if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
-                NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                    if feeds.count != 0 {
-                        self.helper.setCachedFeeds(feeds)
-                        self.feeds = feeds
-                        self.reloadTable()
+            if error == nil {
+                if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
+                    NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
+                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
+                        if feeds.count != 0 {
+                            self.helper.setCachedFeeds(feeds)
+                            self.feeds = feeds
+                            self.reloadTable()
+                        }
                     }
                 }
+            } else {
+                println(error)
             }
         })
     }

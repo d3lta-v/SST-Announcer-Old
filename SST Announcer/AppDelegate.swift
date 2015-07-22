@@ -142,19 +142,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             currentInstallation.badge = 0
             currentInstallation.saveEventually()
         }
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+    }
+    
+    private func resetAppleWatchBadge() {
+        delay(0.1){
+            self.resetBadges()
+        }
+    }
+
+    private func delay(delay: Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
 
     // MARK: - WatchKit, custom notifications and Handoff
 
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
         // Reset app badges when Apple Watch polls iPhone
-        //resetBadges()
 
         if let userInfo = userInfo, request = userInfo["request"] as? String {
             if request == "refreshData" {
                 let helper = FeedHelper.sharedInstance
                 if let feeds = helper.requestFeedsSynchronous() {
+                    resetAppleWatchBadge()
                     NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
                     reply(["feedData": NSKeyedArchiver.archivedDataWithRootObject(feeds)])
                 } else {
