@@ -149,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
         // Reset app badges when Apple Watch polls iPhone
-        resetBadges()
+        //resetBadges()
 
         if let userInfo = userInfo, request = userInfo["request"] as? String {
             if request == "refreshData" {

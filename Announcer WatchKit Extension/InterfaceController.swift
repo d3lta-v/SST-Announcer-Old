@@ -70,39 +70,40 @@ class InterfaceController: WKInterfaceController {
             if notifIdentifier == "viewFeed" {
                 // Execute actions from payload
 
-                // First attempt (with only the current feeds array)
+                // First attempt (with only the current feeds cache)
                 if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                    self.initiatePushNotificationReading(urlPayload)
-                }
-
-                // Load feeds if the previous one fails
-                WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-                    if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
-                        NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                        if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                            self.helper.setCachedFeeds(feeds)
-                            self.feeds = feeds
-                            self.reloadTable()
-
-                            // Start going through the table for data
-                            if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                                self.initiatePushNotificationReading(urlPayload)
+                    let success = self.initiatePushNotificationReading(urlPayload)
+                    if !success {
+                        // Load feeds if the previous one fails
+                        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
+                            if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
+                                NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
+                                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
+                                    self.helper.setCachedFeeds(feeds)
+                                    self.feeds = feeds
+                                    self.reloadTable()
+                                    
+                                    // Start going through the table for data
+                                    if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
+                                        self.initiatePushNotificationReading(urlPayload)
+                                    }
+                                }
+                            } else {
+                                // Try again, this time with only the current cached table
+                                if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
+                                    self.initiatePushNotificationReading(urlPayload)
+                                }
                             }
-                        }
-                    } else {
-                        // Try again, this time with only the current cached table
-                        if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                            self.initiatePushNotificationReading(urlPayload)
-                        }
+                        })
                     }
-                })
+                }
             }
         }
     }
 
     // MARK: - Private functions
 
-    func initiatePushNotificationReading(payload: String) {
+    func initiatePushNotificationReading(payload: String) -> Bool {
         for var i = 0; i<self.feeds.count; i++ {
             if self.feeds[i].link == payload {
                 let context = FeedItem(
@@ -112,9 +113,10 @@ class InterfaceController: WKInterfaceController {
                     author: self.feeds[i].author,
                     content: self.feeds[i].content)
                 self.pushControllerWithName("DetailInterfaceController", context: context)
-                break
+                return true
             }
         }
+        return false
     }
 
     // MARK: - Table View

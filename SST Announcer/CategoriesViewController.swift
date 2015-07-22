@@ -127,6 +127,7 @@ class CategoriesViewController: UITableViewController {
     }
 
     private func synchroniseFeedArrayAndTable() {
+        self.newFeeds.sort({$0.title.localizedCaseInsensitiveCompare($1.title) == NSComparisonResult.OrderedAscending})
         self.feeds = self.newFeeds
         self.tableView.reloadData()
     }
@@ -147,7 +148,7 @@ class CategoriesViewController: UITableViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         if let indexPath = self.tableView.indexPathForSelectedRow() {
-            let modString = (self.feeds[indexPath.row].title).stringByReplacingOccurrencesOfString(" ", withString: "%20")
+            let modString = (self.feeds[indexPath.row].title).stringByReplacingOccurrencesOfString(" ", withString: "%20").stringByReplacingOccurrencesOfString(";", withString: "%3B")
             (segue.destinationViewController as? CategoryViewController)?.inputURL = "http://studentsblog.sst.edu.sg/feeds/posts/default/-/\(modString)?alt=rss"
             (segue.destinationViewController as? CategoryViewController)?.title = self.feeds[indexPath.row].title
         }
