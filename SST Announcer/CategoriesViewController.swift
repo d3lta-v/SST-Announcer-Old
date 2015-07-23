@@ -100,7 +100,6 @@ class CategoriesViewController: UITableViewController {
 
             // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
                 let server = self.helper.chooseServerForReliability()
                 if server.serverError {
                     dispatch_sync(dispatch_get_main_queue(), {
@@ -136,8 +135,7 @@ class CategoriesViewController: UITableViewController {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         buffer = NSMutableData()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
-            self.loadFeedWithURLString("https://simux.org/api/cache/categories.xml")
+            self.loadFeedWithURLString("http://node1.sstinc.org/cache/categories.xml")
         })
     }
 

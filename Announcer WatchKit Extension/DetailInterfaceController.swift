@@ -77,7 +77,11 @@ class DetailInterfaceController: WKInterfaceController {
             processedString = processedString.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "\n")
             processedString = processedString.stringByReplacingOccurrencesOfString("<br />", withString: "\n")
             processedString = processedString.stringByReplacingOccurrencesOfString("</div>", withString: "\n")
+            processedString = processedString.stringByReplacingOccurrencesOfString("<iframe[a-zA-Z0-9:;#.\u{20}()/\\-,'\"<>=?_%]*/iframe>", withString: "", options: .RegularExpressionSearch, range: nil)
+            processedString = processedString.stringByReplacingOccurrencesOfString("<img[a-zA-Z0-9:;#.\u{20}()/\\-,'\"<>=?_%]* />", withString: "", options: .RegularExpressionSearch, range: nil)
+            println(processedString)
             processedString = processedString.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
+            processedString = processedString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             return processedString.stringByDecodingHTMLEntities
         }
         return nil

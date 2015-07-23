@@ -33,7 +33,7 @@ public class SIMUXCRParser: NSObject {
     public func convertHTML(htmlString: String!, completionClosure: (title: String, description: String) -> Void) {
         var returnTuple = (title: "", description: "") // Init empty named tuple
 
-        // Test for connectivity to simux.org and if not available, fallback to another server
+        // Test for connectivity to node1.sstinc.org and if not available, fallback to another server
         let determinateTuple = chooseServer()
         let urlFirstSegment = determinateTuple.urlPrepend
         self.errorBoolean = determinateTuple.error
@@ -72,7 +72,7 @@ public class SIMUXCRParser: NSObject {
     // MARK: - Private functions
 
     private func chooseServer() -> (urlPrepend: String, error: Bool) {
-        let testUrl = NSURL(string: "https://simux.org/api/check.json")
+        let testUrl = NSURL(string: "http://node1.sstinc.org/check.json")
         var errorPgm = false
         var useFallback = false
         let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!) {(data, response, error) in
@@ -94,7 +94,7 @@ public class SIMUXCRParser: NSObject {
         if useFallback {
             return ("https://api.statixind.net/v1/clear?url=", errorPgm)
         } else {
-            return ("https://simux.org/v1/clear?url=", errorPgm)
+            return ("http://node1.sstinc.org/v1/clear?url=", errorPgm)
         }
     }
 }

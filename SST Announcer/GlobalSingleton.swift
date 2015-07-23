@@ -72,7 +72,7 @@ class GlobalSingleton: NSObject {
 
     // MARK: Web data transfer methods
     func chooseServerForReliability() -> (urlString: String, serverError: Bool) {
-        let testUrl = NSURL(string: "https://simux.org/api/check.json")
+        let testUrl = NSURL(string: "http://node1.sstinc.org/check.json")
         var errorPgm = false
         var useFallback = false
         let test = NSURLSession.sharedSession().dataTaskWithURL(testUrl!){(data, response, error) in
@@ -94,7 +94,7 @@ class GlobalSingleton: NSObject {
         if useFallback {
             return ("https://api.statixind.net/cache/blogrss.xml", errorPgm)
         } else {
-            return ("https://simux.org/api/cache/blogrss.xml", errorPgm)
+            return ("http://node1.sstinc.org/cache/blogrss.xml", errorPgm)
         }
     }
 

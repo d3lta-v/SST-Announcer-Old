@@ -113,7 +113,6 @@ class CategoryViewController: UITableViewController {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         buffer = NSMutableData()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            //self.loadFeedWithURLString("https://api.statixind.net/cache/blogrss.xml")
             if let url = self.inputURL {
                 self.loadFeedWithURLString(url)
             }
