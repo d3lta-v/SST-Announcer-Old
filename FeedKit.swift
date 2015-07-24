@@ -75,7 +75,7 @@ public class FeedHelper: NSObject {
     }
 
     public func requestFeedsSynchronous() -> [FeedItem]? {
-        let rqst = NSURLRequest(URL: NSURL(string: "http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss")!)
+        let rqst = NSURLRequest(URL: NSURL(string: "http://node1.sstinc.org/api/cache/blogrss.xml")!)
         var rsp: NSURLResponse?
         var err: NSError?
         self.feeds = [FeedItem]()

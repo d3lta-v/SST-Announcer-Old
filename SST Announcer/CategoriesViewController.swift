@@ -135,7 +135,7 @@ class CategoriesViewController: UITableViewController {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         buffer = NSMutableData()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.loadFeedWithURLString("http://node1.sstinc.org/cache/categories.xml")
+            self.loadFeedWithURLString("http://node1.sstinc.org/api/cache/categories.xml")
         })
     }
 
