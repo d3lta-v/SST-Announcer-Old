@@ -121,7 +121,7 @@ class MasterViewController: UITableViewController {
 
             // Check if user enabled push, after a 5 second delay
             #if !((arch(i386) || arch(x86_64)) && os(iOS)) // Preprocessor macro for checking iOS sims
-            self.delay(5) {
+            self.helper.delay(5) {
                 let application = UIApplication.sharedApplication()
                 if application.respondsToSelector("isRegisteredForRemoteNotifications") { // iOS 8 feature
                     if application.isRegisteredForRemoteNotifications() == false {

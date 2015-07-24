@@ -22,7 +22,7 @@ Feed source: http://studentsblog.sst.edu.sg/feeds/posts/default?alt=rss
 ##Availability:
 The App is only usable on the iOS 7.1+ platform
 Devices compatible include the iPhone 4 and up, iPad 2 and up as well as iPod Touch 4rd Gen and up
-Compiles on iOS SDK 8.3, downwards compatible to iOS 7.1
+Compiles on iOS SDK 8.4, downwards compatible to iOS 7.1
 
 
 ##Description:
@@ -37,7 +37,7 @@ StatiX Industries:
 
 
 ##Caveats:
-* The Xcode Project file must be opened in Xcode 6 for iOS 8 SDK
+* The Xcode Project file must be opened in Xcode 6 for iOS 8.4 SDK
 * SwiftLint is required. If you do not need SwiftLint, you have to remove the final build phrase
 * All the external dependencies MUST be met in order to compile the project (including account-specific dependencies such as Fabric). If you choose not to, you have to delete the run scripts phrase and delete the dependency entirely from the project.
 
