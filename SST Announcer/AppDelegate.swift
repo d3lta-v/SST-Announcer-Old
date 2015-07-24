@@ -143,9 +143,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             currentInstallation.saveEventually()
         }
     }
-    
+
     private func resetAppleWatchBadge() {
-        GlobalSingleton.sharedInstance.delay(0.1){
+        GlobalSingleton.sharedInstance.delay(0.2){
             self.resetBadges()
         }
     }
