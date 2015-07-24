@@ -125,6 +125,20 @@
 			remoteGlobalIDString = E2262DC61638331500BFDAD7;
 			remoteInfo = "Mac Framework";
 		};
+		2281A2AC1B61272D00B8E8FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
+			remoteInfo = DemoApp;
+		};
+		2281A2AE1B61272D00B8E8FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A79BA6201B46A1FB0086C2F6;
+			remoteInfo = "DTCoreText (iOS)";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -445,12 +459,14 @@
 		227E71921B1D504600215577 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				2281A2AD1B61272D00B8E8FD /* RTDemoApp.app */,
 				227E71A01B1D504700215577 /* DTCoreText.framework */,
 				227E71A21B1D504700215577 /* libDTCoreText.a */,
 				227E71A41B1D504700215577 /* UnitTest.xctest */,
 				227E71A61B1D504700215577 /* MacUnitTest.xctest */,
 				227E71A81B1D504700215577 /* libDTCoreText_no_DTFoundation.a */,
 				227E71AA1B1D504700215577 /* DTCoreText.framework */,
+				2281A2AF1B61272D00B8E8FD /* DTCoreText.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -663,6 +679,20 @@
 			remoteRef = 227E71A91B1D504700215577 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		2281A2AD1B61272D00B8E8FD /* RTDemoApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = RTDemoApp.app;
+			remoteRef = 2281A2AC1B61272D00B8E8FD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2281A2AF1B61272D00B8E8FD /* DTCoreText.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DTCoreText.framework;
+			remoteRef = 2281A2AE1B61272D00B8E8FD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -732,7 +762,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#/usr/local/bin/swiftlint";
+			shellScript = /usr/local/bin/swiftlint;
 		};
 /* End PBXShellScriptBuildPhase section */
 

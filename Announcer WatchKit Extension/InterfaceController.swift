@@ -86,7 +86,7 @@ class InterfaceController: WKInterfaceController {
                                     self.helper.setCachedFeeds(feeds)
                                     self.feeds = feeds
                                     self.reloadTable()
-                                    
+
                                     // Start going through the table for data
                                     if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
                                         self.initiatePushNotificationReading(urlPayload)
