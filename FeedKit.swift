@@ -51,9 +51,26 @@ public class FeedHelper: NSObject {
     private var element = ""
     private var tempItem: FeedItem
     private var feeds: [FeedItem]
-    private let dateFormatter: NSDateFormatter
+    private let fullDateFormatter: NSDateFormatter
+    private let longDateFormatter: NSDateFormatter
     private var parser: NSXMLParser
     private var parseFinished = false
+
+    public override init() {
+        let stdLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+        fullDateFormatter = NSDateFormatter()
+        fullDateFormatter.locale = stdLocale
+        fullDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss ZZZ"
+        longDateFormatter = NSDateFormatter()
+        longDateFormatter.locale = stdLocale
+        longDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
+
+        tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
+        feeds = [FeedItem]()
+        parser = NSXMLParser()
+
+        super.init()
+    }
 
     public func getCachedFeeds() -> ([FeedItem]?) {
         if let feedsObj = defaults?.objectForKey("cachedFeeds") as? NSData {
@@ -99,17 +116,6 @@ public class FeedHelper: NSObject {
             return nil
         }
     }
-
-    public override init() {
-        dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
-        tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
-        feeds = [FeedItem]()
-        parser = NSXMLParser()
-
-        super.init()
-    }
 }
 
 extension FeedHelper : NSXMLParserDelegate {
@@ -133,9 +139,13 @@ extension FeedHelper : NSXMLParserDelegate {
             } else if self.element == "link" {
                 self.tempItem.link = self.tempItem.link + testString
             } else if self.element == "pubDate" {
-                self.tempItem.date = self.tempItem.date + testString
+                if let currentDate = self.fullDateFormatter.dateFromString(testString) {
+                    self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
+                } else {
+                    self.tempItem.date += "<No Date>"
+                }
             } else if self.element == "author" {
-                self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
             } else if self.element == "description" {
                 self.tempItem.content = self.tempItem.content + testString
             }
