@@ -186,15 +186,7 @@ class MasterViewController: UITableViewController {
 
     private func loadFromReliableServer() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            let server = self.helper.chooseServerForReliability()
-            if server.serverError {
-                dispatch_sync(dispatch_get_main_queue(), {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    ProgressHUD.showError("Error Loading!")
-                })
-            } else {
-                self.loadFeedWithURLString(server.urlString)
-            }
+            self.loadFeedWithURLString("http://node1.sstinc.org/api/cache/blogrss.xml")
         })
     }
 
@@ -356,19 +348,19 @@ extension MasterViewController : NSXMLParserDelegate {
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
         if var testString = string { // Unwrap string? to check if it is safe
             if self.element == "title" {
-                self.tempItem.title = self.tempItem.title + testString
+                self.tempItem.title += testString
             } else if self.element == "link" {
-                self.tempItem.link = self.tempItem.link + testString
+                self.tempItem.link += testString
             } else if self.element == "pubDate" {
                 if let currentDate = self.fullDateFormatter.dateFromString(testString) {
-                    self.tempItem.date = longDateFormatter.stringFromDate(currentDate)
+                    self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
                 } else {
-                    self.tempItem.date = "<No Date>"
+                    self.tempItem.date += "<No Date>"
                 }
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
             } else if self.element == "description" {
-                self.tempItem.content = self.tempItem.content + testString
+                self.tempItem.content += testString
             }
         }
     }

@@ -100,15 +100,7 @@ class CategoriesViewController: UITableViewController {
 
             // Then load the web version on a seperate thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                let server = self.helper.chooseServerForReliability()
-                if server.serverError {
-                    dispatch_sync(dispatch_get_main_queue(), {
-                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                        ProgressHUD.showError("Error Loading!")
-                    })
-                } else {
-                    self.loadFeedWithURLString(server.urlString.stringByReplacingOccurrencesOfString("blogrss.xml", withString: "categories.xml"))
-                }
+                self.loadFeedWithURLString("http://node1.sstinc.org/api/cache/categories.xml")
             })
         }
     }

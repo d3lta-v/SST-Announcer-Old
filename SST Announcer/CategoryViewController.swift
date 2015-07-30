@@ -19,7 +19,8 @@ class CategoryViewController: UITableViewController {
     private var newFeeds: [FeedItem] // NewFeeds is actually to "cache" a copy of the new feeds, and synchronise it to the old feeds
     private var element: String = ""
     private var searchResults: [FeedItem]
-    private let dateFormatter: NSDateFormatter
+    private let fullDateFormatter: NSDateFormatter
+    private let longDateFormatter: NSDateFormatter
     private let helper = GlobalSingleton.sharedInstance
     private let indeterminateProgressBar = JDFNavigationBarActivityIndicator()
 
@@ -40,9 +41,14 @@ class CategoryViewController: UITableViewController {
         tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
         searchResults = [FeedItem]()
 
-        dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
+        let stdLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+        fullDateFormatter = NSDateFormatter()
+        fullDateFormatter.locale = stdLocale
+        fullDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss ZZZ"
+
+        longDateFormatter = NSDateFormatter()
+        longDateFormatter.locale = stdLocale
+        longDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
 
         super.init(coder: aDecoder)
     }
@@ -240,9 +246,11 @@ extension CategoryViewController : NSXMLParserDelegate {
             } else if self.element == "link" {
                 self.tempItem.link = self.tempItem.link + testString
             } else if self.element == "pubDate" {
-                let currentDate = self.dateFormatter.dateFromString(testString.stringByReplacingOccurrencesOfString(":00 +0000", withString: ""))!
-                let newDate = currentDate.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT))
-                self.tempItem.date = dateFormatter.stringFromDate(newDate) //Depends on current difference in timestamp to calculate intellegiently what timezone it should apply to the posts
+                if let currentDate = self.fullDateFormatter.dateFromString(testString) {
+                    self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
+                } else {
+                    self.tempItem.date += "<No Date>"
+                }
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
             } else if self.element == "description" {

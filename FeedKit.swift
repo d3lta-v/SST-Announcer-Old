@@ -135,9 +135,9 @@ extension FeedHelper : NSXMLParserDelegate {
     public func parser(parser: NSXMLParser, foundCharacters string: String?) {
         if var testString = string { // Unwrap string? to check if it is safe
             if self.element == "title" {
-                self.tempItem.title = self.tempItem.title + testString
+                self.tempItem.title += testString
             } else if self.element == "link" {
-                self.tempItem.link = self.tempItem.link + testString
+                self.tempItem.link += testString
             } else if self.element == "pubDate" {
                 if let currentDate = self.fullDateFormatter.dateFromString(testString) {
                     self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
@@ -147,7 +147,7 @@ extension FeedHelper : NSXMLParserDelegate {
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
             } else if self.element == "description" {
-                self.tempItem.content = self.tempItem.content + testString
+                self.tempItem.content += testString
             }
         }
     }
