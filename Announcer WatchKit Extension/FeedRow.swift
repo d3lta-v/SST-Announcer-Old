@@ -10,5 +10,6 @@ import WatchKit
 
 class FeedRow: NSObject {
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
-    @IBOutlet weak var detailLabel: WKInterfaceLabel!
+    @IBOutlet weak var author: WKInterfaceLabel!
+    @IBOutlet weak var date: WKInterfaceLabel!
 }

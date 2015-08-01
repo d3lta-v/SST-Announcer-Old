@@ -15,11 +15,16 @@
                                 <tableRow identifier="FeedRow" id="4lN-Do-eP0" customClass="FeedRow" customModule="Announcer_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="4ot-wd-Z14">
                                         <items>
-                                            <label alignment="left" text="Loading..." numberOfLines="2" id="uCv-9S-SWB" userLabel="Title">
+                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.94999999999999996" id="uCv-9S-SWB" userLabel="Title">
                                                 <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                             </label>
-                                            <label alignment="left" verticalAlignment="bottom" text="Loading..." minimumScaleFactor="0.90000000000000002" id="z9w-di-OVJ" userLabel="Subtitle">
-                                                <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                            <label alignment="left" text="Loading..." id="z9w-di-OVJ" userLabel="Subtitle">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            </label>
+                                            <label alignment="left" text="Loading..." id="2vA-Wt-qlP" userLabel="Subtitle">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                             </label>
                                         </items>
                                         <edgeInsets key="margins" left="3" right="3" top="3" bottom="3"/>
@@ -28,12 +33,14 @@
                                         </connections>
                                     </group>
                                     <connections>
-                                        <outlet property="detailLabel" destination="z9w-di-OVJ" id="r96-Ze-FzL"/>
+                                        <outlet property="author" destination="z9w-di-OVJ" id="79f-vb-E7M"/>
+                                        <outlet property="date" destination="2vA-Wt-qlP" id="edA-bx-Dpf"/>
                                         <outlet property="titleLabel" destination="uCv-9S-SWB" id="2qq-1t-H4D"/>
                                     </connections>
                                 </tableRow>
                             </items>
                         </table>
+                        <imageView width="1" alignment="center" verticalAlignment="center" hidden="YES" contentMode="scaleAspectFit" initiallyAnimated="NO" animationDuration="5" id="gMV-cp-QF9"/>
                     </items>
                     <menu key="menu" id="QJ3-NC-XlU">
                         <items>
@@ -45,6 +52,7 @@
                         </items>
                     </menu>
                     <connections>
+                        <outlet property="animationView" destination="gMV-cp-QF9" id="wBb-TM-9Wg"/>
                         <outlet property="feedsTable" destination="80M-DH-3O7" id="63d-8E-TG6"/>
                     </connections>
                 </controller>
@@ -59,6 +67,7 @@
                         <group width="1" alignment="center" layout="vertical" id="Itg-KN-5Ho">
                             <items>
                                 <label alignment="left" verticalAlignment="bottom" text="Author" minimumScaleFactor="0.69999999999999996" id="bgn-S1-edS">
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                 </label>
                                 <label alignment="left" text="Title" numberOfLines="0" id="X4E-cn-kKt">

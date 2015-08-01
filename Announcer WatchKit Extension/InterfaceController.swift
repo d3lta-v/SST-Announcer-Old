@@ -14,10 +14,12 @@ class InterfaceController: WKInterfaceController {
     // MARK: - Private variables
 
     @IBOutlet weak var feedsTable: WKInterfaceTable!
+    @IBOutlet weak var animationView: WKInterfaceImage!
     private let helper = FeedHelper.sharedInstance
     private var feeds: [FeedItem]!
     private let longDateFormatter = NSDateFormatter()
     private let shortDateFormatter = NSDateFormatter()
+    private var recursionLength = 0
 
     // MARK: - Lifecycle
 
@@ -30,7 +32,7 @@ class InterfaceController: WKInterfaceController {
         longDateFormatter.locale = standardLocale
         longDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
         shortDateFormatter.locale = standardLocale
-        shortDateFormatter.dateFormat = "dd/MM/yy"
+        shortDateFormatter.dateFormat = "dd/MM/yy hh:mm a"
 
         invalidateUserActivity() // we don't want handoff, YET
 
@@ -41,22 +43,7 @@ class InterfaceController: WKInterfaceController {
         }
 
         // Attempt to load new data from parent application
-        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-            if error == nil {
-                if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
-                    NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                        if feeds.count != 0 {
-                            self.helper.setCachedFeeds(feeds)
-                            self.feeds = feeds
-                            self.reloadTable()
-                        }
-                    }
-                }
-            } else {
-                println(error)
-            }
-        })
+        networkRefreshWithAnimation(false, recursive: false)
     }
 
     override func willActivate() {
@@ -79,26 +66,7 @@ class InterfaceController: WKInterfaceController {
                     let success = self.initiatePushNotificationReading(urlPayload)
                     if !success {
                         // Load feeds if the previous one fails
-                        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-                            if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
-                                NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                                    self.helper.setCachedFeeds(feeds)
-                                    self.feeds = feeds
-                                    self.reloadTable()
-
-                                    // Start going through the table for data
-                                    if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                                        self.initiatePushNotificationReading(urlPayload)
-                                    }
-                                }
-                            } else {
-                                // Try again, this time with only the current cached table
-                                if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                                    self.initiatePushNotificationReading(urlPayload)
-                                }
-                            }
-                        })
+                        refreshForPushNotification(remoteNotification, animated: true)
                     }
                 }
             }
@@ -123,6 +91,79 @@ class InterfaceController: WKInterfaceController {
         return false
     }
 
+    func networkRefreshWithAnimation(animated: Bool, recursive: Bool) {
+        if animated && !recursive {
+            startLoadingAnimation()
+        }
+        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
+            if error == nil {
+                if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
+                    NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
+                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
+                        if feeds.count != 0 {
+                            self.helper.setCachedFeeds(feeds)
+                            self.feeds = feeds
+                            if animated {
+                                self.stopLoadingAnimation()
+                            }
+                            self.reloadTable()
+                        }
+                    }
+                }
+            } else {
+                println(error)
+                if self.recursionLength < 3 { // allow for further recursion if length more than 3
+                    self.recursionLength++
+                    self.networkRefreshWithAnimation(false, recursive: true) // recursion m8
+                } else {
+                    self.stopLoadingAnimation() // terminate loading animation if error persists
+                }
+            }
+        })
+    }
+
+    func refreshForPushNotification(payload: [NSObject : AnyObject], animated: Bool) {
+        if animated {
+            startLoadingAnimation()
+        }
+        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
+            if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
+                NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
+                if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
+                    self.helper.setCachedFeeds(feeds)
+                    self.feeds = feeds
+                    self.reloadTable()
+                    
+                    // Start going through the table for data
+                    if let urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
+                        self.initiatePushNotificationReading(urlPayload)
+                    }
+                }
+            } else {
+                // Try again, this time with only the current cached table
+                if let urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
+                    self.initiatePushNotificationReading(urlPayload)
+                }
+            }
+            if animated {
+                self.stopLoadingAnimation()
+            }
+        })
+    }
+
+    func startLoadingAnimation() {
+        feedsTable.setHidden(true)
+        animationView.setHidden(false)
+        animationView.setImageNamed("wave_")
+        animationView.startAnimating()
+    }
+
+    func stopLoadingAnimation() {
+        self.animationView.stopAnimating()
+        self.animationView.setHidden(true)
+        self.feedsTable.setHidden(false)
+    }
+
     // MARK: - Table View
 
     func reloadTable() {
@@ -131,13 +172,14 @@ class InterfaceController: WKInterfaceController {
         }
         for (index, feed) in enumerate(feeds) {
             if let row = feedsTable.rowControllerAtIndex(index) as? FeedRow {
-                if feeds[index].title == "" {
-                    feeds[index].title = "<No Title>"
+                if feed.title == "" {
+                    feed.title = "<No Title>"
                 }
                 row.titleLabel.setText(feed.title)
+                row.author.setText(feed.author)
                 if let shortDate = longDateFormatter.dateFromString(feed.date) {
-                    let shortDateString = shortDateFormatter.stringFromDate(shortDate)
-                    row.detailLabel.setText("\(shortDateString) \(feed.author)")
+                    let shortDateString = shortDateFormatter.stringFromDate(shortDate.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT)))
+                    row.date.setText(shortDateString)
                 }
             }
         }
@@ -153,20 +195,7 @@ class InterfaceController: WKInterfaceController {
         }
 
         // Then try a network refresh
-        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-            if let reply = replyInfo {
-                if let feedData = reply["feedData"] as? NSData {
-                    NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                        if feeds.count != 0 {
-                            self.helper.setCachedFeeds(feeds)
-                            self.feeds = feeds
-                            self.reloadTable()
-                        }
-                    }
-                }
-            }
-        })
+        networkRefreshWithAnimation(true, recursive: false)
     }
 
     // MARK: - Navigation

@@ -144,32 +144,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func resetAppleWatchBadge() {
-        GlobalSingleton.sharedInstance.delay(0.2){
-            self.resetBadges()
-        }
-    }
-
     // MARK: - WatchKit, custom notifications and Handoff
 
     func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
-        // Reset app badges when Apple Watch polls iPhone
-        resetAppleWatchBadge()
-
-        if let userInfo = userInfo, request = userInfo["request"] as? String {
-            if request == "refreshData" {
-                let helper = FeedHelper.sharedInstance
-                if let feeds = helper.requestFeedsSynchronous() {
-                    NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
-                    reply(["feedData": NSKeyedArchiver.archivedDataWithRootObject(feeds)])
-                } else {
-                    reply([:])
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            if let userInfo = userInfo, request = userInfo["request"] as? String {
+                if request == "refreshData" {
+                    let helper = FeedHelper.sharedInstance
+                    if let feeds = helper.requestFeedsSynchronous() {
+                        NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
+                        reply(["feedData": NSKeyedArchiver.archivedDataWithRootObject(feeds)])
+                    } else {
+                        reply([:])
+                    }
+                    return
                 }
-                return
             }
-        }
-
-        reply([:])
+            reply([:])
+            // Reset app badges when Apple Watch polls iPhone
+            self.resetBadges()
+        })
     }
 
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
