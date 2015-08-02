@@ -18,11 +18,11 @@
                                             <label alignment="left" text="Loading..." minimumScaleFactor="0.94999999999999996" id="uCv-9S-SWB" userLabel="Title">
                                                 <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                             </label>
-                                            <label alignment="left" text="Loading..." id="z9w-di-OVJ" userLabel="Subtitle">
+                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.90000000000000002" id="z9w-di-OVJ" userLabel="Author">
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                             </label>
-                                            <label alignment="left" text="Loading..." id="2vA-Wt-qlP" userLabel="Subtitle">
+                                            <label alignment="left" text="Loading..." id="2vA-Wt-qlP" userLabel="Date">
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                             </label>
