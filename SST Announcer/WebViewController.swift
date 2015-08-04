@@ -67,8 +67,6 @@ class WebViewController: UIViewController {
             useSIMUX = true
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
-            var title: String!
-            var description: String!
             SIMUXCRParser().convertHTML(item.link) { (title: String, description: String) in
                 let editedDescription = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
 
@@ -255,7 +253,6 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
                 imageView.image = attachmentImage
             }
             imageView.url = attachment.contentURL
-
             if attachment.hyperLinkURL != nil {
                 imageView.userInteractionEnabled = true
                 let button = DTLinkButton(frame: imageView.bounds)
@@ -266,12 +263,10 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
                 button.addTarget(self, action: "linkPushed:", forControlEvents: .TouchUpInside)
                 imageView.addSubview(button)
             }
-
             return imageView
         } else if attachment.isKindOfClass(DTIframeTextAttachment) {
             let videoView = DTWebVideoView(frame: frame)
             videoView.attachment = attachment
-
             return videoView
         } else if attachment.isKindOfClass(DTObjectTextAttachment) {
             let colorName: AnyObject? = attachment.attributes["somecolorparameter"]
@@ -282,7 +277,6 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
                 someView.layer.borderColor = UIColor.blackColor().CGColor
                 someView.accessibilityLabel = colorName as? String
                 someView.isAccessibilityElement = true
-
                 return someView
             } else {
                 return nil

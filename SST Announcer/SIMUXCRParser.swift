@@ -42,7 +42,7 @@ public class SIMUXCRParser: NSObject {
             if error == nil {
                 if let dataUnwrapped = data {
                     var jsonError: NSError? = nil
-                    if let jsonObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as? NSDictionary {
+                    if let jsonObject = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: &jsonError) as? NSDictionary {
                         if jsonError == nil {
                             if let title = jsonObject["title"] as? String, description = jsonObject["content"] as? String {
                                 returnTuple.title = title

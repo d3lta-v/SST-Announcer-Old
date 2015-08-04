@@ -43,7 +43,7 @@ class InterfaceController: WKInterfaceController {
         }
 
         // Attempt to load new data from parent application
-        networkRefreshAnimated(false, push: false, pushPayload: nil, recursive: false)
+        networkRefreshAnimated(false, pushPayload: nil, recursive: false)
     }
 
     override func willActivate() {
@@ -67,7 +67,7 @@ class InterfaceController: WKInterfaceController {
                     if !success {
                         // Load feeds if the previous one fails (most of the case it will)
                         //refreshForPushNotification(remoteNotification, animated: true)
-                        networkRefreshAnimated(true, push: true, pushPayload: remoteNotification, recursive: false)
+                        networkRefreshAnimated(true, pushPayload: remoteNotification, recursive: false)
                     }
                 }
             }
@@ -93,7 +93,7 @@ class InterfaceController: WKInterfaceController {
     }
 
     // Note: recursive flag must NOT be on when calling this function from outside this function
-    func networkRefreshAnimated(animated: Bool, push: Bool, pushPayload: [NSObject: AnyObject]?, recursive: Bool) {
+    func networkRefreshAnimated(animated: Bool, pushPayload: [NSObject: AnyObject]?, recursive: Bool) {
         if animated && !recursive {
             startLoadingAnimation()
         }
@@ -109,27 +109,23 @@ class InterfaceController: WKInterfaceController {
                                 self.stopLoadingAnimation()
                             }
                             self.reloadTable()
-
                             // Check for whether or not this is a push notification
-                            if push {
-                                if let payload = pushPayload, urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
-                                    self.initiatePushNotificationReading(urlPayload) // Start scanning through current list of posts
-                                }
+                            if let payload = pushPayload, urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
+                                self.initiatePushNotificationReading(urlPayload) // Start scanning through current list of posts
                             }
                         }
                     }
-                } else if push {
-                    // Force re-check for the post in the current table
-                    if let payload = pushPayload, urlPayload = payload["url"] as? String {
-                        self.initiatePushNotificationReading(urlPayload)
-                    }
+                } else if let payload = pushPayload, urlPayload = payload["url"] as? String {
+                    // Force re-check for push notification in the current table
+                    self.initiatePushNotificationReading(urlPayload)
                 }
             } else {
                 println(error)
-                if self.recursionLength < 3 { // allow for further recursion if length more than 3
+                if self.recursionLength < 3 { // allow for further recursion if length less than 3
                     self.recursionLength++
-                    self.networkRefreshAnimated(false, push: push, pushPayload: pushPayload, recursive: true) // recursion m8
+                    self.networkRefreshAnimated(false, pushPayload: pushPayload, recursive: true) // recursion m8
                 } else {
+                    self.recursionLength = 0 // Reset recursion length indicator
                     self.stopLoadingAnimation() // terminate loading animation if error persists
                 }
             }
@@ -163,7 +159,8 @@ class InterfaceController: WKInterfaceController {
                 row.titleLabel.setText(feed.title)
                 row.author.setText(feed.author)
                 if let shortDate = longDateFormatter.dateFromString(feed.date) {
-                    let shortDateString = shortDateFormatter.stringFromDate(shortDate.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT)))
+                    let correctDate = shortDate.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT))
+                    let shortDateString = shortDateFormatter.stringFromDate(correctDate)
                     row.date.setText(shortDateString)
                 }
             }
@@ -180,7 +177,7 @@ class InterfaceController: WKInterfaceController {
         }
 
         // Then try a network refresh
-        networkRefreshAnimated(true, push: false, pushPayload: nil, recursive: false)
+        networkRefreshAnimated(true, pushPayload: nil, recursive: false)
     }
 
     // MARK: - Navigation

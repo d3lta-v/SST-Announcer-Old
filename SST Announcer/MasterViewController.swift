@@ -45,7 +45,7 @@ class MasterViewController: UITableViewController {
         fullDateFormatter = NSDateFormatter()
         fullDateFormatter.locale = stdLocale
         fullDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss ZZZ"
-        
+
         longDateFormatter = NSDateFormatter()
         longDateFormatter.locale = stdLocale
         longDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
@@ -108,7 +108,6 @@ class MasterViewController: UITableViewController {
     private func getFeedsOnce() {
         dispatch_once(&TokenHolder.token) {
             // Getfeeds uses a proper Swift implementation of dispatch once
-
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
             // Start the refresher
@@ -126,7 +125,12 @@ class MasterViewController: UITableViewController {
             self.loadFromReliableServer()
 
             // Check if user enabled push, after a 5 second delay
-            #if !((arch(i386) || arch(x86_64)) && os(iOS)) // Preprocessor macro for checking iOS sims
+            self.checkUserEnabledPush()
+        }
+    }
+
+    private func checkUserEnabledPush() {
+        #if !((arch(i386) || arch(x86_64)) && os(iOS)) // Preprocessor macro for checking iOS sims
             self.helper.delay(5) {
                 let application = UIApplication.sharedApplication()
                 if application.respondsToSelector("isRegisteredForRemoteNotifications") { // iOS 8 feature
@@ -144,8 +148,7 @@ class MasterViewController: UITableViewController {
                     }
                 }
             }
-            #endif
-        }
+        #endif
     }
 
     private func loadFeedWithURLString(urlString: String!){
