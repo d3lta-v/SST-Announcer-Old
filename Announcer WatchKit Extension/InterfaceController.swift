@@ -109,7 +109,7 @@ class InterfaceController: WKInterfaceController {
                                 self.stopLoadingAnimation()
                             }
                             self.reloadTable()
-                            // Check for whether or not this is a push notification
+                            // Check if this is a push notification
                             if let payload = pushPayload, urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
                                 self.initiatePushNotificationReading(urlPayload) // Start scanning through current list of posts
                             }

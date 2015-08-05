@@ -49,7 +49,7 @@ class DetailInterfaceController: WKInterfaceController {
         authorLabel.setText(feedItem.author)
         if checkIfStringHasIncompatibleViews(feedItem.content) {
             let ios7Color = UIColor(red: 0, green: 122/255, blue: 1, alpha: 1)
-            let attributedWarning = NSAttributedString(string: "This post contains elements Apple Watch can't display. You can read a text version below.\n\n", attributes: [NSForegroundColorAttributeName:ios7Color])
+            let attributedWarning = NSAttributedString(string: "This post contains elements Apple Watch can't display. You can read a text version below, or handoff to your iPhone to read the full version.\n\n", attributes: [NSForegroundColorAttributeName:ios7Color])
             var processedAttributedText = NSAttributedString(string: "Error", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
             if let processedText = stripAndProcessHTMLString(feedItem.content) {
                 let attr = [NSForegroundColorAttributeName:UIColor.whiteColor()]
