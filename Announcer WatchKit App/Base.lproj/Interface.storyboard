@@ -40,7 +40,7 @@
                                 </tableRow>
                             </items>
                         </table>
-                        <imageView width="1" alignment="center" verticalAlignment="center" hidden="YES" contentMode="scaleAspectFit" initiallyAnimated="NO" animationDuration="5" id="gMV-cp-QF9"/>
+                        <imageView width="1" alignment="center" verticalAlignment="center" hidden="YES" contentMode="scaleAspectFit" initiallyAnimated="NO" id="gMV-cp-QF9"/>
                     </items>
                     <menu key="menu" id="QJ3-NC-XlU">
                         <items>
@@ -107,7 +107,7 @@
                             <edgeInsets key="margins" left="7" right="7" top="10" bottom="10"/>
                         </group>
                     </items>
-                    <notificationCategory key="notificationCategory" identifier="viewFeed" wantsSashBlur="YES" id="JfB-70-Muf"/>
+                    <notificationCategory key="notificationCategory" identifier="viewFeed" id="JfB-70-Muf"/>
                     <connections>
                         <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
                     </connections>

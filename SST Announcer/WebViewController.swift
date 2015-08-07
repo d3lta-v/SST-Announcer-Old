@@ -167,14 +167,15 @@ class WebViewController: UIViewController {
     private func cleanHtml(html: String!) -> String! {
         var htmlVariable: String = html
 
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" style=\"[a-zA-Z0-9:;#.\u{20}()\\-,']*\"", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" height=\"[a-zA-Z0-9:;#.\u{20}()\\-,']*\"", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" width=\"[a-zA-Z0-9:;#.\u{20}()\\-,']*\"", withString: "", options: .RegularExpressionSearch, range: nil)
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" border=\"[a-zA-Z0-9:;#.\u{20}()\\-,']*\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" style=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" height=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" width=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
+        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" border=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "<br>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br \\>", withString: "<div></div>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b[r][^>]*/>", withString: "<br \\>", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<!--(.*?)-->", withString: "", options: .RegularExpressionSearch, range: nil)
+        println(htmlVariable)
 
         return htmlVariable
     }
@@ -184,7 +185,8 @@ class WebViewController: UIViewController {
     @IBAction func exportButton(sender: AnyObject) {
         if let feedItem = self.receivedFeedItem {
             let safariActivity = TUSafariActivity()
-            var activity = UIActivityViewController(activityItems: [NSURL(string: feedItem.link)!], applicationActivities: [safariActivity])
+            let url = NSURL(string: feedItem.link.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)
+            let activity = UIActivityViewController(activityItems: [url!], applicationActivities: [safariActivity])
 
             if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
                 self.presentViewController(activity, animated: true, completion: nil)

@@ -349,7 +349,7 @@ extension MasterViewController : NSXMLParserDelegate {
     }
 
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if var testString = string { // Unwrap string? to check if it is safe
+        if let testString = string { // Unwrap string? to check if it is safe
             if self.element == "title" {
                 self.tempItem.title += testString
             } else if self.element == "link" {
@@ -357,11 +357,9 @@ extension MasterViewController : NSXMLParserDelegate {
             } else if self.element == "pubDate" {
                 if let currentDate = self.fullDateFormatter.dateFromString(testString) {
                     self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
-                } else {
-                    self.tempItem.date += "<No Date>"
                 }
             } else if self.element == "author" {
-                self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
+                self.tempItem.author += testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
             } else if self.element == "description" {
                 self.tempItem.content += testString
             }

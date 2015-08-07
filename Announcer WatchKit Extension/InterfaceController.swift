@@ -121,13 +121,13 @@ class InterfaceController: WKInterfaceController {
                 }
             } else {
                 println(error)
-                if self.recursionLength < 3 { // allow for further recursion if length less than 3
+                /*if self.recursionLength < 3 { // allow for further recursion if length less than 3
                     self.recursionLength++
                     self.networkRefreshAnimated(false, pushPayload: pushPayload, recursive: true) // recursion m8
-                } else {
+                } else {*/
                     self.recursionLength = 0 // Reset recursion length indicator
                     self.stopLoadingAnimation() // terminate loading animation if error persists
-                }
+                //}
             }
         })
     }
