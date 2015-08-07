@@ -79,6 +79,7 @@ class InterfaceController: WKInterfaceController {
     func initiatePushNotificationReading(payload: String) -> Bool {
         for var i = 0; i<self.feeds.count; i++ {
             if self.feeds[i].link == payload {
+                stopLoadingAnimation()
                 let context = FeedItem(
                     title: self.feeds[i].title,
                     link: self.feeds[i].link,
