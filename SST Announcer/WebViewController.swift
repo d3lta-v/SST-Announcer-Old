@@ -172,7 +172,6 @@ class WebViewController: UIViewController {
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" width=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" border=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "<br>")
-        htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<br \\>", withString: "<div></div>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b[r][^>]*/>", withString: "<br \\>", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<!--(.*?)-->", withString: "", options: .RegularExpressionSearch, range: nil)
 
