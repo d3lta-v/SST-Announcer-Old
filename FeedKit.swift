@@ -92,7 +92,7 @@ public class FeedHelper: NSObject {
     }
 
     public func requestFeedsSynchronous() -> [FeedItem]? {
-        let rqst = NSURLRequest(URL: NSURL(string: "http://node1.sstinc.org/api/cache/blogrss.xml")!)
+        let rqst = NSURLRequest(URL: NSURL(string: "https://node1.sstinc.org/api/cache/blogrss.csv")!)
         var rsp: NSURLResponse?
         var err: NSError?
         self.feeds = [FeedItem]()

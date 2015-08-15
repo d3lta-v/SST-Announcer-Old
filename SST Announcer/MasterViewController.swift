@@ -122,7 +122,7 @@ class MasterViewController: UITableViewController {
             }
 
             // Then load the web version on a seperate thread
-            self.loadFromReliableServer()
+            self.loadFeedWithURLString("https://node1.sstinc.org/api/cache/blogrss.csv")
 
             // Check if user enabled push, after a 5 second delay
             self.checkUserEnabledPush()
@@ -183,13 +183,7 @@ class MasterViewController: UITableViewController {
         buffer = NSMutableData()
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.loadFromReliableServer()
-        })
-    }
-
-    private func loadFromReliableServer() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.loadFeedWithURLString("http://node1.sstinc.org/api/cache/blogrss.xml")
+            self.loadFeedWithURLString("https://node1.sstinc.org/api/cache/blogrss.csv")
         })
     }
 

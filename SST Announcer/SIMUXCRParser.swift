@@ -34,7 +34,7 @@ public class SIMUXCRParser: NSObject {
         var returnTuple = (title: "", description: "") // Init empty named tuple
 
         // Test for connectivity to node1.sstinc.org and if not available, fallback to another server
-        let urlFirstSegment = "http://node1.sstinc.org/api/fulltextrss/extract.php?url="
+        let urlFirstSegment = "https://node1.sstinc.org/api/fulltextrss/extract.php?url="
 
         // Actual REST JSON loading, with extremely strict optional error checking
         let url = NSURL(string: "\(urlFirstSegment)\(htmlString)&format=json")
