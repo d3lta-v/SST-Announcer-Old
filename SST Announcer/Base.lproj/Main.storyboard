@@ -140,7 +140,7 @@
             </objects>
             <point key="canvasLocation" x="2262" y="-401"/>
         </scene>
-        <!--Web Browser-->
+        <!--Loading...-->
         <scene sceneID="WNx-CP-ycB">
             <objects>
                 <viewController id="vbK-Lm-Ysp" customClass="InAppBrowserViewController" customModule="Announcer" customModuleProvider="target" sceneMemberID="viewController">
@@ -198,7 +198,7 @@
                             <constraint firstItem="YTS-LL-uRi" firstAttribute="leading" secondItem="PQa-7n-9Gd" secondAttribute="leading" id="ywA-Px-42m"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Web Browser" id="Rz6-Rf-Adn">
+                    <navigationItem key="navigationItem" title="Loading..." id="Rz6-Rf-Adn">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="fhZ-Lk-5Zo">
                             <connections>
                                 <action selector="exitNavigationVC:" destination="vbK-Lm-Ysp" id="kiL-QG-S8O"/>
@@ -530,6 +530,6 @@
         <image name="SSTInc" width="238" height="141"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fsX-uj-bHQ"/>
+        <segue reference="c1L-sO-DDv"/>
     </inferredMetricsTieBreakers>
 </document>

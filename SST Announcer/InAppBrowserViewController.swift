@@ -56,6 +56,8 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        backButton.enabled = mainWebView.canGoBack
+        forwardButton.enabled = mainWebView.canGoForward
         self.navigationController?.setToolbarHidden(false, animated: false)
         let toolbarArray = [fixedSpace1, backButton, fixedSpace2, forwardButton, flexSpace3, refreshButton, fixedSpace4, exportButton, fixedSpace5]
         self.setToolbarItems(toolbarArray, animated: false)
@@ -87,7 +89,7 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
     func webViewProgress(webViewProgress: NJKWebViewProgress!, updateProgress progress: Float) {
         self.navigationController?.setSGProgressPercentage(progress * 100)
 
-        if progress > 0.5 { // prevent unnecessary calls
+        if progress > 0.3 { // prevent unnecessary calls
             self.navigationItem.title = mainWebView.stringByEvaluatingJavaScriptFromString("document.title")
         }
     }
@@ -101,19 +103,28 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
         }
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidStartLoad(webView: UIWebView) {
         backButton.enabled = mainWebView.canGoBack
         forwardButton.enabled = mainWebView.canGoForward
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 
     // MARK: - IBActions
 
     @IBAction func goBack(sender: AnyObject) {
-        mainWebView.goBack()
+        if mainWebView.canGoBack {
+            mainWebView.goBack()
+        }
     }
 
     @IBAction func goForward(sender: AnyObject) {
-        mainWebView.goForward()
+        if mainWebView.canGoForward {
+            mainWebView.goForward()
+        }
     }
 
     @IBAction func exportAction(sender: AnyObject) {
