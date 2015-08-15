@@ -99,6 +99,7 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         if error.code != -999 {
             ProgressHUD.showError("Error loading!")
+            println(error.localizedDescription)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }
