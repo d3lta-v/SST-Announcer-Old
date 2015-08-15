@@ -72,6 +72,11 @@ public class FeedHelper: NSObject {
         super.init()
     }
 
+    /**
+        Gets a copy of the cached feeds from NSUserDefaults, deserializes it and returns it as an array of `FeedItem` s.
+
+        :returns: An optional `FeedItem` array
+    */
     public func getCachedFeeds() -> ([FeedItem]?) {
         if let feedsObj = defaults?.objectForKey("cachedFeeds") as? NSData {
             NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
@@ -85,12 +90,22 @@ public class FeedHelper: NSObject {
         }
     }
 
+    /**
+        Stores a copy of the cached feeds to NSUserDefaults, serializes it and stores it as an NSData object.
+
+        :params: feeds An array of `FeedItem` s.
+    */
     public func setCachedFeeds(feeds: [FeedItem]) {
         NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
         let cachedData = NSKeyedArchiver.archivedDataWithRootObject(feeds)
         defaults?.setObject(cachedData, forKey: "cachedFeeds")
     }
 
+    /**
+    Retrieves `FeedItem` s from the Internet synchronously.
+
+    :returns: An optional `FeedItem` array
+    */
     public func requestFeedsSynchronous() -> [FeedItem]? {
         let rqst = NSURLRequest(URL: NSURL(string: "https://node1.sstinc.org/api/cache/blogrss.csv")!)
         var rsp: NSURLResponse?
@@ -119,20 +134,20 @@ public class FeedHelper: NSObject {
 }
 
 extension FeedHelper : NSXMLParserDelegate {
-    public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    private func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         self.element = elementName
         if self.element == "item" { // If new item is retrieved, clear the temporary item object
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
         }
     }
 
-    public func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    private func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
             self.feeds.append(self.tempItem)
         }
     }
 
-    public func parser(parser: NSXMLParser, foundCharacters string: String?) {
+    private func parser(parser: NSXMLParser, foundCharacters string: String?) {
         if var testString = string { // Unwrap string? to check if it is safe
             if self.element == "title" {
                 self.tempItem.title += testString
@@ -152,11 +167,11 @@ extension FeedHelper : NSXMLParserDelegate {
         }
     }
 
-    public func parserDidEndDocument(parser: NSXMLParser) {
+    private func parserDidEndDocument(parser: NSXMLParser) {
         parseFinished = true
     }
 
-    public func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+    private func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         parseFinished = true
     }
 }

@@ -30,6 +30,12 @@ public class SIMUXCRParser: NSObject {
 
     // MARK: - Public exposed functions
 
+    /**
+        Retrieves HTML from a URL specified and runs it through the SIMUXCR parser, and returns the title and "description", which is the content of the cleaned HTML through a closure.
+
+        :param: htmlString         A URL for which you want to parse with the SIMUXCR parser
+        :param: completionClosure  A closure for you to retrieve the data from the SIMUXCR parser once it completes
+    */
     public func convertHTML(htmlString: String!, completionClosure: (title: String, description: String) -> Void) {
         var returnTuple = (title: "", description: "") // Init empty named tuple
 
