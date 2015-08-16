@@ -85,7 +85,7 @@ void DTLogMessage(DTLogLevel logLevel, NSString *format, ...)
 NSArray *DTLogGetMessages(void)
 {
 	aslmsg query, message;
-	int index;
+	int i;
 	const char *key, *val;
 	
 	NSString *facility = [[NSBundle mainBundle] bundleIdentifier];
@@ -107,14 +107,14 @@ NSArray *DTLogGetMessages(void)
 	{
 		NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
 		
-		for (index = 0; ((key = asl_key(message, index))); index++)
+		for (i = 0; ((key = asl_key(message, i))); i++)
 		{
 			NSString *keyString = [NSString stringWithUTF8String:(char *)key];
 			
 			val = asl_get(message, key);
 			
 			NSString *string = val?[NSString stringWithUTF8String:val]:@"";
-            tmpDict[keyString] = string;
+			[tmpDict setObject:string forKey:keyString];
 		}
 		
 		[tmpArray addObject:tmpDict];

@@ -26,7 +26,11 @@
 
 - (DTVersion *)initWithMajor:(NSUInteger)major minor:(NSUInteger)minor maintenance:(NSUInteger)maintenance
 {
-	return [self initWithMajor:major minor:minor maintenance:maintenance build:0];
+	self = [self initWithMajor:major minor:minor maintenance:maintenance build:0];
+	if (self)
+	{
+	}
+	return self;
 }
 
 + (DTVersion *)versionWithString:(NSString*)versionString
@@ -97,10 +101,10 @@
 
 + (DTVersion*)appBundleVersion 
 {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-	NSString *version = info[@"CFBundleVersion"];
-    
-	return [DTVersion versionWithString:version];
+	NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	DTVersion* retVersion = [DTVersion versionWithString:version];
+	
+	return retVersion;
 }
 
 + (DTVersion *)osVersion
@@ -161,27 +165,19 @@
 
 
 
-- (BOOL)isEqualToVersion:(DTVersion *)version
+- (BOOL) isEqualToVersion:(DTVersion *)version
 {
 	return (self.major == version.major) && (self.minor == version.minor) && (self.maintenance == version.maintenance);
 }
 
-- (BOOL)isEqualToString:(NSString *)versionString
+- (BOOL) isEqualToString:(NSString *)versionString
 {
 	DTVersion *versionToTest = [DTVersion versionWithString:versionString];
 	return [self isEqualToVersion:versionToTest];
 }
 
-- (NSUInteger)hash
-{
-	NSUInteger hash = self.major;
-	hash = hash * 31u + self.minor;
-	hash = hash * 31u + self.maintenance;
-	hash = hash * 31u + self.build;
-	return hash;
-}
 
-- (BOOL)isEqual:(id)object
+- (BOOL) isEqual:(id)object
 {
 	if ([object isKindOfClass:[DTVersion class]]) 
 	{

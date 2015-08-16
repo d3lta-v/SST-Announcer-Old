@@ -39,7 +39,7 @@
 
 	DTSidePanelControllerPanel _panelToPresentAfterLayout;  // the panel presentation to restore after subview layouting
 	BOOL _panelIsMoving;  // if the panel is being dragged or being animated
-
+	
 	CGPoint _minPanRange;
 	CGPoint _maxPanRange;
 	
@@ -129,13 +129,14 @@
 	{
 		return _leftPanelController;
 	}
-
-	if (position.x < [self _centerPanelClosedPosition].x)
+	else if (position.x < [self _centerPanelClosedPosition].x)
 	{
 		return _rightPanelController;
 	}
-
-	return nil;
+	else
+	{
+		return _centerPanelController;
+	}
 }
 
 - (void)_addSubviewForPresentedPanel:(UIViewController *)panel
@@ -155,7 +156,7 @@
 		[_presentedPanelViewController beginAppearanceTransition:NO animated:YES];
 	}
 
-	if (!_targetPanel || _targetPanel == _centerPanelController || _targetPanel == _presentedPanelViewController)
+	if (_targetPanel == _centerPanelController || _targetPanel == _presentedPanelViewController)
 	{
 		return;
 	}
@@ -170,7 +171,7 @@
 - (void)_updatePanelViewControllerPresentationAfterAnimationForPosition:(CGPoint)position
 {
 	UIViewController *_targetPanel = [self _presentedPanelWithPosition:position];
-
+	
 	if (_presentedPanelViewController && _targetPanel != _presentedPanelViewController)
 	{
 		[_presentedPanelViewController endAppearanceTransition];
@@ -180,11 +181,11 @@
 		_presentedPanelViewController = nil;
 	}
 	
-	if (!_targetPanel || _targetPanel == _centerPanelController || _targetPanel == _presentedPanelViewController)
+	if (_targetPanel == _centerPanelController || _targetPanel == _presentedPanelViewController)
 	{
 		return;
 	}
-
+	
 	[_targetPanel endAppearanceTransition];
 	
 	[_targetPanel didMoveToParentViewController:self];
@@ -499,10 +500,9 @@
 	return YES;
 }
 
-
-- (DT_SUPPORTED_INTERFACE_ORIENTATIONS_RETURN_TYPE)supportedInterfaceOrientations
+- (NSUInteger)supportedInterfaceOrientations
 {
-	UIInterfaceOrientationMask orientations = UIInterfaceOrientationMaskAll;
+	NSUInteger orientations = UIInterfaceOrientationMaskAll;
 	
 	// only support the orientations that are also supported by all child VCs
 	
@@ -637,7 +637,7 @@
 		case UIGestureRecognizerStateBegan:
 		{
 			// for side panels ask delegate
-			if ([self _presentedPanelWithPosition:_centerBaseView.center] && ![self _shouldAllowClosingOfPanel])
+			if ([self _presentedPanelWithPosition:_centerBaseView.center] != _centerPanelController && ![self _shouldAllowClosingOfPanel])
 			{
 				// cancel gesture
 				gesture.enabled = NO;

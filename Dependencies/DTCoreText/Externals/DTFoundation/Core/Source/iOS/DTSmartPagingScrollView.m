@@ -15,7 +15,6 @@
 - (void)_setupVisiblePageViews;
 - (CGRect)frameForPageViewAtIndex:(NSUInteger)index;
 - (void)_updateCurrentPage;
-- (void)_commonInit;
 
 @end
 
@@ -34,36 +33,21 @@
 	BOOL _firstLayoutDone;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
 	if (self)
 	{
-		[self _commonInit];
+		self.pagingEnabled = YES;
+		
+		// no indicators because zooming subview has there
+		self.showsVerticalScrollIndicator = NO;
+		self.showsHorizontalScrollIndicator = NO;
+		
+		_viewsByPage = [[NSMutableDictionary alloc] init];
+		_visiblePageViews = [[NSMutableSet alloc] init];
 	}
 	return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-	self = [super initWithCoder:aDecoder];
-	if (self)
-	{
-		[self _commonInit];
-	}
-	return self;
-}
-
-- (void)_commonInit
-{
-	self.pagingEnabled = YES;
-	
-	// no indicators because zooming subview has there
-	self.showsVerticalScrollIndicator = NO;
-	self.showsHorizontalScrollIndicator = NO;
-	
-	_viewsByPage = [[NSMutableDictionary alloc] init];
-	_visiblePageViews = [[NSMutableSet alloc] init];
 }
 
 - (void)layoutSubviews
