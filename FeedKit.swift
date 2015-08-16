@@ -134,21 +134,21 @@ public class FeedHelper: NSObject {
 }
 
 extension FeedHelper : NSXMLParserDelegate {
-    private func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
         self.element = elementName
         if self.element == "item" { // If new item is retrieved, clear the temporary item object
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
         }
     }
 
-    private func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    public func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
             self.feeds.append(self.tempItem)
         }
     }
 
-    private func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if var testString = string { // Unwrap string? to check if it is safe
+    public func parser(parser: NSXMLParser, foundCharacters string: String?) {
+        if let testString = string { // Unwrap string? to check if it is safe
             if self.element == "title" {
                 self.tempItem.title += testString
             } else if self.element == "link" {
@@ -156,8 +156,6 @@ extension FeedHelper : NSXMLParserDelegate {
             } else if self.element == "pubDate" {
                 if let currentDate = self.fullDateFormatter.dateFromString(testString) {
                     self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
-                } else {
-                    self.tempItem.date += "<No Date>"
                 }
             } else if self.element == "author" {
                 self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
@@ -167,11 +165,12 @@ extension FeedHelper : NSXMLParserDelegate {
         }
     }
 
-    private func parserDidEndDocument(parser: NSXMLParser) {
+    public func parserDidEndDocument(parser: NSXMLParser) {
         parseFinished = true
+        self.setCachedFeeds(feeds)
     }
 
-    private func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+    public func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         parseFinished = true
     }
 }

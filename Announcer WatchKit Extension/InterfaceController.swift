@@ -104,7 +104,6 @@ class InterfaceController: WKInterfaceController {
                     NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
                     if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
                         if feeds.count != 0 {
-                            self.helper.setCachedFeeds(feeds)
                             self.feeds = feeds
                             if animated {
                                 self.stopLoadingAnimation()
