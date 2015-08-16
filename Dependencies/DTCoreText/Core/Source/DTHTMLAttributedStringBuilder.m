@@ -7,7 +7,7 @@
 //
 
 #import <DTFoundation/DTLog.h>
-#import "DTHTMLParser.h"
+#import <DTFoundation/DTHTMLParser.h>
 
 #import "DTHTMLAttributedStringBuilder.h"
 

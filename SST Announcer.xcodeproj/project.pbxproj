@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22133E281B80AD4800739C0C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22133E271B80AD4800739C0C /* CoreText.framework */; };
+		22133E2B1B80AE9200739C0C /* libDTCoreText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22133E1B1B80939A00739C0C /* libDTCoreText.a */; };
 		222F59F21B59F7DE00180190 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 222F59EF1B59F7DE00180190 /* NJKWebViewProgress.m */; };
 		223694451B5695A2000F9626 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223694441B5695A2000F9626 /* CategoryViewController.swift */; };
 		2236944C1B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 223694481B57F1CE000F9626 /* JDFNavigationBarActivityIndicator.m */; };
@@ -44,7 +46,6 @@
 		227E71881B1D4C4C00215577 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71871B1D4C4B00215577 /* libz.dylib */; };
 		227E718A1B1D4C5400215577 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71891B1D4C5400215577 /* libsqlite3.dylib */; };
 		227E71901B1D4F1C00215577 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E718F1B1D4F1C00215577 /* MasterViewController.swift */; };
-		227E71AB1B1D50AD00215577 /* libDTCoreText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71A21B1D504700215577 /* libDTCoreText.a */; };
 		227E71AD1B1D514900215577 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71AC1B1D514900215577 /* Accounts.framework */; };
 		227E71AF1B1D514E00215577 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71AE1B1D514E00215577 /* Social.framework */; };
 		227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B01B1D527500215577 /* libxml2.dylib */; };
@@ -62,6 +63,62 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		22133E161B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
+			remoteInfo = DemoApp;
+		};
+		22133E181B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A70F119B14863198009202BF;
+			remoteInfo = "Static Framework";
+		};
+		22133E1A1B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A70F11DE148632CD009202BF;
+			remoteInfo = "Static Library";
+		};
+		22133E1C1B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A788CA681486456100E1AFD9;
+			remoteInfo = UnitTest;
+		};
+		22133E1E1B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A78D9F781965B7DD00C80986;
+			remoteInfo = MacUnitTest;
+		};
+		22133E201B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A7F7EFCD1573603100F5A4D0;
+			remoteInfo = "Static Library (no DTFoundation)";
+		};
+		22133E221B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E2262DC61638331500BFDAD7;
+			remoteInfo = "DTCoreText (Mac)";
+		};
+		22133E241B80939A00739C0C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A79BA6201B46A1FB0086C2F6;
+			remoteInfo = "DTCoreText (iOS)";
+		};
 		2244289A1B46C3550050CF2B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 227E71391B1D44DF00215577 /* Project object */;
@@ -83,62 +140,6 @@
 			remoteGlobalIDString = 227E71401B1D44DF00215577;
 			remoteInfo = "SST Announcer";
 		};
-		227E719F1B1D504700215577 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A70F119B14863198009202BF;
-			remoteInfo = "Static Framework";
-		};
-		227E71A11B1D504700215577 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A70F11DE148632CD009202BF;
-			remoteInfo = "Static Library";
-		};
-		227E71A31B1D504700215577 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A788CA681486456100E1AFD9;
-			remoteInfo = UnitTest;
-		};
-		227E71A51B1D504700215577 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A78D9F781965B7DD00C80986;
-			remoteInfo = MacUnitTest;
-		};
-		227E71A71B1D504700215577 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A7F7EFCD1573603100F5A4D0;
-			remoteInfo = "Static Library (no DTFoundation)";
-		};
-		227E71A91B1D504700215577 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E2262DC61638331500BFDAD7;
-			remoteInfo = "Mac Framework";
-		};
-		2281A2AC1B61272D00B8E8FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
-			remoteInfo = DemoApp;
-		};
-		2281A2AE1B61272D00B8E8FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A79BA6201B46A1FB0086C2F6;
-			remoteInfo = "DTCoreText (iOS)";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -156,6 +157,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		22133E091B80939900739C0C /* DTCoreText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTCoreText.xcodeproj; path = DTCoreText/DTCoreText.xcodeproj; sourceTree = "<group>"; };
+		22133E271B80AD4800739C0C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		222F59EE1B59F7DE00180190 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
 		222F59EF1B59F7DE00180190 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
 		223694441B5695A2000F9626 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -202,7 +205,6 @@
 		227E71871B1D4C4B00215577 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		227E71891B1D4C5400215577 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		227E718F1B1D4F1C00215577 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		227E71911B1D504600215577 /* DTCoreText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTCoreText.xcodeproj; path = DTCoreText/DTCoreText.xcodeproj; sourceTree = "<group>"; };
 		227E71AC1B1D514900215577 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		227E71AE1B1D514E00215577 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		227E71B01B1D527500215577 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -239,13 +241,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22133E2B1B80AE9200739C0C /* libDTCoreText.a in Frameworks */,
+				22133E281B80AD4800739C0C /* CoreText.framework in Frameworks */,
 				22710F581B33039100AEFA62 /* libstdc++.6.dylib in Frameworks */,
 				22710F561B33037300AEFA62 /* StoreKit.framework in Frameworks */,
 				227E71B31B1D527D00215577 /* ImageIO.framework in Frameworks */,
 				227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */,
 				227E71AF1B1D514E00215577 /* Social.framework in Frameworks */,
 				227E71AD1B1D514900215577 /* Accounts.framework in Frameworks */,
-				227E71AB1B1D50AD00215577 /* libDTCoreText.a in Frameworks */,
 				227E718A1B1D4C5400215577 /* libsqlite3.dylib in Frameworks */,
 				227E71881B1D4C4C00215577 /* libz.dylib in Frameworks */,
 				227E71861B1D4C4500215577 /* SystemConfiguration.framework in Frameworks */,
@@ -273,6 +276,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22133E0A1B80939900739C0C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				22133E171B80939A00739C0C /* RTDemoApp.app */,
+				22133E191B80939A00739C0C /* DTCoreText.framework */,
+				22133E1B1B80939A00739C0C /* libDTCoreText.a */,
+				22133E1D1B80939A00739C0C /* UnitTest.xctest */,
+				22133E1F1B80939A00739C0C /* MacUnitTest.xctest */,
+				22133E211B80939A00739C0C /* libDTCoreText_no_DTFoundation.a */,
+				22133E231B80939A00739C0C /* DTCoreText.framework */,
+				22133E251B80939A00739C0C /* DTCoreText.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		222F59ED1B59F7DE00180190 /* NJKWebViewProgress */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +323,7 @@
 		2244287F1B46C2350050CF2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				22133E271B80AD4800739C0C /* CoreText.framework */,
 				227E71B01B1D527500215577 /* libxml2.dylib */,
 				227E71891B1D4C5400215577 /* libsqlite3.dylib */,
 				227E71871B1D4C4B00215577 /* libz.dylib */,
@@ -442,6 +461,7 @@
 		227E71661B1D4B1600215577 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				22133E091B80939900739C0C /* DTCoreText.xcodeproj */,
 				222F59ED1B59F7DE00180190 /* NJKWebViewProgress */,
 				2236944E1B57F4A1000F9626 /* SGNavigationProgress */,
 				227E71711B1D4BEA00215577 /* Bolts.framework */,
@@ -451,25 +471,9 @@
 				223694461B57F1CE000F9626 /* JDFNavigationBarActivityIndicator */,
 				22C5EFD71B32E1E800C92AC6 /* ProgressHUD */,
 				22C4F1CE1B201FC000468987 /* TUSafariActivity */,
-				227E71911B1D504600215577 /* DTCoreText.xcodeproj */,
 			);
 			path = Dependencies;
 			sourceTree = SOURCE_ROOT;
-		};
-		227E71921B1D504600215577 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2281A2AD1B61272D00B8E8FD /* RTDemoApp.app */,
-				227E71A01B1D504700215577 /* DTCoreText.framework */,
-				227E71A21B1D504700215577 /* libDTCoreText.a */,
-				227E71A41B1D504700215577 /* UnitTest.xctest */,
-				227E71A61B1D504700215577 /* MacUnitTest.xctest */,
-				227E71A81B1D504700215577 /* libDTCoreText_no_DTFoundation.a */,
-				227E71AA1B1D504700215577 /* DTCoreText.framework */,
-				2281A2AF1B61272D00B8E8FD /* DTCoreText.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
 		};
 		22C4F1CE1B201FC000468987 /* TUSafariActivity */ = {
 			isa = PBXGroup;
@@ -622,8 +626,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 227E71921B1D504600215577 /* Products */;
-					ProjectRef = 227E71911B1D504600215577 /* DTCoreText.xcodeproj */;
+					ProductGroup = 22133E0A1B80939900739C0C /* Products */;
+					ProjectRef = 22133E091B80939900739C0C /* DTCoreText.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -637,60 +641,60 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		227E71A01B1D504700215577 /* DTCoreText.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = DTCoreText.framework;
-			remoteRef = 227E719F1B1D504700215577 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		227E71A21B1D504700215577 /* libDTCoreText.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDTCoreText.a;
-			remoteRef = 227E71A11B1D504700215577 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		227E71A41B1D504700215577 /* UnitTest.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UnitTest.xctest;
-			remoteRef = 227E71A31B1D504700215577 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		227E71A61B1D504700215577 /* MacUnitTest.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MacUnitTest.xctest;
-			remoteRef = 227E71A51B1D504700215577 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		227E71A81B1D504700215577 /* libDTCoreText_no_DTFoundation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDTCoreText_no_DTFoundation.a;
-			remoteRef = 227E71A71B1D504700215577 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		227E71AA1B1D504700215577 /* DTCoreText.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DTCoreText.framework;
-			remoteRef = 227E71A91B1D504700215577 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2281A2AD1B61272D00B8E8FD /* RTDemoApp.app */ = {
+		22133E171B80939A00739C0C /* RTDemoApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = RTDemoApp.app;
-			remoteRef = 2281A2AC1B61272D00B8E8FD /* PBXContainerItemProxy */;
+			remoteRef = 22133E161B80939A00739C0C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		2281A2AF1B61272D00B8E8FD /* DTCoreText.framework */ = {
+		22133E191B80939A00739C0C /* DTCoreText.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DTCoreText.framework;
+			remoteRef = 22133E181B80939A00739C0C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		22133E1B1B80939A00739C0C /* libDTCoreText.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDTCoreText.a;
+			remoteRef = 22133E1A1B80939A00739C0C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		22133E1D1B80939A00739C0C /* UnitTest.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = UnitTest.xctest;
+			remoteRef = 22133E1C1B80939A00739C0C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		22133E1F1B80939A00739C0C /* MacUnitTest.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MacUnitTest.xctest;
+			remoteRef = 22133E1E1B80939A00739C0C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		22133E211B80939A00739C0C /* libDTCoreText_no_DTFoundation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDTCoreText_no_DTFoundation.a;
+			remoteRef = 22133E201B80939A00739C0C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		22133E231B80939A00739C0C /* DTCoreText.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = DTCoreText.framework;
-			remoteRef = 2281A2AE1B61272D00B8E8FD /* PBXContainerItemProxy */;
+			remoteRef = 22133E221B80939A00739C0C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		22133E251B80939A00739C0C /* DTCoreText.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DTCoreText.framework;
+			remoteRef = 22133E241B80939A00739C0C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
