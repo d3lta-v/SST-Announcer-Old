@@ -44,7 +44,7 @@
                     </items>
                     <menu key="menu" id="QJ3-NC-XlU">
                         <items>
-                            <menuItem title="Refresh" icon="resume" id="Z9I-Ck-Yk9">
+                            <menuItem title="Refresh" icon="repeat" id="Z9I-Ck-Yk9">
                                 <connections>
                                     <action selector="refresh" destination="AgC-eL-Hgc" id="1iS-LN-hkX"/>
                                 </connections>

@@ -165,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         reply([:])
         // Reset app badges when Apple Watch polls iPhone
-        self.resetBadges()
+        resetBadges()
     }
 
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
