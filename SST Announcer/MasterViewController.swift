@@ -187,6 +187,31 @@ class MasterViewController: UITableViewController {
         })
     }
 
+    private func checkForNewVersion() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let versionNumber = defaults.floatForKey("Announcer.version")
+
+        if versionNumber < 7.2 {
+            displayUpdateForNewVersion(defaults)
+        }
+    }
+    
+    private func displayUpdateForNewVersion(defaults: NSUserDefaults) {
+        // TODO: Update this number whenever the version number changes
+        defaults.setFloat(7.2, forKey: "Announcer.version")
+        let titleString = "Updates in Announcer 7.2:"
+        let messageString = "Apple Watch & Extended Service Pack update 7.2:\n+ Improved networking performance\n+ Migrated all data transfers to use only HTTPS instead of HTTP\n+ More robust app inner workings and upgrade of APIs used\n+ Apple Watch App now features a beautiful animation when you refresh the feed by Force Touching the main screen and pressing \"Refresh\", so you don't have to worry about when the feed actually finishes refreshing.\n+ Small UI changes to the Apple Watch App, fixed network loading functionalities and a date formatting bug.\n+ Sorted Categories by alphabetical order"
+        if NSClassFromString("UIAlertController") != nil {
+            let controller = UIAlertController(title: titleString, message: messageString, preferredStyle: .Alert)
+            controller.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
+            controller.view.frame = UIScreen.mainScreen().applicationFrame
+            self.presentViewController(controller, animated: true, completion: nil)
+        } else {
+            let controller = UIAlertView(title: titleString, message: messageString, delegate: nil, cancelButtonTitle: "Okay")
+            controller.show()
+        }
+    }
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -374,6 +399,9 @@ extension MasterViewController : NSXMLParserDelegate {
         if helper.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
             self.performSegueWithIdentifier("MasterToDetail", sender: self)
         }
+
+        // Check for new app version once the app is finished
+        checkForNewVersion()
     }
 
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
