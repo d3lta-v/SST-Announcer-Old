@@ -42,15 +42,6 @@
                         </table>
                         <imageView width="1" alignment="center" verticalAlignment="center" hidden="YES" contentMode="scaleAspectFit" initiallyAnimated="NO" animationDuration="5" id="gMV-cp-QF9"/>
                     </items>
-                    <menu key="menu" id="QJ3-NC-XlU">
-                        <items>
-                            <menuItem title="Refresh" icon="repeat" id="Z9I-Ck-Yk9">
-                                <connections>
-                                    <action selector="refresh" destination="AgC-eL-Hgc" id="1iS-LN-hkX"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
                         <outlet property="animationView" destination="gMV-cp-QF9" id="wBb-TM-9Wg"/>
                         <outlet property="feedsTable" destination="80M-DH-3O7" id="63d-8E-TG6"/>

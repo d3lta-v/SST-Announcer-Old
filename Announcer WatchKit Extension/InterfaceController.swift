@@ -35,6 +35,7 @@ class InterfaceController: WKInterfaceController {
         shortDateFormatter.dateFormat = "dd/MM/yy HH:mm"
 
         invalidateUserActivity() // we don't want handoff, YET
+        self.addMenuItemWithItemIcon(WKMenuItemIcon.Repeat, title: "Refresh", action: "refresh")
 
         setTitle("Announcer")
         if let feedsUnwrapped = helper.getCachedFeeds() {
@@ -134,6 +135,7 @@ class InterfaceController: WKInterfaceController {
 
     func startLoadingAnimation() {
         feedsTable.setHidden(true)
+        self.clearAllMenuItems()
         animationView.setHidden(false)
         animationView.setImageNamed("wave_")
         animationView.startAnimating()
@@ -143,6 +145,7 @@ class InterfaceController: WKInterfaceController {
         self.animationView.stopAnimating()
         self.animationView.setHidden(true)
         self.feedsTable.setHidden(false)
+        self.addMenuItemWithItemIcon(WKMenuItemIcon.Repeat, title: "Refresh", action: "refresh")
     }
 
     // MARK: - Table View
@@ -169,7 +172,7 @@ class InterfaceController: WKInterfaceController {
 
     // MARK: - Actions
 
-    @IBAction func refresh() {
+    func refresh() {
         // Attempt a initial forced data refresh
         if let feedsUnwrapped = helper.getCachedFeeds() {
             feeds = feedsUnwrapped
