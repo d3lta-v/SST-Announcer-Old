@@ -572,6 +572,7 @@
 		227E71391B1D44DF00215577 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "StatiX Industries";
 				TargetAttributes = {
