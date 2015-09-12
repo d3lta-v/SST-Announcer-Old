@@ -81,14 +81,15 @@ class DetailInterfaceController: WKInterfaceController {
             processedString = processedString.stringByReplacingOccurrencesOfString("<img[\\s\\S]*? />", withString: "", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            return processedString.stringByDecodingHTMLEntities
+            // FIXME: return processedString.htmlToString using the String extension when in production
+            return processedString
         }
         return nil
     }
 
 }
 
-extension String {
+/*extension String {
 
     /// Returns a new string made by replacing in the `String`
     /// all HTML character entity references with the corresponding
@@ -167,4 +168,4 @@ extension String {
         result.extend(self[position ..< endIndex])
         return result
     }
-}
+}*/

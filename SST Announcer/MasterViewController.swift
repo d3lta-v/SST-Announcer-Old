@@ -290,14 +290,17 @@ extension MasterViewController : UISearchDisplayDelegate, UISearchBarDelegate {
     }
 
     func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String?) -> Bool {
-        self.filterContentForSearchText(searchString)
+        guard let searchStr = searchString else {
+            return false
+        }
+        self.filterContentForSearchText(searchStr)
         return true
     }
 }
 
 // MARK: - UITableView Delegates
 
-extension MasterViewController : UITableViewDelegate, UITableViewDataSource {
+extension MasterViewController {
     // MARK: Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -315,7 +318,7 @@ extension MasterViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as? UITableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
         var cellItem: FeedItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
 
@@ -332,16 +335,10 @@ extension MasterViewController : UITableViewDelegate, UITableViewDataSource {
             }
         }
 
-        if let cellUnwrapped = cell {
-            cellUnwrapped.textLabel?.text = cellItem.title
-            cellUnwrapped.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
-            cellUnwrapped.accessoryType = .DisclosureIndicator
-            return cellUnwrapped
-        } else {
-            cell!.textLabel?.text = cellItem.title
-            cell!.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
-            return cell!
-        }
+        cell.textLabel?.text = cellItem.title
+        cell.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
+        cell.accessoryType = .DisclosureIndicator
+        return cell
     }
 
     // MARK: Table view delegate
@@ -368,22 +365,20 @@ extension MasterViewController : NSXMLParserDelegate {
         }
     }
 
-    func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if let testString = string { // Unwrap string? to check if it is safe
+    func parser(parser: NSXMLParser, foundCharacters string: String) {
             if self.element == "title" {
-                self.tempItem.title += testString
+                self.tempItem.title += string
             } else if self.element == "link" {
-                self.tempItem.link += testString
+                self.tempItem.link += string
             } else if self.element == "pubDate" {
-                if let currentDate = self.fullDateFormatter.dateFromString(testString) {
+                if let currentDate = self.fullDateFormatter.dateFromString(string) {
                     self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
                 }
             } else if self.element == "author" {
-                self.tempItem.author += testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
+                self.tempItem.author += string.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
             } else if self.element == "description" {
-                self.tempItem.content += testString
+                self.tempItem.content += string
             }
-        }
     }
 
     func parserDidEndDocument(parser: NSXMLParser) {

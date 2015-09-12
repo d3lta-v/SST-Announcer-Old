@@ -99,7 +99,8 @@ class InterfaceController: WKInterfaceController {
         if animated && !recursive {
             startLoadingAnimation()
         }
-        WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
+        // FIXME: Use Watch NSURLSession instead of opening parent application. We're going WatchOS2!
+        /*WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
             if error == nil {
                 if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
                     NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
@@ -130,7 +131,8 @@ class InterfaceController: WKInterfaceController {
                     self.stopLoadingAnimation() // terminate loading animation if error persists
                 }
             }
-        })
+        })*/
+        
     }
 
     func startLoadingAnimation() {

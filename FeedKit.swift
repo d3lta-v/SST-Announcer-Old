@@ -102,26 +102,23 @@ public class FeedHelper: NSObject {
     }
 
     /**
-    Retrieves `FeedItem` s from the Internet synchronously.
+        Retrieves `FeedItem` s from the Internet synchronously.
 
-    - returns: An optional `FeedItem` array
+        - returns: An optional `FeedItem` array
     */
-    public func requestFeedsSynchronous() -> [FeedItem]? {
+    // requestFeedsSynchronous is DEPRECATED, due to WatchOS 2
+    /*public func requestFeedsSynchronous() -> [FeedItem]? {
         let rqst = NSURLRequest(URL: NSURL(string: "https://node1.sstinc.org/api/cache/blogrss.csv")!)
-        var rsp: NSURLResponse?
-        var err: NSError?
         self.feeds = [FeedItem]()
 
-        do {
-            let data = try NSURLConnection.sendSynchronousRequest(rqst, returningResponse: &rsp)
-            if err == nil {
-                return decodeResponseData(data)
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(rqst) { (data, rsp, err) -> () in
+            /*if err == nil {
+                return decodeResponseData(data?)
             }
-        } catch let error as NSError {
-            err = error
+            return nil*/
         }
-        return nil
-    }
+        task.resume()
+    }*/
 
     private func decodeResponseData(buffer: NSData) -> [FeedItem]? {
         parser = NSXMLParser(data: buffer)
@@ -150,21 +147,19 @@ extension FeedHelper : NSXMLParserDelegate {
         }
     }
 
-    public func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if let testString = string { // Unwrap string? to check if it is safe
-            if self.element == "title" {
-                self.tempItem.title += testString
-            } else if self.element == "link" {
-                self.tempItem.link += testString
-            } else if self.element == "pubDate" {
-                if let currentDate = self.fullDateFormatter.dateFromString(testString) {
-                    self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
-                }
-            } else if self.element == "author" {
-                self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
-            } else if self.element == "description" {
-                self.tempItem.content += testString
+    public func parser(parser: NSXMLParser, foundCharacters string: String) {
+        if self.element == "title" {
+            self.tempItem.title += string
+        } else if self.element == "link" {
+            self.tempItem.link += string
+        } else if self.element == "pubDate" {
+            if let currentDate = self.fullDateFormatter.dateFromString(string) {
+                self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
             }
+        } else if self.element == "author" {
+            self.tempItem.author = string.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
+        } else if self.element == "description" {
+            self.tempItem.content += string
         }
     }
 

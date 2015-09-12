@@ -59,8 +59,9 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
         backButton.enabled = mainWebView.canGoBack
         forwardButton.enabled = mainWebView.canGoForward
         self.navigationController?.setToolbarHidden(false, animated: false)
-        let toolbarArray = [fixedSpace1, backButton, fixedSpace2, forwardButton, flexSpace3, refreshButton, fixedSpace4, exportButton, fixedSpace5]
-        self.setToolbarItems(toolbarArray, animated: false)
+        // FIXME: Set the toolbar array properly!
+        //let toolbarArray = [fixedSpace1, backButton, fixedSpace2, forwardButton, flexSpace3, refreshButton, fixedSpace4, exportButton, fixedSpace5]
+        //self.setToolbarItems(toolbarArray, animated: false)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -97,9 +98,12 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
     // MARK: - UIWebView delegate
 
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        if error.code != -999 {
+        guard let errorUnwrapped = error else {
+            return
+        }
+        if errorUnwrapped.code != -999 {
             ProgressHUD.showError("Error loading!")
-            print(error.localizedDescription)
+            print(errorUnwrapped.localizedDescription)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }

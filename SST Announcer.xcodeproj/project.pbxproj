@@ -62,6 +62,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2204AF3E1BA3F62D0071EDB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 227E71391B1D44DF00215577 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 224428971B46C3550050CF2B;
+			remoteInfo = "Announcer WatchKit App";
+		};
 		227E71571B1D44DF00215577 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 227E71391B1D44DF00215577 /* Project object */;
@@ -131,13 +138,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2244288A1B46C3550050CF2B;
 			remoteInfo = "Announcer WatchKit Extension";
-		};
-		22F470D51BA3C25200899C57 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 227E71391B1D44DF00215577 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 224428971B46C3550050CF2B;
-			remoteInfo = "Announcer WatchKit App";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -553,7 +553,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				22F470D61BA3C25200899C57 /* PBXTargetDependency */,
+				2204AF3F1BA3F62D0071EDB4 /* PBXTargetDependency */,
 			);
 			name = Announcer;
 			productName = "SST Announcer";
@@ -594,7 +594,7 @@
 						DevelopmentTeam = 7K6ZTDFM48;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -607,7 +607,7 @@
 						DevelopmentTeam = 7K6ZTDFM48;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -825,6 +825,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2204AF3F1BA3F62D0071EDB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 224428971B46C3550050CF2B /* Announcer WatchKit App */;
+			targetProxy = 2204AF3E1BA3F62D0071EDB4 /* PBXContainerItemProxy */;
+		};
 		227E71581B1D44DF00215577 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 227E71401B1D44DF00215577 /* Announcer */;
@@ -834,11 +839,6 @@
 			isa = PBXTargetDependency;
 			target = 2244288A1B46C3550050CF2B /* Announcer WatchKit Extension */;
 			targetProxy = 22F470D21BA3C25200899C57 /* PBXContainerItemProxy */;
-		};
-		22F470D61BA3C25200899C57 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 224428971B46C3550050CF2B /* Announcer WatchKit App */;
-			targetProxy = 22F470D51BA3C25200899C57 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -908,7 +908,6 @@
 		224428AB1B46C3550050CF2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Announcer WatchKit Extension/Announcer WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -935,7 +934,6 @@
 		224428AC1B46C3550050CF2B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Announcer WatchKit Extension/Announcer WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
@@ -1045,7 +1043,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = Announcer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1072,7 +1069,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = Announcer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;

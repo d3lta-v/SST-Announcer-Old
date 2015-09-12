@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
             }
         }
-        if application.respondsToSelector("registerUserNotificationSettings:") {
+        if #available(iOS 8.0,*) {
             let userNotificationTypes: UIUserNotificationType = [.Alert, .Badge, .Sound]
             let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: getCategory())
             application.registerUserNotificationSettings(settings)
@@ -62,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Push notifications
 
+    @available(iOS 8.0, *)
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
     }
@@ -150,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - WatchKit, custom notifications and Handoff
 
-    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]?) -> Void)) {
+    /*func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]?) -> Void)) {
         if let userInfo = userInfo, request = userInfo["request"] as? String {
             if request == "refreshData" {
                 let helper = FeedHelper.sharedInstance
@@ -166,8 +167,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         reply([:])
         // Reset app badges when Apple Watch polls iPhone
         resetBadges()
-    }
+    }*/
 
+    @available(iOS 8.0, *)
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
         if let window = self.window, rvc = window.rootViewController as? UITabBarController {
             rvc.selectedIndex = 0
@@ -179,6 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    @available(iOS 8.0, *)
     func getCategory() -> Set<UIMutableUserNotificationCategory> {
         var categories = Set<UIMutableUserNotificationCategory>()
 

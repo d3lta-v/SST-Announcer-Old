@@ -157,14 +157,17 @@ extension CategoriesViewController : UISearchControllerDelegate, UISearchDisplay
     }
 
     func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String?) -> Bool {
-        self.filterContentForSearchText(searchString)
+        guard let searchStr = searchString else {
+            return false
+        }
+        self.filterContentForSearchText(searchStr)
         return true
     }
 }
 
 // MARK: - Table view Delegates
 
-extension CategoriesViewController : UITableViewDelegate, UITableViewDataSource {
+extension CategoriesViewController {
     // MARK: Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -182,7 +185,7 @@ extension CategoriesViewController : UITableViewDelegate, UITableViewDataSource 
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as? UITableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
         var cellItem: FeedItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
 
@@ -199,14 +202,9 @@ extension CategoriesViewController : UITableViewDelegate, UITableViewDataSource 
             }
         }
 
-        if let cellUnwrapped = cell {
-            cellUnwrapped.textLabel?.text = cellItem.title
-            cellUnwrapped.accessoryType = .DisclosureIndicator
-            return cellUnwrapped
-        } else {
-            cell!.textLabel?.text = cellItem.title
-            return cell!
-        }
+        cell.textLabel?.text = cellItem.title
+        cell.accessoryType = .DisclosureIndicator
+        return cell
     }
 
     // MARK: Table view delegate
@@ -233,11 +231,9 @@ extension CategoriesViewController : NSXMLParserDelegate {
         }
     }
 
-    func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if let testString = string { // Unwrap string? to check if it really works
-            if self.element == "category" {
-                self.tempItem.title = self.tempItem.title + testString
-            }
+    func parser(parser: NSXMLParser, foundCharacters string: String) {
+        if self.element == "category" {
+            self.tempItem.title = self.tempItem.title + string
         }
     }
 

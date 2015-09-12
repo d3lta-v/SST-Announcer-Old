@@ -168,7 +168,7 @@ extension CategoryViewController : UISearchBarDelegate, UISearchControllerDelega
 
 // MARK: - UITableView Delegates
 
-extension CategoryViewController : UITableViewDelegate, UITableViewDataSource {
+extension CategoryViewController {
     // MARK: Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -186,7 +186,7 @@ extension CategoryViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as? UITableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
         var cellItem = FeedItem(title: "", link: "", date: "", author: "", content: "")
 
@@ -203,16 +203,10 @@ extension CategoryViewController : UITableViewDelegate, UITableViewDataSource {
             }
         }
 
-        if let cellUnwrapped = cell {
-            cellUnwrapped.textLabel?.text = cellItem.title
-            cellUnwrapped.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
-            cellUnwrapped.accessoryType = .DisclosureIndicator
-            return cellUnwrapped
-        } else {
-            cell!.textLabel?.text = cellItem.title
-            cell!.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
-            return cell!
-        }
+        cell.textLabel?.text = cellItem.title
+        cell.detailTextLabel?.text = "\(cellItem.date) \(cellItem.author)"
+        cell.accessoryType = .DisclosureIndicator
+        return cell
     }
 
     // MARK: Table view delegate
@@ -239,23 +233,21 @@ extension CategoryViewController : NSXMLParserDelegate {
         }
     }
 
-    func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if let testString = string { // Unwrap string? to check if it really works
-            if self.element == "title" {
-                self.tempItem.title = self.tempItem.title + testString
-            } else if self.element == "link" {
-                self.tempItem.link = self.tempItem.link + testString
-            } else if self.element == "pubDate" {
-                if let currentDate = self.fullDateFormatter.dateFromString(testString) {
-                    self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
-                } else {
-                    self.tempItem.date += "<No Date>"
-                }
-            } else if self.element == "author" {
-                self.tempItem.author = testString.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            } else if self.element == "description" {
-                self.tempItem.content = self.tempItem.content + testString
+    func parser(parser: NSXMLParser, foundCharacters string: String) {
+        if self.element == "title" {
+            self.tempItem.title = self.tempItem.title + string
+        } else if self.element == "link" {
+            self.tempItem.link = self.tempItem.link + string
+        } else if self.element == "pubDate" {
+            if let currentDate = self.fullDateFormatter.dateFromString(string) {
+                self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
+            } else {
+                self.tempItem.date += "<No Date>"
             }
+        } else if self.element == "author" {
+            self.tempItem.author = string.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        } else if self.element == "description" {
+            self.tempItem.content = self.tempItem.content + string
         }
     }
 

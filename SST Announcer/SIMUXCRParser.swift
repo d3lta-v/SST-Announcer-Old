@@ -47,15 +47,19 @@ public class SIMUXCRParser: NSObject {
         let getData = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
             if error == nil {
                 if let dataUnwrapped = data {
-                    var jsonError: NSError? = nil
-                    if let jsonObject = NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as? NSDictionary {
-                        if jsonError == nil {
-                            if let title = jsonObject["title"] as? String, description = jsonObject["content"] as? String {
+                    // TODO: Test JSON to make sure it's running correctly!
+                    do {
+                        let parsedJSON = try NSJSONSerialization.JSONObjectWithData(dataUnwrapped, options: NSJSONReadingOptions.AllowFragments)
+                        if let topObject = parsedJSON as? NSDictionary {
+                            if let title = topObject["title"] as? String, content = topObject["content"] as? String {
                                 returnTuple.title = title
-                                returnTuple.description = description
+                                returnTuple.description = content
                             } else {self.errorBoolean = true}
                         } else {self.errorBoolean = true}
-                    } else {self.errorBoolean = true}
+                    } catch let error as NSError {
+                        self.errorBoolean = true
+                        print("A JSON parsing error occurred, here are the details:\n \(error)")
+                    }
                 } else {self.errorBoolean = true}
             } else {print(error);self.errorBoolean = true}
 

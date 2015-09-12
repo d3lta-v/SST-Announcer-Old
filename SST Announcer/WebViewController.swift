@@ -183,9 +183,12 @@ class WebViewController: UIViewController {
     @IBAction func exportButton(sender: AnyObject) {
         if let feedItem = self.receivedFeedItem {
             let safariActivity = TUSafariActivity()
-            let url = NSURL(string: feedItem.link.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)
+            let validUrlString = feedItem.link.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            guard let validUrl = validUrlString else {
+                return
+            }
+            let url = NSURL(string: validUrl)
             let activity = UIActivityViewController(activityItems: [url!], applicationActivities: [safariActivity])
-
             if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
                 self.presentViewController(activity, animated: true, completion: nil)
             } else {
@@ -201,7 +204,10 @@ class WebViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let vc = segue.destinationViewController.topViewController as? InAppBrowserViewController
+        guard let destinationVC = segue.destinationViewController as? UINavigationController else {
+            return
+        }
+        let vc = destinationVC.topViewController as? InAppBrowserViewController
 
         vc?.receivedUrl = linkUrl
     }
@@ -216,7 +222,10 @@ extension WebViewController : UIWebViewDelegate, NJKWebViewProgressDelegate {
     }
 
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        if error.code != -999 {
+        guard let err = error else {
+            return
+        }
+        if err.code != -999 {
             ProgressHUD.showError("Loading failed!")
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
@@ -324,7 +333,7 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
             if urlString.hasPrefix("http") == true {
                 self.linkUrl = url
                 self.performSegueWithIdentifier("ToBrowser", sender: self)
-            } else if urlString.hasPrefix("mailto") == true || urlString?.hasPrefix("tel") == true {
+            } else if urlString.hasPrefix("mailto") == true || urlString.hasPrefix("tel") == true {
                 UIApplication.sharedApplication().openURL(url)
             }
         } else {
