@@ -22,7 +22,7 @@ class WebViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -215,7 +215,7 @@ extension WebViewController : UIWebViewDelegate, NJKWebViewProgressDelegate {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
 
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         if error.code != -999 {
             ProgressHUD.showError("Loading failed!")
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -318,13 +318,13 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
     func linkPushed(button: DTLinkButton) {
         let url = button.URL
 
-        if UIApplication.sharedApplication().canOpenURL(url.absoluteURL!) {
+        if UIApplication.sharedApplication().canOpenURL(url.absoluteURL) {
             let urlString = url.absoluteString
 
-            if urlString?.hasPrefix("http") == true {
+            if urlString.hasPrefix("http") == true {
                 self.linkUrl = url
                 self.performSegueWithIdentifier("ToBrowser", sender: self)
-            } else if urlString?.hasPrefix("mailto") == true || urlString?.hasPrefix("tel") == true {
+            } else if urlString.hasPrefix("mailto") == true || urlString?.hasPrefix("tel") == true {
                 UIApplication.sharedApplication().openURL(url)
             }
         } else {

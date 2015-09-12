@@ -24,7 +24,7 @@ public class FeedItem: NSObject, NSCoding {
     }
 
     // MARK: NSCoding
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         self.title = (aDecoder.decodeObjectForKey("title") as? String)!
         self.link = (aDecoder.decodeObjectForKey("link") as? String)!
         self.date = (aDecoder.decodeObjectForKey("date") as? String)!
@@ -75,7 +75,7 @@ public class FeedHelper: NSObject {
     /**
         Gets a copy of the cached feeds from NSUserDefaults, deserializes it and returns it as an array of `FeedItem` s.
 
-        :returns: An optional `FeedItem` array
+        - returns: An optional `FeedItem` array
     */
     public func getCachedFeeds() -> ([FeedItem]?) {
         if let feedsObj = defaults?.objectForKey("cachedFeeds") as? NSData {
@@ -93,7 +93,7 @@ public class FeedHelper: NSObject {
     /**
         Stores a copy of the cached feeds to NSUserDefaults, serializes it and stores it as an NSData object.
 
-        :params: feeds An array of `FeedItem` s.
+        - parameter feeds: An array of `FeedItem` s.
     */
     public func setCachedFeeds(feeds: [FeedItem]) {
         NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
@@ -104,7 +104,7 @@ public class FeedHelper: NSObject {
     /**
     Retrieves `FeedItem` s from the Internet synchronously.
 
-    :returns: An optional `FeedItem` array
+    - returns: An optional `FeedItem` array
     */
     public func requestFeedsSynchronous() -> [FeedItem]? {
         let rqst = NSURLRequest(URL: NSURL(string: "https://node1.sstinc.org/api/cache/blogrss.csv")!)
@@ -112,10 +112,13 @@ public class FeedHelper: NSObject {
         var err: NSError?
         self.feeds = [FeedItem]()
 
-        if let data = NSURLConnection.sendSynchronousRequest(rqst, returningResponse: &rsp, error: &err) {
+        do {
+            let data = try NSURLConnection.sendSynchronousRequest(rqst, returningResponse: &rsp)
             if err == nil {
                 return decodeResponseData(data)
             }
+        } catch let error as NSError {
+            err = error
         }
         return nil
     }
@@ -127,14 +130,14 @@ public class FeedHelper: NSObject {
         if parser.parse() == true {
             return self.feeds
         } else {
-            println("parser dieded")
+            print("parser dieded")
             return nil
         }
     }
 }
 
 extension FeedHelper : NSXMLParserDelegate {
-    public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    public func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         self.element = elementName
         if self.element == "item" { // If new item is retrieved, clear the temporary item object
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem

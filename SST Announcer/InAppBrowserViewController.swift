@@ -32,7 +32,7 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
 
     // MARK: - Lifecycle
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -96,10 +96,10 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
 
     // MARK: - UIWebView delegate
 
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         if error.code != -999 {
             ProgressHUD.showError("Error loading!")
-            println(error.localizedDescription)
+            print(error.localizedDescription)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         }
     }

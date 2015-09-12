@@ -55,7 +55,7 @@ class DetailInterfaceController: WKInterfaceController {
                 let attr = [NSForegroundColorAttributeName:UIColor.whiteColor()]
                 processedAttributedText = NSAttributedString(string:processedText, attributes:attr)
             }
-            var finalAttrString = NSMutableAttributedString()
+            let finalAttrString = NSMutableAttributedString()
             finalAttrString.appendAttributedString(attributedWarning)
             finalAttrString.appendAttributedString(processedAttributedText)
             descriptionLabel.setAttributedText(finalAttrString)
@@ -128,9 +128,9 @@ extension String {
         //     decode("&foo;")    --> nil
         func decode(entity: String) -> Character? {
             if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
-                return decodeNumeric(entity.substringFromIndex(advance(entity.startIndex, 3)), 16)
+                return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(3)), base: 16)
             } else if entity.hasPrefix("&#") {
-                return decodeNumeric(entity.substringFromIndex(advance(entity.startIndex, 2)), 10)
+                return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(2)), base: 10)
             } else {
                 return characterEntities[entity]
             }

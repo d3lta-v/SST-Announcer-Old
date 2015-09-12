@@ -121,7 +121,7 @@ class InterfaceController: WKInterfaceController {
                     self.initiatePushNotificationReading(urlPayload)
                 }
             } else {
-                println(error)
+                print(error)
                 if self.recursionLength < 3 { // allow for further recursion if length less than 3
                     self.recursionLength++
                     self.networkRefreshAnimated(false, pushPayload: pushPayload, recursive: true) // recursion m8
@@ -154,7 +154,7 @@ class InterfaceController: WKInterfaceController {
         if feedsTable.numberOfRows != feeds.count {
             feedsTable.setNumberOfRows(feeds.count, withRowType: "FeedRow")
         }
-        for (index, feed) in enumerate(feeds) {
+        for (index, feed) in feeds.enumerate() {
             if let row = feedsTable.rowControllerAtIndex(index) as? FeedRow {
                 if feed.title == "" {
                     feed.title = "<No Title>"

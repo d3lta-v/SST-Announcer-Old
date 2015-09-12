@@ -34,7 +34,7 @@ class MasterViewController: UITableViewController {
 
     // MARK: - Lifecycle
 
-    required init!(coder aDecoder: NSCoder!) {
+    required init!(coder aDecoder: NSCoder) {
         // Variables initialization
         feeds = [FeedItem]()
         newFeeds = [FeedItem]()
@@ -201,7 +201,7 @@ class MasterViewController: UITableViewController {
         defaults.setFloat(7.2, forKey: "Announcer.version")
         let titleString = "Updates in Announcer 7.2:"
         let messageString = "Apple Watch & Extended Service Pack update 7.2:\n+ Improved networking performance\n+ Migrated all data transfers to use only HTTPS instead of HTTP\n+ More robust app inner workings and upgrade of APIs used\n+ Apple Watch App now features a beautiful animation when you refresh the feed by Force Touching the main screen and pressing \"Refresh\", so you don't have to worry about when the feed actually finishes refreshing.\n+ Small UI changes to the Apple Watch App, fixed network loading functionalities and a date formatting bug.\n+ Sorted Categories by alphabetical order"
-        if NSClassFromString("UIAlertController") != nil {
+        if #available(iOS 8.0, *) {
             let controller = UIAlertController(title: titleString, message: messageString, preferredStyle: .Alert)
             controller.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
             controller.view.frame = UIScreen.mainScreen().applicationFrame
@@ -236,13 +236,13 @@ class MasterViewController: UITableViewController {
                 }
             } else {
                 if self.searchDisplayController?.active == true {
-                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow() {
+                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.searchResults[indexPath.row]
                     } else {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The search feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                     }
                 } else {
-                    if let indexPath = self.tableView.indexPathForSelectedRow() {
+                    if let indexPath = self.tableView.indexPathForSelectedRow {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.feeds[indexPath.row]
                     } else {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
@@ -254,6 +254,7 @@ class MasterViewController: UITableViewController {
 
     // MARK: - Handoff
 
+    @available(iOS 8.0, *)
     override func restoreUserActivityState(activity: NSUserActivity) {
         if let titleString = activity.userInfo?["title"] as? String {
             if feeds.count <= 5 {
@@ -288,7 +289,7 @@ extension MasterViewController : UISearchDisplayDelegate, UISearchBarDelegate {
         })
     }
 
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String?) -> Bool {
         self.filterContentForSearchText(searchString)
         return true
     }
@@ -354,7 +355,7 @@ extension MasterViewController : UITableViewDelegate, UITableViewDataSource {
 // MARK: - NSXMLParserDelegate
 
 extension MasterViewController : NSXMLParserDelegate {
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         self.element = elementName
         if self.element == "item" { // If new item is retrieved, clear the temporary item object
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
@@ -452,7 +453,7 @@ extension MasterViewController : NSURLSessionDelegate, NSURLSessionDataDelegate 
         } else {
             // Clear buffer
             buffer = NSMutableData()
-            println(error)
+            print(error)
             dispatch_sync(dispatch_get_main_queue(), {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.navigationController?.cancelSGProgress()

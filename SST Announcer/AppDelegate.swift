@@ -42,12 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         if application.respondsToSelector("registerUserNotificationSettings:") {
-            let userNotificationTypes: UIUserNotificationType = .Alert | .Badge | .Sound
+            let userNotificationTypes: UIUserNotificationType = [.Alert, .Badge, .Sound]
             let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: getCategory())
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         } else {
-            let types: UIRemoteNotificationType = .Badge | .Alert | .Sound
+            let types: UIRemoteNotificationType = [.Badge, .Alert, .Sound]
             application.registerForRemoteNotificationTypes(types)
         }
         // Push notification handling when app is not running, with really tight checking. Nothing gets left!
@@ -75,12 +75,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for var i = 0; i < deviceToken.length; i++ {
             tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
         }
-        println("DeviceToken:\(tokenString)")
+        print("DeviceToken:\(tokenString)")
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         if error.code != 3010 {
-            println("Failed to register for push: \(error.description)")
+            print("Failed to register for push: \(error.description)")
         }
     }
 
@@ -150,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - WatchKit, custom notifications and Handoff
 
-    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject:AnyObject]?, reply: (([NSObject : AnyObject]?) -> Void)) {
         if let userInfo = userInfo, request = userInfo["request"] as? String {
             if request == "refreshData" {
                 let helper = FeedHelper.sharedInstance
@@ -168,7 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         resetBadges()
     }
 
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]!) -> Void) -> Bool {
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
         if let window = self.window, rvc = window.rootViewController as? UITabBarController {
             rvc.selectedIndex = 0
             if let navControl = rvc.selectedViewController as? UINavigationController {

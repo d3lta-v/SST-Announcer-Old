@@ -29,7 +29,7 @@ class CategoriesViewController: UITableViewController {
 
     // MARK: - Lifecycle
 
-    required init!(coder aDecoder: NSCoder!) {
+    required init!(coder aDecoder: NSCoder) {
         // Variables initialization
         feeds = [FeedItem]()
         newFeeds = [FeedItem]()
@@ -118,7 +118,7 @@ class CategoriesViewController: UITableViewController {
     }
 
     private func synchroniseFeedArrayAndTable() {
-        self.newFeeds.sort({$0.title.localizedCaseInsensitiveCompare($1.title) == NSComparisonResult.OrderedAscending})
+        self.newFeeds.sortInPlace({$0.title.localizedCaseInsensitiveCompare($1.title) == NSComparisonResult.OrderedAscending})
         self.feeds = self.newFeeds
         self.tableView.reloadData()
     }
@@ -137,7 +137,7 @@ class CategoriesViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        if let indexPath = self.tableView.indexPathForSelectedRow() {
+        if let indexPath = self.tableView.indexPathForSelectedRow {
             let modString = (self.feeds[indexPath.row].title).stringByReplacingOccurrencesOfString(" ", withString: "%20").stringByReplacingOccurrencesOfString(";", withString: "%3B")
             (segue.destinationViewController as? CategoryViewController)?.inputURL = "http://studentsblog.sst.edu.sg/feeds/posts/default/-/\(modString)?alt=rss"
             (segue.destinationViewController as? CategoryViewController)?.title = self.feeds[indexPath.row].title
@@ -156,7 +156,7 @@ extension CategoriesViewController : UISearchControllerDelegate, UISearchDisplay
         })
     }
 
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String?) -> Bool {
         self.filterContentForSearchText(searchString)
         return true
     }
@@ -220,7 +220,7 @@ extension CategoriesViewController : UITableViewDelegate, UITableViewDataSource 
 // MARK: - NSXMLParser Delegate
 
 extension CategoriesViewController : NSXMLParserDelegate {
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         self.element = elementName
         if self.element == "category" { // If new item is retrieved, clear the temporary item object
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
@@ -307,7 +307,7 @@ extension CategoriesViewController : NSURLSessionDelegate, NSURLSessionDataDeleg
         } else {
             // Clear buffer
             buffer = NSMutableData()
-            println(error)
+            print(error)
             dispatch_sync(dispatch_get_main_queue(), {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.navigationController?.cancelSGProgress()

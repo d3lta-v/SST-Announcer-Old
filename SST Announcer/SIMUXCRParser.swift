@@ -33,8 +33,8 @@ public class SIMUXCRParser: NSObject {
     /**
         Retrieves HTML from a URL specified and runs it through the SIMUXCR parser, and returns the title and "description", which is the content of the cleaned HTML through a closure.
 
-        :param: htmlString         A URL for which you want to parse with the SIMUXCR parser
-        :param: completionClosure  A closure for you to retrieve the data from the SIMUXCR parser once it completes
+        - parameter htmlString: A URL for which you want to parse with the SIMUXCR parser
+        - parameter completionClosure: A closure for you to retrieve the data from the SIMUXCR parser once it completes
     */
     public func convertHTML(htmlString: String!, completionClosure: (title: String, description: String) -> Void) {
         var returnTuple = (title: "", description: "") // Init empty named tuple
@@ -48,7 +48,7 @@ public class SIMUXCRParser: NSObject {
             if error == nil {
                 if let dataUnwrapped = data {
                     var jsonError: NSError? = nil
-                    if let jsonObject = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: &jsonError) as? NSDictionary {
+                    if let jsonObject = NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as? NSDictionary {
                         if jsonError == nil {
                             if let title = jsonObject["title"] as? String, description = jsonObject["content"] as? String {
                                 returnTuple.title = title
@@ -57,7 +57,7 @@ public class SIMUXCRParser: NSObject {
                         } else {self.errorBoolean = true}
                     } else {self.errorBoolean = true}
                 } else {self.errorBoolean = true}
-            } else {println(error);self.errorBoolean = true}
+            } else {print(error);self.errorBoolean = true}
 
             // Error parsing mechanism
             if self.errorBoolean {

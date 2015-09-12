@@ -34,7 +34,7 @@ class CategoryViewController: UITableViewController {
 
     // MARK: - Lifecycle
 
-    required init!(coder aDecoder: NSCoder!) {
+    required init!(coder aDecoder: NSCoder) {
         // Variables initialization
         feeds = [FeedItem]()
         newFeeds = [FeedItem]()
@@ -133,14 +133,14 @@ class CategoryViewController: UITableViewController {
 
         if segue.identifier == "MasterToDetail" {
             if self.searchDisplayController?.active == true {
-                let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow()
+                let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow
                 if let indexPth = indexPath {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = searchResults[indexPth.row]
                 } else {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The search feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                 }
             } else {
-                if let indexPath = self.tableView.indexPathForSelectedRow() {
+                if let indexPath = self.tableView.indexPathForSelectedRow {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = feeds[indexPath.row]
                 } else {
                     (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
@@ -226,7 +226,7 @@ extension CategoryViewController : UITableViewDelegate, UITableViewDataSource {
 // MARK: - NSXMLParser Delegate Methods
 
 extension CategoryViewController : NSXMLParserDelegate {
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         self.element = elementName
         if self.element == "item" { // If new item is retrieved, clear the temporary item object
             self.tempItem = FeedItem(title: "", link: "", date: "", author: "", content: "") //Reset tempItem
@@ -240,7 +240,7 @@ extension CategoryViewController : NSXMLParserDelegate {
     }
 
     func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        if var testString = string { // Unwrap string? to check if it really works
+        if let testString = string { // Unwrap string? to check if it really works
             if self.element == "title" {
                 self.tempItem.title = self.tempItem.title + testString
             } else if self.element == "link" {
@@ -309,7 +309,7 @@ extension CategoryViewController : NSURLSessionDelegate, NSURLSessionDataDelegat
         } else {
             // Clear buffer
             buffer = NSMutableData()
-            println(error)
+            print(error)
             dispatch_sync(dispatch_get_main_queue(), {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 self.indeterminateProgressBar.stopAnimating()
