@@ -38,10 +38,6 @@ class InterfaceController: WKInterfaceController {
         self.addMenuItemWithItemIcon(WKMenuItemIcon.Repeat, title: "Refresh", action: "refresh")
 
         setTitle("Announcer")
-        if let feedsUnwrapped = helper.getCachedFeeds() {
-            feeds = feedsUnwrapped
-            reloadTable()
-        }
 
         // Attempt to load new data from parent application
         networkRefreshAnimated(false, pushPayload: nil, recursive: false)
@@ -99,42 +95,24 @@ class InterfaceController: WKInterfaceController {
         if animated && !recursive {
             startLoadingAnimation()
         }
-        // FIXME: Use Watch NSURLSession instead of opening parent application. We're going WatchOS2!
-        /*WKInterfaceController.openParentApplication(["request": "refreshData"], reply: { (replyInfo, error) -> Void in
-            if error == nil {
-                if let reply = replyInfo, feedData = reply["feedData"] as? NSData {
-                    NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
-                    if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedData) as? [FeedItem] {
-                        if feeds.count != 0 {
-                            self.feeds = feeds
-                            if animated {
-                                self.stopLoadingAnimation()
-                            }
-                            self.reloadTable()
-                            // Check if this is a push notification
-                            if let payload = pushPayload, urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
-                                self.initiatePushNotificationReading(urlPayload) // Start scanning through current list of posts
-                            }
-                        }
-                    }
-                } else if let payload = pushPayload, urlPayload = payload["url"] as? String {
-                    // Force re-check for push notification in the current table
-                    self.initiatePushNotificationReading(urlPayload)
-                }
-            } else {
-                print(error)
-                if self.recursionLength < 3 { // allow for further recursion if length less than 3
-                    self.recursionLength++
-                    self.networkRefreshAnimated(false, pushPayload: pushPayload, recursive: true) // recursion m8
-                } else {
-                    self.recursionLength = 0 // Reset recursion length indicator
-                    self.stopLoadingAnimation() // terminate loading animation if error persists
-                }
+        helper.requestFeedsSynchronous({ (result) -> Void in
+            guard let resultUnwrapped = result else {
+                if animated {self.stopLoadingAnimation()}
+                let errorObject = FeedItem(title: "Error Loading", link: "", date: "N/A", author: "N/A", content: "It seems like you are either not connected to the Internet or something is wrong with your Watch's connectivity. Try going back to the previous menu and Force Touching the display and press Refresh to force a refresh")
+                self.feeds = [errorObject]
+                self.reloadTable()
+                return
             }
-        })*/
-        
+            if animated {self.stopLoadingAnimation()}
+            self.feeds = resultUnwrapped
+            self.reloadTable()
+            if let payload = pushPayload, urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
+                self.initiatePushNotificationReading(urlPayload) // Start scanning through current list of posts
+            }
+        })
     }
 
+    // MARK: Loading animations
     func startLoadingAnimation() {
         feedsTable.setHidden(true)
         self.clearAllMenuItems()
@@ -175,13 +153,7 @@ class InterfaceController: WKInterfaceController {
     // MARK: - Actions
 
     func refresh() {
-        // Attempt a initial forced data refresh
-        if let feedsUnwrapped = helper.getCachedFeeds() {
-            feeds = feedsUnwrapped
-            reloadTable()
-        }
-
-        // Then try a network refresh
+        // Network refresh
         networkRefreshAnimated(true, pushPayload: nil, recursive: false)
     }
 

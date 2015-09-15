@@ -235,9 +235,9 @@ extension CategoryViewController : NSXMLParserDelegate {
 
     func parser(parser: NSXMLParser, foundCharacters string: String) {
         if self.element == "title" {
-            self.tempItem.title = self.tempItem.title + string
+            self.tempItem.title += string
         } else if self.element == "link" {
-            self.tempItem.link = self.tempItem.link + string
+            self.tempItem.link += string
         } else if self.element == "pubDate" {
             if let currentDate = self.fullDateFormatter.dateFromString(string) {
                 self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
@@ -245,9 +245,9 @@ extension CategoryViewController : NSXMLParserDelegate {
                 self.tempItem.date += "<No Date>"
             }
         } else if self.element == "author" {
-            self.tempItem.author = string.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            self.tempItem.author += string.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
         } else if self.element == "description" {
-            self.tempItem.content = self.tempItem.content + string
+            self.tempItem.content += string
         }
     }
 

@@ -81,91 +81,26 @@ class DetailInterfaceController: WKInterfaceController {
             processedString = processedString.stringByReplacingOccurrencesOfString("<img[\\s\\S]*? />", withString: "", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            // FIXME: return processedString.htmlToString using the String extension when in production
-            return processedString
+            return String(htmlEncodedString: processedString)
         }
         return nil
     }
 
 }
 
-/*extension String {
-
-    /// Returns a new string made by replacing in the `String`
-    /// all HTML character entity references with the corresponding
-    /// character.
-
-    var stringByDecodingHTMLEntities: String {
-
-        let characterEntities : [String:Character] = [
-            // XML predefined entities:
-            "&quot;"    : "\"",
-            "&amp;"     : "&",
-            "&apos;"    : "'",
-            "&lt;"      : "<",
-            "&gt;"      : ">",
-
-            // HTML character entity references:
-            "&nbsp;"    : "\u{00a0}",
-            // ...
-            "&diams;"   : "♦",
+extension String {
+    init(htmlEncodedString: String) {
+        let encodedData = htmlEncodedString.dataUsingEncoding(NSUTF8StringEncoding)!
+        let attributedOptions: [String: AnyObject] = [
+            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
         ]
-
-        // ===== Utility functions =====
-        // Convert the number in the string to the corresponding
-        // Unicode character, e.g.
-        //    decodeNumeric("64", 10)   --> "@"
-        //    decodeNumeric("20ac", 16) --> "€"
-        func decodeNumeric(string: String, base: Int32) -> Character? {
-            let code = UInt32(strtoul(string, nil, base))
-            return Character(UnicodeScalar(code))
+        var attrStr = NSAttributedString()
+        do {
+            attrStr = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+        } catch let error as NSError {
+            print(error.description)
         }
-
-        // Decode the HTML character entity to the corresponding
-        // Unicode character, return `nil` for invalid input.
-        //     decode("&#64;")    --> "@"
-        //     decode("&#x20ac;") --> "€"
-        //     decode("&lt;")     --> "<"
-        //     decode("&foo;")    --> nil
-        func decode(entity: String) -> Character? {
-            if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
-                return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(3)), base: 16)
-            } else if entity.hasPrefix("&#") {
-                return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(2)), base: 10)
-            } else {
-                return characterEntities[entity]
-            }
-        }
-
-        // ===== Method starts here =====
-
-        var result = ""
-        var position = startIndex
-
-        // Find the next '&' and copy the characters preceding it to `result`:
-        while let ampRange = self.rangeOfString("&", range: position ..< endIndex) {
-            result.extend(self[position ..< ampRange.startIndex])
-            position = ampRange.startIndex
-
-            // Find the next ';' and copy everything from '&' to ';' into `entity`
-            if let semiRange = self.rangeOfString(";", range: position ..< endIndex) {
-                let entity = self[position ..< semiRange.endIndex]
-                position = semiRange.endIndex
-
-                if let decoded = decode(entity) {
-                    // Replace by decoded character:
-                    result.append(decoded)
-                } else {
-                    // Invalid entity, copy verbatim:
-                    result.extend(entity)
-                }
-            } else {
-                // No matching ';'.
-                break
-            }
-        }
-        // Copy remaining characters to `result`:
-        result.extend(self[position ..< endIndex])
-        return result
+        self.init(attrStr.string)
     }
-}*/
+}

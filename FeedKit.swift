@@ -46,7 +46,7 @@ public class FeedItem: NSObject, NSCoding {
 public class FeedHelper: NSObject {
     public static let sharedInstance = FeedHelper()
 
-    private let defaults = NSUserDefaults(suiteName: "group.Announcer")
+    private let defaults = NSUserDefaults.standardUserDefaults()
 
     private var element = ""
     private var tempItem: FeedItem
@@ -78,7 +78,7 @@ public class FeedHelper: NSObject {
         - returns: An optional `FeedItem` array
     */
     public func getCachedFeeds() -> ([FeedItem]?) {
-        if let feedsObj = defaults?.objectForKey("cachedFeeds") as? NSData {
+        if let feedsObj = defaults.objectForKey("cachedFeeds") as? NSData {
             NSKeyedUnarchiver.setClass(FeedItem.self, forClassName: "FeedItem")
             if let feeds = NSKeyedUnarchiver.unarchiveObjectWithData(feedsObj) as? [FeedItem] {
                 return feeds
@@ -98,7 +98,7 @@ public class FeedHelper: NSObject {
     public func setCachedFeeds(feeds: [FeedItem]) {
         NSKeyedArchiver.setClassName("FeedItem", forClass: FeedItem.self)
         let cachedData = NSKeyedArchiver.archivedDataWithRootObject(feeds)
-        defaults?.setObject(cachedData, forKey: "cachedFeeds")
+        defaults.setObject(cachedData, forKey: "cachedFeeds")
     }
 
     /**
@@ -119,6 +119,29 @@ public class FeedHelper: NSObject {
         }
         task.resume()
     }*/
+
+    /**
+        Retrieves `FeedItem` s from the Internet synchronously.
+
+        - parameter completionClosure: A closure that returns an optional `FeedItem` array
+    */
+    public func requestFeedsSynchronous(completionClosure:(result: [FeedItem]?) -> Void) {
+        let rqst = NSURLRequest(URL: NSURL(string: "https://node1.sstinc.org/api/cache/blogrss.csv")!)
+        self.feeds = [FeedItem]()
+
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(rqst) { (data, rsp, err) -> () in
+            if err == nil {
+                guard let dataUnwrapped = data else {
+                    completionClosure(result: nil)
+                    return
+                }
+                completionClosure(result: self.decodeResponseData(dataUnwrapped))
+            } else {
+                completionClosure(result: nil)
+            }
+        }
+        task.resume()
+    }
 
     private func decodeResponseData(buffer: NSData) -> [FeedItem]? {
         parser = NSXMLParser(data: buffer)
@@ -157,7 +180,7 @@ extension FeedHelper : NSXMLParserDelegate {
                 self.tempItem.date += longDateFormatter.stringFromDate(currentDate)
             }
         } else if self.element == "author" {
-            self.tempItem.author = string.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
+            self.tempItem.author += string.stringByReplacingOccurrencesOfString("noreply@blogger.com ", withString: "", options: .LiteralSearch, range: nil)
         } else if self.element == "description" {
             self.tempItem.content += string
         }

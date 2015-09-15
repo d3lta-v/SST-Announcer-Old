@@ -8,9 +8,15 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string></string>
+			<string>Credits</string>
 			<key>FooterText</key>
-			<string>Copyright (C) Developed by StatiX Industries &amp; Published by SST Inc. 2013-2015. All Rights Reserved</string>
+			<string>Lead programmer: Pan Ziyue
+Graphics designer: Christopher Kok
+Beta tester: Liaw Xiao Tao
+
+Copyright (C) Developed by StatiX Industries &amp; Published by SST Inc. 2013-2016. All Rights Reserved
+
+Per aspera ad astra - Through adversity, to the stars</string>
 		</dict>
 		<dict>
 			<key>Type</key>

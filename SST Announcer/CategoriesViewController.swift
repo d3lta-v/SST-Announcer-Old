@@ -233,7 +233,7 @@ extension CategoriesViewController : NSXMLParserDelegate {
 
     func parser(parser: NSXMLParser, foundCharacters string: String) {
         if self.element == "category" {
-            self.tempItem.title = self.tempItem.title + string
+            self.tempItem.title += string
         }
     }
 

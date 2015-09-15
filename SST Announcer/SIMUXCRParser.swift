@@ -47,7 +47,6 @@ public class SIMUXCRParser: NSObject {
         let getData = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
             if error == nil {
                 if let dataUnwrapped = data {
-                    // TODO: Test JSON to make sure it's running correctly!
                     do {
                         let parsedJSON = try NSJSONSerialization.JSONObjectWithData(dataUnwrapped, options: NSJSONReadingOptions.AllowFragments)
                         if let topObject = parsedJSON as? NSDictionary {
@@ -58,7 +57,7 @@ public class SIMUXCRParser: NSObject {
                         } else {self.errorBoolean = true}
                     } catch let error as NSError {
                         self.errorBoolean = true
-                        print("A JSON parsing error occurred, here are the details:\n \(error)")
+                        print("A JSON parsing error occurred, error description:\n \(error)")
                     }
                 } else {self.errorBoolean = true}
             } else {print(error);self.errorBoolean = true}

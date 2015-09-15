@@ -57,6 +57,7 @@
 		22C900111B46DAFA0098C27E /* FeedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C900101B46DAFA0098C27E /* FeedRow.swift */; };
 		22F470D41BA3C25200899C57 /* Announcer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2244288B1B46C3550050CF2B /* Announcer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		22F470D71BA3C25200899C57 /* Announcer WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 224428981B46C3550050CF2B /* Announcer WatchKit App.app */; };
+		22F561031BA6DE97003C9DB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F561011BA6DE97003C9DB0 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
 		22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FD3B7D1B27268000F87089 /* Settings.bundle */; };
 		22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FD3B7F1B27293000F87089 /* InAppBrowserViewController.swift */; };
 /* End PBXBuildFile section */
@@ -232,6 +233,7 @@
 		22C900101B46DAFA0098C27E /* FeedRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRow.swift; sourceTree = "<group>"; };
 		22C900121B46DF540098C27E /* Announcer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Announcer.entitlements; path = ../Announcer.entitlements; sourceTree = "<group>"; };
 		22C900131B46E14D0098C27E /* Announcer WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Announcer WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		22F561021BA6DE97003C9DB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22FD3B5D1B27178200F87089 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "SST Announcer.xcodeproj/../README.md"; sourceTree = "<group>"; };
 		22FD3B671B27179A00F87089 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		22FD3B7D1B27268000F87089 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 				22C4F1E01B20C8AF00468987 /* SIMUXCRParser.swift */,
 				22C4F1CB1B1EAC2B00468987 /* Announcer-Bridging-Header.h */,
 				227E714A1B1D44DF00215577 /* Main.storyboard */,
+				22F561011BA6DE97003C9DB0 /* LaunchScreen.storyboard */,
 				227E714D1B1D44DF00215577 /* Images.xcassets */,
 				227E71441B1D44DF00215577 /* Supporting Files */,
 			);
@@ -734,6 +737,7 @@
 				227E714C1B1D44DF00215577 /* Main.storyboard in Resources */,
 				22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */,
 				227E714E1B1D44DF00215577 /* Images.xcassets in Resources */,
+				22F561031BA6DE97003C9DB0 /* LaunchScreen.storyboard in Resources */,
 				22C5EFDB1B32E1E800C92AC6 /* ProgressHUD.bundle in Resources */,
 				22C4F1D21B201FC000468987 /* TUSafariActivity.bundle in Resources */,
 			);
@@ -775,7 +779,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#/usr/local/bin/swiftlint";
+			shellScript = /usr/local/bin/swiftlint;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -857,6 +861,14 @@
 				227E714B1B1D44DF00215577 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		22F561011BA6DE97003C9DB0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				22F561021BA6DE97003C9DB0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1097,7 +1109,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(SDKROOT)/../../Library/Frameworks",
 					"$(inherited)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1117,7 +1129,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(SDKROOT)/../../Library/Frameworks",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SST AnnouncerTests/Info.plist";

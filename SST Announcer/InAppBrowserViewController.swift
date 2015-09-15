@@ -58,10 +58,6 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
 
         backButton.enabled = mainWebView.canGoBack
         forwardButton.enabled = mainWebView.canGoForward
-        self.navigationController?.setToolbarHidden(false, animated: false)
-        // FIXME: Set the toolbar array properly!
-        //let toolbarArray = [fixedSpace1, backButton, fixedSpace2, forwardButton, flexSpace3, refreshButton, fixedSpace4, exportButton, fixedSpace5]
-        //self.setToolbarItems(toolbarArray, animated: false)
     }
 
     override func viewWillDisappear(animated: Bool) {

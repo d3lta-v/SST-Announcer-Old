@@ -9,15 +9,9 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
 #import <Parse/PFNullability.h>
 #import <Parse/PFObject.h>
 #import <Parse/PFSubclassing.h>
-#else
-#import <ParseOSX/PFNullability.h>
-#import <ParseOSX/PFObject.h>
-#import <ParseOSX/PFSubclassing.h>
-#endif
 
 PF_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +24,7 @@ PF_ASSUME_NONNULL_BEGIN
 
  Roles must have a name (which cannot be changed after creation of the role), and must specify an ACL.
  */
-@interface PFRole : PFObject<PFSubclassing>
+@interface PFRole : PFObject <PFSubclassing>
 
 ///--------------------------------------
 /// @name Creating a New Role

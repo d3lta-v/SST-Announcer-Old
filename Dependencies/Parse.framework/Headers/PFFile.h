@@ -9,15 +9,11 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
+#import <Bolts/BFTask.h>
+
 #import <Parse/PFConstants.h>
-#else
-#import <ParseOSX/PFConstants.h>
-#endif
 
 PF_ASSUME_NONNULL_BEGIN
-
-@class BFTask;
 
 /*!
  `PFFile` representes a file of binary data stored on the Parse servers.
@@ -150,7 +146,7 @@ PF_ASSUME_NONNULL_BEGIN
 
  @returns Returns whether the save succeeded.
  */
-- (BOOL)save;
+- (BOOL)save PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Saves the file *synchronously* and sets an error if it occurs.
@@ -221,7 +217,7 @@ PF_ASSUME_NONNULL_BEGIN
 
  @returns The `NSData` object containing file data. Returns `nil` if there was an error in fetching.
  */
-- (PF_NULLABLE NSData *)getData;
+- (PF_NULLABLE NSData *)getData PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract This method is like <getData> but avoids ever holding the entire `PFFile` contents in memory at once.
@@ -230,7 +226,7 @@ PF_ASSUME_NONNULL_BEGIN
 
  @returns A stream containing the data. Returns `nil` if there was an error in fetching.
  */
-- (PF_NULLABLE NSInputStream *)getDataStream;
+- (PF_NULLABLE NSInputStream *)getDataStream PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract *Synchronously* gets the data from cache if available or fetches its contents from the network.

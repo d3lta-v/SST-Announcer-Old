@@ -18,14 +18,13 @@
                     <connections>
                         <segue destination="ZKv-5O-712" kind="relationship" relationship="viewControllers" id="f3S-zt-TXo"/>
                         <segue destination="Pbe-Tq-v1Q" kind="relationship" relationship="viewControllers" id="hZM-rx-lx6"/>
-                        <segue destination="0E6-tX-dVY" kind="relationship" relationship="viewControllers" id="8XW-5p-CuG"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ksH-3h-WjI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-622" y="262"/>
         </scene>
-        <!--Student's Blog-->
+        <!--Students' Blog-->
         <scene sceneID="kS1-yR-nZY">
             <objects>
                 <tableViewController id="bYZ-gt-ybS" customClass="MasterViewController" customModule="Announcer" customModuleProvider="target" sceneMemberID="viewController">
@@ -72,7 +71,7 @@
                             <outlet property="delegate" destination="bYZ-gt-ybS" id="hJy-C1-1Sm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Student's Blog" id="3cz-TZ-zYX"/>
+                    <navigationItem key="navigationItem" title="Students' Blog" id="3cz-TZ-zYX"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="GDh-LB-RV1" id="mkY-Oh-h72"/>
                         <segue destination="ykt-Mv-hg2" kind="show" identifier="MasterToDetail" id="c1L-sO-DDv"/>
@@ -126,7 +125,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Aj7-zw-r6F">
                         <barButtonItem key="backBarButtonItem" title=" " id="7ou-xW-uBJ"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="nrG-YL-6PZ">
+                        <barButtonItem key="rightBarButtonItem" image="Export" id="nrG-YL-6PZ">
                             <connections>
                                 <action selector="exportButton:" destination="ykt-Mv-hg2" id="k0B-wy-7uo"/>
                             </connections>
@@ -226,15 +225,11 @@
             </objects>
             <point key="canvasLocation" x="3762" y="-401"/>
         </scene>
-        <!--Student's Feed-->
+        <!--Students' Blog-->
         <scene sceneID="rhM-Up-Bn5">
             <objects>
                 <navigationController id="ZKv-5O-712" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Student's Feed" image="Feed" id="l6R-f6-RXB">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Feed_Selected"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Students' Blog" image="Feed" selectedImage="Feed_Selected" id="l6R-f6-RXB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KKa-6d-Z6s">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -392,127 +387,6 @@
             </objects>
             <point key="canvasLocation" x="100" y="262"/>
         </scene>
-        <!--About-->
-        <scene sceneID="pIt-xS-qTT">
-            <objects>
-                <navigationController id="0E6-tX-dVY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="About" image="About" id="Wui-CE-IfE"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4X3-c1-Z3b">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="LVN-Lj-mh9" kind="relationship" relationship="rootViewController" id="RPh-gG-quP"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dQW-nQ-3JP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="100" y="1008"/>
-        </scene>
-        <!--About-->
-        <scene sceneID="epK-ag-nOH">
-            <objects>
-                <viewController id="LVN-Lj-mh9" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="9WA-f4-CL1"/>
-                        <viewControllerLayoutGuide type="bottom" id="0Bm-kk-aA9"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="OMG-J9-eQo">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SSTInc" translatesAutoresizingMaskIntoConstraints="NO" id="M4K-kC-YQT">
-                                <rect key="frame" x="206" y="132" width="188" height="110"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="188" id="7PE-Wz-ha5"/>
-                                    <constraint firstAttribute="height" constant="110" id="MRc-lb-cDG"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CEO: Christopher Kok" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIJ-jK-uaD">
-                                <rect key="frame" x="218" y="324" width="165" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="7LA-4t-PoS"/>
-                                    <constraint firstAttribute="width" constant="165" id="NS4-Xh-7zV"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COO: Liaw Xiao Tao" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i30-sV-GGm">
-                                <rect key="frame" x="225" y="353" width="150" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="7Sw-m4-wx5"/>
-                                    <constraint firstAttribute="width" constant="150" id="GQk-iD-n9M"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uses the SIMUXCR Parsing System" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zo-g1-4zL">
-                                <rect key="frame" x="168" y="423" width="265" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="265" id="nOB-qW-3zB"/>
-                                    <constraint firstAttribute="height" constant="21" id="rrV-a0-Gfe"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uses DTCoreText for HTML rendering" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5FK-8r-vMd">
-                                <rect key="frame" x="155" y="452" width="290" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="290" id="95v-Ir-fgQ"/>
-                                    <constraint firstAttribute="height" constant="21" id="HAX-6s-iWu"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Developed by StatiX Industries of SST INC" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="hUC-bk-jQo">
-                                <rect key="frame" x="175" y="262" width="250" height="42"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="IDg-kz-6Ws"/>
-                                    <constraint firstAttribute="width" constant="250" id="cWT-Qu-Dsc"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CTO/Chief Engineer: Pan Ziyue" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iim-db-aHY">
-                                <rect key="frame" x="183" y="382" width="235" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="235" id="8J9-AP-1z6"/>
-                                    <constraint firstAttribute="height" constant="21" id="w1q-Z1-kgg"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="i30-sV-GGm" firstAttribute="top" secondItem="gIJ-jK-uaD" secondAttribute="bottom" constant="8" id="14B-9I-lNB"/>
-                            <constraint firstAttribute="centerY" secondItem="hUC-bk-jQo" secondAttribute="centerY" constant="17" id="1nM-dH-wdi"/>
-                            <constraint firstAttribute="centerX" secondItem="5FK-8r-vMd" secondAttribute="centerX" id="4bx-Or-Hjy"/>
-                            <constraint firstAttribute="centerX" secondItem="Iim-db-aHY" secondAttribute="centerX" id="CZ4-LB-Xge"/>
-                            <constraint firstItem="gIJ-jK-uaD" firstAttribute="top" secondItem="hUC-bk-jQo" secondAttribute="bottom" constant="20" id="Hgf-1s-vsP"/>
-                            <constraint firstItem="6zo-g1-4zL" firstAttribute="top" secondItem="Iim-db-aHY" secondAttribute="bottom" constant="20" id="M1L-Jg-aJ8"/>
-                            <constraint firstAttribute="centerX" secondItem="gIJ-jK-uaD" secondAttribute="centerX" id="M2S-KI-MEU"/>
-                            <constraint firstAttribute="centerX" secondItem="M4K-kC-YQT" secondAttribute="centerX" id="N8N-Hn-P8A"/>
-                            <constraint firstItem="5FK-8r-vMd" firstAttribute="top" secondItem="6zo-g1-4zL" secondAttribute="bottom" constant="8" id="R5n-xt-NoU"/>
-                            <constraint firstAttribute="centerX" secondItem="hUC-bk-jQo" secondAttribute="centerX" id="Uvz-ob-DVD"/>
-                            <constraint firstItem="hUC-bk-jQo" firstAttribute="top" secondItem="M4K-kC-YQT" secondAttribute="bottom" constant="20" id="Wet-P9-Mwr"/>
-                            <constraint firstAttribute="centerX" secondItem="i30-sV-GGm" secondAttribute="centerX" id="Xc7-RU-eNO"/>
-                            <constraint firstAttribute="centerX" secondItem="6zo-g1-4zL" secondAttribute="centerX" id="u4y-fc-b1j"/>
-                            <constraint firstItem="Iim-db-aHY" firstAttribute="top" secondItem="i30-sV-GGm" secondAttribute="bottom" constant="8" id="wAp-Yg-PxO"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="About" id="bcI-wy-tE2"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2qH-Vr-qJ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="822" y="1008"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="CVx-1r-9wc">
             <objects>
@@ -533,12 +407,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="About" width="30" height="30"/>
         <image name="Categories" width="30" height="30"/>
         <image name="Categories_Selected" width="30" height="30"/>
+        <image name="Export" width="25" height="25"/>
         <image name="Feed" width="30" height="30"/>
         <image name="Feed_Selected" width="30" height="30"/>
-        <image name="SSTInc" width="238" height="141"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="c1L-sO-DDv"/>

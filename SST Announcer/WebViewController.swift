@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class WebViewController: UIViewController {
 
@@ -36,7 +37,6 @@ class WebViewController: UIViewController {
         webView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
         progressProxy.progressDelegate = self
-
         loadFeed(self.receivedFeedItem)
     }
 
@@ -66,7 +66,6 @@ class WebViewController: UIViewController {
             indeterminateProgressBar.addToNavigationBar(self.navigationController?.navigationBar, startAnimating: true)
             useSIMUX = true
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-
             SIMUXCRParser().convertHTML(item.link) { (title: String, description: String) in
                 let editedDescription = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
 
@@ -147,14 +146,10 @@ class WebViewController: UIViewController {
         default:
             size = "16.4px"
         }
-
         return size
     }
 
     private func useBrowser(url: String!, usedTable: Bool!) {
-        //self.navigationController!.navigationBar.addSubview(progressView)
-        //progressView.setProgress(0, animated: true)
-
         textView.alpha = 0
         if usedTable == true {
             webView.loadRequest(NSURLRequest(URL: NSURL(string: url)!))
@@ -166,7 +161,6 @@ class WebViewController: UIViewController {
     // The super cleanHtml REGEX engine
     private func cleanHtml(html: String!) -> String! {
         var htmlVariable: String = html
-
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" style=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" height=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString(" width=\"[\\s\\S]*?\"", withString: "", options: .RegularExpressionSearch, range: nil)
@@ -174,7 +168,6 @@ class WebViewController: UIViewController {
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "<br>")
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<b[r][^>]*/>", withString: "<br \\>", options: .RegularExpressionSearch, range: nil)
         htmlVariable = htmlVariable.stringByReplacingOccurrencesOfString("<!--(.*?)-->", withString: "", options: .RegularExpressionSearch, range: nil)
-
         return htmlVariable
     }
 
@@ -182,18 +175,26 @@ class WebViewController: UIViewController {
 
     @IBAction func exportButton(sender: AnyObject) {
         if let feedItem = self.receivedFeedItem {
-            let safariActivity = TUSafariActivity()
-            let validUrlString = feedItem.link.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-            guard let validUrl = validUrlString else {
+            guard let url = NSURL(string: feedItem.link) else {
                 return
             }
-            let url = NSURL(string: validUrl)
-            let activity = UIActivityViewController(activityItems: [url!], applicationActivities: [safariActivity])
-            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-                self.presentViewController(activity, animated: true, completion: nil)
+            if #available(iOS 9.0, *) {
+                let svc = SFSafariViewController(URL: url)
+                self.presentViewController(svc, animated: true, completion: nil)
             } else {
-                let popup = UIPopoverController(contentViewController: activity)
-                popup.presentPopoverFromBarButtonItem(exportBarButton, permittedArrowDirections: .Any, animated: true)
+                let safariActivity = TUSafariActivity()
+                // Guard-based null checking
+                let validUrlString = feedItem.link.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())
+                guard let validUrlStringUnwrapped = validUrlString else {return}
+                guard let url = NSURL(string: validUrlStringUnwrapped) else {return}
+
+                let activity = UIActivityViewController(activityItems: [url], applicationActivities: [safariActivity])
+                if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+                    self.presentViewController(activity, animated: true, completion: nil)
+                } else {
+                    let popup = UIPopoverController(contentViewController: activity)
+                    popup.presentPopoverFromBarButtonItem(exportBarButton, permittedArrowDirections: .Any, animated: true)
+                }
             }
         }
     }
@@ -329,10 +330,14 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
 
         if UIApplication.sharedApplication().canOpenURL(url.absoluteURL) {
             let urlString = url.absoluteString
-
             if urlString.hasPrefix("http") == true {
                 self.linkUrl = url
-                self.performSegueWithIdentifier("ToBrowser", sender: self)
+                if #available(iOS 9.0, *) {
+                    let svc = SFSafariViewController(URL: self.linkUrl)
+                    self.presentViewController(svc, animated: true, completion: nil)
+                } else {
+                    self.performSegueWithIdentifier("ToBrowser", sender: self)
+                }
             } else if urlString.hasPrefix("mailto") == true || urlString.hasPrefix("tel") == true {
                 UIApplication.sharedApplication().openURL(url)
             }

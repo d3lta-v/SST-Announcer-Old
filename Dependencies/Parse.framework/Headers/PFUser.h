@@ -9,15 +9,11 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
+#import <Bolts/BFTask.h>
+
 #import <Parse/PFConstants.h>
 #import <Parse/PFObject.h>
 #import <Parse/PFSubclassing.h>
-#else
-#import <ParseOSX/PFConstants.h>
-#import <ParseOSX/PFObject.h>
-#import <ParseOSX/PFSubclassing.h>
-#endif
 
 PF_ASSUME_NONNULL_BEGIN
 
@@ -82,7 +78,7 @@ typedef void(^PFUserLogoutResultBlock)(NSError *PF_NULLABLE_S error);
 
  @returns Returns a new `PFUser` object.
  */
-+ (PFUser *)user;
++ (instancetype)user;
 
 /*!
  @abstract Enables automatic creation of anonymous users.
@@ -123,7 +119,7 @@ typedef void(^PFUserLogoutResultBlock)(NSError *PF_NULLABLE_S error);
 
  @returns Returns `YES` if the sign up was successful, otherwise `NO`.
  */
-- (BOOL)signUp;
+- (BOOL)signUp PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Signs up the user *synchronously*.
@@ -193,7 +189,7 @@ typedef void(^PFUserLogoutResultBlock)(NSError *PF_NULLABLE_S error);
  If login failed for either wrong password or wrong username, returns `nil`.
  */
 + (PF_NULLABLE instancetype)logInWithUsername:(NSString *)username
-                                     password:(NSString *)password;
+                                     password:(NSString *)password PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Makes a *synchronous* request to login a user with specified credentials.
@@ -273,7 +269,7 @@ typedef void(^PFUserLogoutResultBlock)(NSError *PF_NULLABLE_S error);
  @returns Returns an instance of the `PFUser` on success.
  If becoming a user fails due to incorrect token, it returns `nil`.
  */
-+ (PF_NULLABLE instancetype)become:(NSString *)sessionToken;
++ (PF_NULLABLE instancetype)become:(NSString *)sessionToken PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Makes a *synchronous* request to become a user with the given session token.
@@ -400,7 +396,7 @@ typedef void(^PFUserLogoutResultBlock)(NSError *PF_NULLABLE_S error);
 
  @returns Returns `YES` if the reset email request is successful. `NO` - if no account was found for the email address.
  */
-+ (BOOL)requestPasswordResetForEmail:(NSString *)email;
++ (BOOL)requestPasswordResetForEmail:(NSString *)email PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract *Synchronously* send a password reset request for a specified email and sets an error object.
@@ -412,8 +408,7 @@ typedef void(^PFUserLogoutResultBlock)(NSError *PF_NULLABLE_S error);
  @param error Error object to set on error.
  @returns Returns `YES` if the reset email request is successful. `NO` - if no account was found for the email address.
  */
-+ (BOOL)requestPasswordResetForEmail:(NSString *)email
-                               error:(NSError **)error;
++ (BOOL)requestPasswordResetForEmail:(NSString *)email error:(NSError **)error;
 
 /*!
  @abstract Send a password reset request asynchronously for a specified email and sets an

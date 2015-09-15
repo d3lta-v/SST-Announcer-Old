@@ -9,11 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
 #import <Parse/PFNullability.h>
-#else
-#import <ParseOSX/PFNullability.h>
-#endif
 
 @class PFObject;
 @class PFUser;
@@ -22,7 +18,7 @@
 /// @name Version
 ///--------------------------------------
 
-#define PARSE_VERSION @"1.8.0"
+#define PARSE_VERSION @"1.8.3"
 
 extern NSInteger const PARSE_API_VERSION;
 
@@ -423,4 +419,27 @@ typedef void (^PFProgressBlock)(int percentDone);
 #      define PF_EXTENSION_UNAVAILABLE(_msg)
 #    endif
 #  endif
+#endif
+
+///--------------------------------------
+/// @name Swift Macros
+///--------------------------------------
+
+#ifndef PF_SWIFT_UNAVAILABLE
+#  ifdef NS_SWIFT_UNAVAILABLE
+#    define PF_SWIFT_UNAVAILABLE NS_SWIFT_UNAVAILABLE("")
+#  else
+#    define PF_SWIFT_UNAVAILABLE
+#  endif
+#endif
+
+///--------------------------------------
+/// @name Obj-C Generics Macros
+///--------------------------------------
+
+#if __has_feature(objc_generics) || __has_extension(objc_generics)
+#  define PF_GENERIC(type) <type>
+#else
+#  define PF_GENERIC(type)
+#  define PFGenericObject PFObject *
 #endif

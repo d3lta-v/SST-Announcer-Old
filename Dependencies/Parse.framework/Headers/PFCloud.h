@@ -9,15 +9,11 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
+#import <Bolts/BFTask.h>
+
 #import <Parse/PFConstants.h>
-#else
-#import <ParseOSX/PFConstants.h>
-#endif
 
 PF_ASSUME_NONNULL_BEGIN
-
-@class BFTask;
 
 /*!
  The `PFCloud` class provides methods for interacting with Parse Cloud Functions.
@@ -32,7 +28,8 @@ PF_ASSUME_NONNULL_BEGIN
 
  @returns The response from the cloud function.
  */
-+ (PF_NULLABLE_S id)callFunction:(NSString *)function withParameters:(PF_NULLABLE NSDictionary *)parameters;
++ (PF_NULLABLE_S id)callFunction:(NSString *)function
+                  withParameters:(PF_NULLABLE NSDictionary *)parameters PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Calls the given cloud function *synchronously* with the parameters provided and

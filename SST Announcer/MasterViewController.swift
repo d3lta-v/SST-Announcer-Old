@@ -133,7 +133,7 @@ class MasterViewController: UITableViewController {
         #if !((arch(i386) || arch(x86_64)) && os(iOS)) // Preprocessor macro for checking iOS sims
             self.helper.delay(5) {
                 let application = UIApplication.sharedApplication()
-                if application.respondsToSelector("isRegisteredForRemoteNotifications") { // iOS 8 feature
+                if #available(iOS 8.0, *) {
                     if application.isRegisteredForRemoteNotifications() == false {
                         let alert = UIAlertController(title: "You disabled push!",message: "This app relies heavily on push notifications for time-specific delivery of feeds.", preferredStyle: .Alert)
                         let okay = UIAlertAction(title: "Okay", style: UIAlertActionStyle.Cancel, handler: nil)
@@ -195,7 +195,7 @@ class MasterViewController: UITableViewController {
             displayUpdateForNewVersion(defaults)
         }
     }
-    
+
     private func displayUpdateForNewVersion(defaults: NSUserDefaults) {
         // TODO: Update this number whenever the version number changes
         defaults.setFloat(7.2, forKey: "Announcer.version")
