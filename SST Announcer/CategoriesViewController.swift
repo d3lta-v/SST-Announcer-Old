@@ -47,7 +47,7 @@ class CategoriesViewController: UITableViewController {
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
         self.refreshControl = refreshControl
 
-        if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
+        if #available(iOS 8.0, *) {
             self.tableView.estimatedRowHeight = 44
             self.tableView.rowHeight = UITableViewAutomaticDimension
         }
@@ -80,7 +80,6 @@ class CategoriesViewController: UITableViewController {
 
     private func getFeedsOnce() {
         dispatch_once(&TokenHolder.token) {
-            // Getfeeds uses a proper Swift implementation of dispatch once
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
             // Start the refresher
@@ -120,7 +119,7 @@ class CategoriesViewController: UITableViewController {
     }
 
     private func synchroniseFeedArrayAndTable() {
-        self.newFeeds.sortInPlace({$0.title.localizedCaseInsensitiveCompare($1.title) == NSComparisonResult.OrderedAscending})
+        self.newFeeds.sortInPlace({$0.title.localizedStandardCompare($1.title) == NSComparisonResult.OrderedAscending})
         self.feeds = self.newFeeds
         self.tableView.reloadData()
     }
