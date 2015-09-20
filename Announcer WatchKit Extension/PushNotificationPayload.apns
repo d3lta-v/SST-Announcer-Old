@@ -1,6 +1,6 @@
 {
     "aps": {
-        "alert": "New post: Upcycling Project Featured on OKto Channel Tonight",
+        "alert": "New post: All servers down, send help",
         "category": "viewFeed"
     },
     
@@ -11,5 +11,5 @@
         }
     ],
     
-    "url": "http://studentsblog.sst.edu.sg/2015/07/upcycling-project-featured-on-okto.html"
+    "url": "http://studentsblog.sst.edu.sg/2015/09/moe-independent-school-bursary-isb.html"
 }
