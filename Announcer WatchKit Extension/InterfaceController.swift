@@ -63,7 +63,6 @@ class InterfaceController: WKInterfaceController {
                     let success = self.initiatePushNotificationReading(urlPayload)
                     if !success {
                         // Load feeds if the previous one fails (most of the case it will)
-                        //refreshForPushNotification(remoteNotification, animated: true)
                         networkRefreshAnimated(true, pushPayload: remoteNotification, recursive: false)
                     }
                 }
@@ -98,7 +97,7 @@ class InterfaceController: WKInterfaceController {
         helper.requestFeedsSynchronous({ (result) -> Void in
             guard let resultUnwrapped = result else {
                 if animated {self.stopLoadingAnimation()}
-                let errorObject = FeedItem(title: "Error Loading", link: "", date: "N/A", author: "N/A", content: "It seems like you are either not connected to the Internet or something is wrong with your Watch's connectivity. Try going back to the previous menu and Force Touching the display and press Refresh to force a refresh")
+                let errorObject = FeedItem(title: "Error Loading", link: "", date: "It seems like you are either not connected to the Internet or something is wrong with your Watch's connectivity. Try Force Touching the display and press Refresh to force a refresh", author: "Sorry about this: ", content: "It seems like you are either not connected to the Internet or something is wrong with your Watch's connectivity. Try going back to the previous menu and Force Touching the display and press Refresh to force a refresh")
                 self.feeds = [errorObject]
                 self.reloadTable()
                 return
@@ -141,10 +140,11 @@ class InterfaceController: WKInterfaceController {
                 }
                 row.titleLabel.setText(feed.title)
                 row.author.setText(feed.author)
-                if let shortDate = longDateFormatter.dateFromString(feed.date) {
-                    let correctDate = shortDate.dateByAddingTimeInterval(Double(NSTimeZone.systemTimeZone().secondsFromGMT))
-                    let shortDateString = shortDateFormatter.stringFromDate(correctDate)
+                if let longDate = longDateFormatter.dateFromString(feed.date) {
+                    let shortDateString = shortDateFormatter.stringFromDate(longDate)
                     row.date.setText(shortDateString)
+                } else {
+                    row.date.setText(feed.date)
                 }
             }
         }

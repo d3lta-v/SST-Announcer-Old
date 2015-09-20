@@ -151,10 +151,11 @@ class WebViewController: UIViewController {
 
     private func useBrowser(url: String!, usedTable: Bool!) {
         textView.alpha = 0
+        guard let urlUnwrapped = NSURL(string: url) else {return}
         if usedTable == true {
-            webView.loadRequest(NSURLRequest(URL: NSURL(string: url)!))
+            webView.loadRequest(NSURLRequest(URL: urlUnwrapped))
         } else {
-            webView.loadRequest(NSURLRequest(URL: NSURL(string: url+"?m=0")!))
+            webView.loadRequest(NSURLRequest(URL: urlUnwrapped))
         }
     }
 
@@ -227,8 +228,22 @@ extension WebViewController : UIWebViewDelegate, NJKWebViewProgressDelegate {
             return
         }
         if err.code != -999 {
-            ProgressHUD.showError("Loading failed!")
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            guard let errorFile = NSBundle.mainBundle().pathForResource("MobileSafariError", ofType: "html") else {
+                ProgressHUD.showError("Loading failed!")
+                return
+            }
+            do {
+                var errorHtml = try String(contentsOfFile: errorFile)
+                guard let errorDescription = error?.localizedDescription else {return}
+                errorHtml = errorHtml.stringByReplacingOccurrencesOfString("errMsg", withString: errorDescription)
+                print(errorDescription)
+                self.title = "Cannot Open Page"
+                webView.loadHTMLString(errorHtml, baseURL: nil)
+            } catch {
+                ProgressHUD.showError("Internal error")
+                return
+            }
         }
     }
 

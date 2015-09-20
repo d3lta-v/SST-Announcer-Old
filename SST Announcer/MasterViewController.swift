@@ -111,9 +111,11 @@ class MasterViewController: UITableViewController {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
             // Start the refresher
-            self.refreshControl?.beginRefreshing()
-            let pt = CGPointMake(0, self.tableView.contentOffset.y - (self.refreshControl?.frame.size.height)!)
-            self.tableView.setContentOffset(pt, animated: false)
+            if let refreshCtrl = self.refreshControl {
+                refreshCtrl.beginRefreshing()
+                let pt = CGPointMake(0, self.tableView.contentOffset.y - refreshCtrl.frame.size.height)
+                self.tableView.setContentOffset(pt, animated: false)
+            }
 
             // Load cached version first, while checking for existence of the cached feeds
             if let feeds = self.feedHelper.getCachedFeeds() {
