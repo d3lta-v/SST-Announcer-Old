@@ -16,14 +16,13 @@
                     </tabBar>
                     <connections>
                         <segue destination="nyp-8u-MrD" kind="relationship" relationship="viewControllers" id="4Vg-Ch-30J"/>
-                        <segue destination="dba-uo-g35" kind="relationship" relationship="viewControllers" id="ahn-QK-C20"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gYd-Ie-Zna" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-208" y="316"/>
         </scene>
-        <!--Students' Blog-->
+        <!--Table View Controller-->
         <scene sceneID="DZv-y7-BmX">
             <objects>
                 <tableViewController id="93I-Jq-nVQ" sceneMemberID="viewController">
@@ -51,17 +50,17 @@
                             <outlet property="delegate" destination="93I-Jq-nVQ" id="srv-Jh-3Nr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Students' Blog" id="qFp-WM-MD8"/>
+                    <navigationItem key="navigationItem" id="qFp-WM-MD8"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nr7-Iu-Tho" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1188" y="-392"/>
+            <point key="canvasLocation" x="1188" y="316"/>
         </scene>
-        <!--Students' Blog-->
+        <!--Navigation Controller-->
         <scene sceneID="JRu-vi-5K8">
             <objects>
                 <navigationController id="nyp-8u-MrD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Students' Blog" image="Feed" selectedImage="Feed_Selected" id="QIq-D4-4xQ"/>
+                    <tabBarItem key="tabBarItem" title="" id="QIq-D4-4xQ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rSH-Ex-5jb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -72,26 +71,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Vp-nt-kZG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="508" y="-392"/>
-        </scene>
-        <!--Categories-->
-        <scene sceneID="OpW-jP-o2g">
-            <objects>
-                <navigationController id="dba-uo-g35" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Categories" image="Categories" id="c08-m7-DK3"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mcQ-EP-F4Q">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7uc-eC-6tP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="508" y="316"/>
+            <point key="canvasLocation" x="498" y="316"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Categories" width="30" height="30"/>
-        <image name="Feed" width="30" height="30"/>
-        <image name="Feed_Selected" width="30" height="30"/>
-    </resources>
 </document>
