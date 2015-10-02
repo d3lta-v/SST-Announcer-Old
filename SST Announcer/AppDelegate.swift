@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        //setenv("CFNETWORK_DIAGNOSTICS", "3", 1);
+        //setenv("CFNETWORK_DIAGNOSTICS", "3", 1); // Uncomment to enable logging for CFNetwork
         // Fabric Init
         Fabric.with([Crashlytics()])
 

@@ -20,6 +20,7 @@ class InterfaceController: WKInterfaceController {
     private let longDateFormatter = NSDateFormatter()
     private let shortDateFormatter = NSDateFormatter()
     private var recursionLength = 0
+    private var pushPayload: String? = nil
 
     // MARK: - Lifecycle
 
@@ -40,7 +41,7 @@ class InterfaceController: WKInterfaceController {
         setTitle("Announcer")
 
         // Attempt to load new data from parent application
-        networkRefreshAnimated(false, pushPayload: nil, recursive: false)
+        networkRefreshAnimated(false, pushPayload: pushPayload, recursive: false)
     }
 
     override func willActivate() {
@@ -59,13 +60,9 @@ class InterfaceController: WKInterfaceController {
                 // Execute actions from payload
 
                 // First attempt (with only the current feeds cache)
-                if let urlPayload = remoteNotification["url"] as? String { // Get the "url" json key from remoteNotification
-                    let success = self.initiatePushNotificationReading(urlPayload)
-                    if !success {
-                        // Load feeds if the previous one fails (most of the case it will)
-                        networkRefreshAnimated(true, pushPayload: remoteNotification, recursive: false)
-                    }
-                }
+                guard let urlPayload = remoteNotification["url"] as? String else {return}
+                networkRefreshAnimated(true, pushPayload: urlPayload, recursive: false)
+                self.pushPayload = urlPayload
             }
         }
     }
@@ -90,7 +87,7 @@ class InterfaceController: WKInterfaceController {
     }
 
     // Note: recursive flag must NOT be on when calling this function from outside this function
-    func networkRefreshAnimated(animated: Bool, pushPayload: [NSObject: AnyObject]?, recursive: Bool) {
+    func networkRefreshAnimated(animated: Bool, pushPayload: String?, recursive: Bool) {
         if animated && !recursive {
             startLoadingAnimation()
         }
@@ -105,8 +102,8 @@ class InterfaceController: WKInterfaceController {
             if animated {self.stopLoadingAnimation()}
             self.feeds = resultUnwrapped
             self.reloadTable()
-            if let payload = pushPayload, urlPayload = payload["url"] as? String { // Get the "url" json key from remoteNotification
-                self.initiatePushNotificationReading(urlPayload) // Start scanning through current list of posts
+            if let urlString = pushPayload { // Get the "url" json key from remoteNotification
+                self.initiatePushNotificationReading(urlString) // Start scanning through current list of posts
             }
         })
     }
