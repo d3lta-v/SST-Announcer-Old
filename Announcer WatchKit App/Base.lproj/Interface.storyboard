@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="8092"/>
@@ -10,7 +10,20 @@
             <objects>
                 <controller identifier="MasterInterface" title="Announcer" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Announcer_WatchKit_Extension">
                     <items>
-                        <table alignment="center" id="80M-DH-3O7">
+                        <label width="1" alignment="center" verticalAlignment="center" hidden="YES" text="Error Fetching Feeds" textAlignment="center" numberOfLines="0" id="XRp-qD-HyG">
+                            <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                            <variation key="device=watch38mm">
+                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                            </variation>
+                        </label>
+                        <label width="1" alignment="center" verticalAlignment="center" hidden="YES" text="Apple Watch can't retrieve feeds. Try refreshing by Force Touching" textAlignment="center" numberOfLines="4" minimumScaleFactor="0.69999999999999996" id="Ue4-Uh-8f7">
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                            <variation key="device=watch38mm">
+                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                            </variation>
+                        </label>
+                        <table alignment="center" hidden="YES" id="80M-DH-3O7">
                             <items>
                                 <tableRow identifier="FeedRow" id="4lN-Do-eP0" customClass="FeedRow" customModule="Announcer_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="4ot-wd-Z14">
@@ -44,6 +57,8 @@
                     </items>
                     <connections>
                         <outlet property="animationView" destination="gMV-cp-QF9" id="wBb-TM-9Wg"/>
+                        <outlet property="errorMessage" destination="Ue4-Uh-8f7" id="YAs-dK-KQ6"/>
+                        <outlet property="errorTitle" destination="XRp-qD-HyG" id="GWM-ak-ysj"/>
                         <outlet property="feedsTable" destination="80M-DH-3O7" id="63d-8E-TG6"/>
                     </connections>
                 </controller>

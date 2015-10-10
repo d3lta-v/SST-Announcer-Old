@@ -13,8 +13,13 @@ class InterfaceController: WKInterfaceController {
 
     // MARK: - Private variables
 
-    @IBOutlet weak var feedsTable: WKInterfaceTable!
-    @IBOutlet weak var animationView: WKInterfaceImage!
+    // MARK: IBOutlets
+    @IBOutlet var feedsTable: WKInterfaceTable!
+    @IBOutlet var animationView: WKInterfaceImage!
+    @IBOutlet var errorTitle: WKInterfaceLabel!
+    @IBOutlet var errorMessage: WKInterfaceLabel!
+
+    // MARK: Variables
     private let helper = FeedHelper.sharedInstance
     private var feeds: [FeedItem]!
     private let longDateFormatter = NSDateFormatter()
@@ -36,12 +41,11 @@ class InterfaceController: WKInterfaceController {
         shortDateFormatter.dateFormat = "dd/MM/yy HH:mm"
 
         invalidateUserActivity() // we don't want handoff, YET
-        self.addMenuItemWithItemIcon(WKMenuItemIcon.Repeat, title: "Refresh", action: "refresh")
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
         setTitle("Announcer")
 
         // Attempt to load new data from parent application
-        networkRefreshAnimated(false, pushPayload: pushPayload, recursive: false)
+        networkRefreshAnimated(true, pushPayload: pushPayload, recursive: false)
     }
 
     override func willActivate() {
@@ -89,29 +93,44 @@ class InterfaceController: WKInterfaceController {
     // Note: recursive flag must NOT be on when calling this function from outside this function
     func networkRefreshAnimated(animated: Bool, pushPayload: String?, recursive: Bool) {
         if animated && !recursive {
+            hideTable()
             startLoadingAnimation()
         }
         helper.requestFeedsSynchronous({ (result) -> Void in
             guard let resultUnwrapped = result else {
+                self.hideTable()
+                self.showError()
                 if animated {self.stopLoadingAnimation()}
-                let errorObject = FeedItem(title: "Error Loading", link: "", date: "It seems like you are either not connected to the Internet or something is wrong with your Watch's connectivity. Try Force Touching the display and press Refresh to force a refresh", author: "Sorry about this: ", content: "It seems like you are either not connected to the Internet or something is wrong with your Watch's connectivity. Try going back to the previous menu and Force Touching the display and press Refresh to force a refresh")
-                self.feeds = [errorObject]
-                self.reloadTable()
                 return
             }
-            if animated {self.stopLoadingAnimation()}
+            guard resultUnwrapped.count > 0 else {
+                self.hideTable()
+                self.showError()
+                if animated {self.stopLoadingAnimation()}
+                return
+            }
             self.feeds = resultUnwrapped
             self.reloadTable()
+            if animated {self.stopLoadingAnimation()}
+            self.showTable()
             if let urlString = pushPayload { // Get the "url" json key from remoteNotification
                 self.initiatePushNotificationReading(urlString) // Start scanning through current list of posts
             }
         })
     }
 
+    func showError() {
+        errorTitle.setHidden(false)
+        errorMessage.setHidden(false)
+    }
+
+    func hideError() {
+        errorTitle.setHidden(true)
+        errorMessage.setHidden(true)
+    }
+
     // MARK: Loading animations
     func startLoadingAnimation() {
-        feedsTable.setHidden(true)
-        self.clearAllMenuItems()
         animationView.setHidden(false)
         animationView.setImageNamed("wave_")
         animationView.startAnimating()
@@ -120,8 +139,17 @@ class InterfaceController: WKInterfaceController {
     func stopLoadingAnimation() {
         self.animationView.stopAnimating()
         self.animationView.setHidden(true)
+    }
+
+    // MARK: Convenience animation methods
+    func showTable() {
         self.feedsTable.setHidden(false)
         self.addMenuItemWithItemIcon(WKMenuItemIcon.Repeat, title: "Refresh", action: "refresh")
+    }
+
+    func hideTable() {
+        feedsTable.setHidden(true)
+        self.clearAllMenuItems()
     }
 
     // MARK: - Table View

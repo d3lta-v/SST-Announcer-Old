@@ -193,16 +193,16 @@ class MasterViewController: UITableViewController {
         let defaults = NSUserDefaults.standardUserDefaults()
         let versionNumber = defaults.floatForKey("Announcer.version")
 
-        if versionNumber < 7.2 {
+        if versionNumber < 8.0 { // Keep in mind this also checks if the key does not exist
             displayUpdateForNewVersion(defaults)
         }
     }
 
     private func displayUpdateForNewVersion(defaults: NSUserDefaults) {
         // TODO: Update this number whenever the version number changes
-        defaults.setFloat(7.2, forKey: "Announcer.version")
-        let titleString = "Updates in Announcer 7.2:"
-        let messageString = "Apple Watch & Extended Service Pack update 7.2:\n+ Improved networking performance\n+ Migrated all data transfers to use only HTTPS instead of HTTP\n+ More robust app inner workings and upgrade of APIs used\n+ Apple Watch App now features a beautiful animation when you refresh the feed by Force Touching the main screen and pressing \"Refresh\", so you don't have to worry about when the feed actually finishes refreshing.\n+ Small UI changes to the Apple Watch App, fixed network loading functionalities and a date formatting bug.\n+ Sorted Categories by alphabetical order"
+        defaults.setFloat(8.0, forKey: "Announcer.version")
+        let titleString = "Announcer 8 has arrived:"
+        let messageString = "Advanced, uncompromising performance in a slimmer package.\n- Fully updated for iOS 9 and WatchOS 2 (and yes, updated with Swift 2.0)!\n- Fully loaded for App Transport Security, which means almost all of your communications will be encrypted.\n- Slimmer app as a result of App Thinning, with only device-specific code & assets running on your device.\n- Removed the About tab (and moved the credits to the app's Settings page)\n- iPad version fully supports slide over view AND split view for better multitasking!\n- Apple Watch now displays the correct date and time for post timings.\n- Some under-the-hood fixes to enhance code security.\n- Apple Watch can now browse Announcer without tethering to a phone!\n- Fixed a small bug related to the Watch not loading names and other metadata properly."
         if #available(iOS 8.0, *) {
             let controller = UIAlertController(title: titleString, message: messageString, preferredStyle: .Alert)
             controller.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
@@ -399,7 +399,9 @@ extension MasterViewController : NSXMLParserDelegate {
         }
 
         // Check for new app version once the app is finished
-        checkForNewVersion()
+        helper.delay(1) {
+            self.checkForNewVersion()
+        }
     }
 
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
