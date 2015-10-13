@@ -31,11 +31,10 @@
                                             <label alignment="left" text="Loading..." id="uCv-9S-SWB" userLabel="Title">
                                                 <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                             </label>
-                                            <label alignment="left" text="Loading..." id="z9w-di-OVJ" userLabel="Author">
-                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.90000000000000002" id="z9w-di-OVJ" userLabel="Author">
+                                                <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
                                             </label>
-                                            <label alignment="left" text="Loading..." numberOfLines="0" id="2vA-Wt-qlP" userLabel="Date">
+                                            <label alignment="left" text="Loading..." minimumScaleFactor="0.80000000000000004" id="2vA-Wt-qlP" userLabel="Date">
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                             </label>
@@ -106,16 +105,12 @@
             <objects>
                 <notificationController id="YCC-NB-fut">
                     <items>
-                        <group width="1" alignment="center" id="Zaa-aH-atm">
-                            <items>
-                                <label width="1" alignment="center" verticalAlignment="center" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
-                            </items>
-                            <edgeInsets key="margins" left="5" right="5" top="10" bottom="10"/>
-                        </group>
+                        <label width="1" alignment="left" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
                     </items>
                     <notificationCategory key="notificationCategory" identifier="viewFeed" id="JfB-70-Muf"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.17999999999999999" colorSpace="calibratedRGB"/>
                     <connections>
-                        <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
+                        <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="eal-HA-5Cy"/>
                     </connections>
                 </notificationController>
             </objects>

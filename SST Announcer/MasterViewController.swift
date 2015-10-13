@@ -32,6 +32,10 @@ class MasterViewController: UITableViewController {
     private var buffer: NSMutableData? = NSMutableData()
     private var expectedContentLength = 0
 
+    // MARK: Handoff Variables
+    private var handoffTitle: String?
+    private var goForHandoff: Bool = false
+
     // MARK: - Lifecycle
 
     required init!(coder aDecoder: NSCoder) {
@@ -61,7 +65,7 @@ class MasterViewController: UITableViewController {
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
 
-        if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
+        if #available(iOS 8.0, *) {
             self.tableView.estimatedRowHeight = 55
             self.tableView.rowHeight = UITableViewAutomaticDimension
         } else {
@@ -259,10 +263,9 @@ class MasterViewController: UITableViewController {
     @available(iOS 8.0, *)
     override func restoreUserActivityState(activity: NSUserActivity) {
         if let titleString = activity.userInfo?["title"] as? String {
-            if feeds.count <= 5 {
-                helper.delay(0.2) {
-                    self.initiateHandoffAction(titleString)
-                }
+            if feeds.count <= 10 {
+                self.goForHandoff = true
+                self.handoffTitle = titleString
             } else {
                 self.initiateHandoffAction(titleString)
             }
@@ -396,6 +399,13 @@ extension MasterViewController : NSXMLParserDelegate {
 
         if helper.getDidReceivePushNotification() && self.navigationController?.viewControllers.count < 2 {
             self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        }
+
+        if self.goForHandoff {
+            if let handoffString = self.handoffTitle {
+                self.initiateHandoffAction(handoffString)
+                self.goForHandoff = false
+            }
         }
 
         // Check for new app version once the app is finished

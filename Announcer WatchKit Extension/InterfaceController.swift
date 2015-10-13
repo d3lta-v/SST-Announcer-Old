@@ -39,7 +39,7 @@ class InterfaceController: WKInterfaceController {
         longDateFormatter.locale = standardLocale
         longDateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm"
         shortDateFormatter.locale = standardLocale
-        shortDateFormatter.dateFormat = "dd/MM/yy HH:mm"
+        shortDateFormatter.dateFormat = "dd/MM/yy h:mm a"
 
         invalidateUserActivity() // we don't want handoff, YET
         setTitle("Announcer")
