@@ -1,6 +1,6 @@
 {
     "aps": {
-        "alert": "New post: All servers down, send help",
+        "alert": "New post: All servers are down, send help",
         "category": "viewFeed"
     },
     

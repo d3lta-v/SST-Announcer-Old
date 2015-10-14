@@ -59,8 +59,22 @@ class DetailInterfaceController: WKInterfaceController {
             finalAttrString.appendAttributedString(attributedWarning)
             finalAttrString.appendAttributedString(processedAttributedText)
             descriptionLabel.setAttributedText(finalAttrString)
+        } else if checkIfStringContainsLinks(feedItem.content) {
+            let ios7Color = UIColor(red: 0, green: 122/255, blue: 1, alpha: 1)
+            let attributedWarning = NSAttributedString(string: "This post contains links which Apple Watch cannot open. You can handoff to your iPhone to access the links.\n\n", attributes: [NSForegroundColorAttributeName:ios7Color])
+            var processedAttributedText = NSAttributedString(string: "Error", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+            if let processedText = stripAndProcessHTMLString(feedItem.content) {
+                let attr = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+                processedAttributedText = NSAttributedString(string:processedText, attributes:attr)
+            }
+            let finalAttrString = NSMutableAttributedString()
+            finalAttrString.appendAttributedString(attributedWarning)
+            finalAttrString.appendAttributedString(processedAttributedText)
+            descriptionLabel.setAttributedText(finalAttrString)
         } else {
-            descriptionLabel.setText(stripAndProcessHTMLString(feedItem.content))
+            let processed = stripAndProcessHTMLString(feedItem.content)
+            print(processed)
+            descriptionLabel.setText(processed)
         }
     }
 
@@ -71,36 +85,105 @@ class DetailInterfaceController: WKInterfaceController {
         return false
     }
 
+    func checkIfStringContainsLinks(string: String) -> Bool {
+        if string.rangeOfString("<a href") != nil {
+            return true
+        }
+        return false
+    }
+
     func stripAndProcessHTMLString(string: String) -> String? {
         if !string.isEmpty { // if string is not empty
+            print(string)
             var processedString = string.stringByReplacingOccurrencesOfString("<div[^>]*>", withString: "<div>", options: .RegularExpressionSearch, range: nil)
+            processedString = processedString.stringByReplacingOccurrencesOfString("<span[^>]*>", withString: "<span>", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByReplacingOccurrencesOfString("<div><br /></div>", withString: "\n")
+            processedString = processedString.stringByReplacingOccurrencesOfString("<span><br /></span>", withString: "")
             processedString = processedString.stringByReplacingOccurrencesOfString("<br />", withString: "\n")
             processedString = processedString.stringByReplacingOccurrencesOfString("</div>", withString: "\n")
             processedString = processedString.stringByReplacingOccurrencesOfString("<iframe[\\s\\S]*?/iframe>", withString: "", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByReplacingOccurrencesOfString("<img[\\s\\S]*? />", withString: "", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
             processedString = processedString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            return String(htmlEncodedString: processedString)
+            return processedString.stringByDecodingHTMLEntities
         }
         return nil
     }
 
 }
 
+private let characterEntities : [ String : Character ] = [
+    // XML predefined entities:
+    "&quot;"    : "\"",
+    "&amp;"     : "&",
+    "&apos;"    : "'",
+    "&lt;"      : "<",
+    "&gt;"      : ">",
+
+    // HTML character entity references:
+    "&nbsp;"    : "\u{00a0}",
+    // ...
+    "&diams;"   : "♦",
+]
+
 extension String {
-    init(htmlEncodedString: String) {
-        let encodedData = htmlEncodedString.dataUsingEncoding(NSUTF8StringEncoding)!
-        let attributedOptions: [String: AnyObject] = [
-            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
-        ]
-        var attrStr = NSAttributedString()
-        do {
-            attrStr = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
-        } catch let error as NSError {
-            print(error.description)
+    /// Returns a new string made by replacing in the `String`
+    /// all HTML character entity references with the corresponding
+    /// character.
+    var stringByDecodingHTMLEntities : String {
+        // ===== Utility functions =====
+
+        // Convert the number in the string to the corresponding
+        // Unicode character, e.g.
+        //    decodeNumeric("64", 10)   --> "@"
+        //    decodeNumeric("20ac", 16) --> "€"
+        func decodeNumeric(string : String, base : Int32) -> Character? {
+            let code = UInt32(strtoul(string, nil, base))
+            return Character(UnicodeScalar(code))
         }
-        self.init(attrStr.string)
+
+        // Decode the HTML character entity to the corresponding
+        // Unicode character, return `nil` for invalid input.
+        //     decode("&#64;")    --> "@"
+        //     decode("&#x20ac;") --> "€"
+        //     decode("&lt;")     --> "<"
+        //     decode("&foo;")    --> nil
+        func decode(entity : String) -> Character? {
+            if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
+                return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(3)), base: 16)
+            } else if entity.hasPrefix("&#") {
+                return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(2)), base: 10)
+            } else {
+                return characterEntities[entity]
+            }
+        }
+
+        // ===== Method starts here =====
+        var result = ""
+        var position = startIndex
+
+        // Find the next '&' and copy the characters preceding it to `result`:
+        while let ampRange = self.rangeOfString("&", range: position ..< endIndex) {
+            result.appendContentsOf(self[position ..< ampRange.startIndex])
+            position = ampRange.startIndex
+            // Find the next ';' and copy everything from '&' to ';' into `entity`
+            if let semiRange = self.rangeOfString(";", range: position ..< endIndex) {
+                let entity = self[position ..< semiRange.endIndex]
+                position = semiRange.endIndex
+                if let decoded = decode(entity) {
+                    // Replace by decoded character:
+                    result.append(decoded)
+                } else {
+                    // Invalid entity, copy verbatim:
+                    result.appendContentsOf(entity)
+                }
+            } else {
+                // No matching ';'.
+                break
+            }
+        }
+        // Copy remaining characters to `result`:
+        result.appendContentsOf(self[position ..< endIndex])
+        return result
     }
 }

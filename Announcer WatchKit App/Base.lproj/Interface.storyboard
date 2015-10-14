@@ -105,10 +105,14 @@
             <objects>
                 <notificationController id="YCC-NB-fut">
                     <items>
-                        <label width="1" alignment="left" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
+                        <label width="1" alignment="left" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW">
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </label>
                     </items>
-                    <notificationCategory key="notificationCategory" identifier="viewFeed" id="JfB-70-Muf"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.17999999999999999" colorSpace="calibratedRGB"/>
+                    <notificationCategory key="notificationCategory" identifier="viewFeed" descriptionFormat="%d posts available to read." id="JfB-70-Muf">
+                        <color key="sashColor" red="0.47058823529411764" green="0.47843137254901957" blue="1" alpha="0.94705447635135132" colorSpace="calibratedRGB"/>
+                    </notificationCategory>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="eal-HA-5Cy"/>
                     </connections>
