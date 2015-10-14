@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         if error.code != 3010 {
-            print("Failed to register for push: \(error.description)")
+            print("Failed to register for push: \(error.localizedDescription)")
         }
     }
 
