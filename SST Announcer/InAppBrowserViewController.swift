@@ -98,9 +98,21 @@ class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebVie
             return
         }
         if errorUnwrapped.code != -999 {
-            ProgressHUD.showError("Error loading!")
-            print(errorUnwrapped.localizedDescription)
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            guard let errorFile = NSBundle.mainBundle().pathForResource("MobileSafariError", ofType: "html") else {
+                ProgressHUD.showError("Loading failed!")
+                return
+            }
+            do {
+                var errorHtml = try String(contentsOfFile: errorFile)
+                guard let errorDescription = error?.localizedDescription else {return}
+                errorHtml = errorHtml.stringByReplacingOccurrencesOfString("errMsg", withString: errorDescription)
+                self.title = "Cannot Open Page"
+                webView.loadHTMLString(errorHtml, baseURL: nil)
+            } catch {
+                ProgressHUD.showError("Internal error")
+                return
+            }
         }
     }
 

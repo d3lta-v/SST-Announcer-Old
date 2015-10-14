@@ -237,7 +237,6 @@ extension WebViewController : UIWebViewDelegate, NJKWebViewProgressDelegate {
                 var errorHtml = try String(contentsOfFile: errorFile)
                 guard let errorDescription = error?.localizedDescription else {return}
                 errorHtml = errorHtml.stringByReplacingOccurrencesOfString("errMsg", withString: errorDescription)
-                print(errorDescription)
                 self.title = "Cannot Open Page"
                 webView.loadHTMLString(errorHtml, baseURL: nil)
             } catch {

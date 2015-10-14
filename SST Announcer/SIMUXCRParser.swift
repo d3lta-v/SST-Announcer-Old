@@ -57,10 +57,10 @@ public class SIMUXCRParser: NSObject {
                         } else {self.errorBoolean = true}
                     } catch let error as NSError {
                         self.errorBoolean = true
-                        print("A JSON parsing error occurred, error description:\n \(error)")
+                        print("A JSON parsing error occurred, error description:\n \(error.localizedDescription)")
                     }
                 } else {self.errorBoolean = true}
-            } else {print(error);self.errorBoolean = true}
+            } else {print(error?.localizedDescription);self.errorBoolean = true}
 
             // Error parsing mechanism
             if self.errorBoolean {
