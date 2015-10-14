@@ -67,7 +67,9 @@ class WebViewController: UIViewController {
             useSIMUX = true
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             SIMUXCRParser().convertHTML(item.link) { (title: String, description: String) in
-                let editedDescription = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                var editedDescription = description.stringByReplacingOccurrencesOfString("<div><br></div>", withString: "<div></div>", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                print(editedDescription)
+                editedDescription = editedDescription.stringByReplacingOccurrencesOfString("<p>Loading...</p>", withString: "<b>This article contains a Google Document, form, or some other iframe based content. Please use the button on the top right to view the full webpage.</b>")
 
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 dispatch_sync(dispatch_get_main_queue(), {
