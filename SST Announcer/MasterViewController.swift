@@ -250,6 +250,7 @@ class MasterViewController: UITableViewController {
                 } else {
                     if let indexPath = self.tableView.indexPathForSelectedRow {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = self.feeds[indexPath.row]
+                        //(segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "", link: "http://studentsblog.sst.edu.sg/2015/10/student-travel-declaration-novdec-2015.html", date: "", author: "", content: "")
                     } else {
                         (segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
                     }
