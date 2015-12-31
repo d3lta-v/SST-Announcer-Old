@@ -283,7 +283,8 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
                 imageView.userInteractionEnabled = true
                 let button = DTLinkButton(frame: imageView.bounds)
                 button.URL = attachment.hyperLinkURL
-                button.minimumHitSize = CGSizeMake(25, 25)
+                //button.minimumHitSize = CGSizeMake(25, 25)
+                button.minimumHitSize = CGSize(width: 25, height: 25)
                 button.GUID = attachment.hyperLinkGUID
 
                 button.addTarget(self, action: "linkPushed:", forControlEvents: .TouchUpInside)
@@ -314,7 +315,8 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
     func lazyImageView(lazyImageView: DTLazyImageView!, didChangeImageSize size: CGSize) {
         let url = lazyImageView.url
         var imageSize = size
-        let screenSize = CGSizeMake(UIScreen.mainScreen().bounds.size.width - 30, UIScreen.mainScreen().bounds.size.height) //minus 30 for inset of 15px on two sides
+        //let screenSize = CGSizeMake(UIScreen.mainScreen().bounds.size.width - 30, UIScreen.mainScreen().bounds.size.height) //minus 30 for inset of 15px on two sides
+        let screenSize = CGSize(width: UIScreen.mainScreen().bounds.size.width - 30, height: UIScreen.mainScreen().bounds.size.height)
 
         if size.width > screenSize.width {
             let ratio = screenSize.width/size.width

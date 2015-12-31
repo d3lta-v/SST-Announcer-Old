@@ -106,7 +106,7 @@ class MasterViewController: UITableViewController {
     // MARK: - Private methods
 
     struct TokenHolder {
-        static var token: dispatch_once_t = 0;
+        static var token: dispatch_once_t = 0
     }
 
     private func getFeedsOnce() {
@@ -117,8 +117,8 @@ class MasterViewController: UITableViewController {
             // Start the refresher
             if let refreshCtrl = self.refreshControl {
                 refreshCtrl.beginRefreshing()
-                let pt = CGPointMake(0, self.tableView.contentOffset.y - refreshCtrl.frame.size.height)
-                self.tableView.setContentOffset(pt, animated: false)
+                let point = CGPoint(x: 0, y: self.tableView.contentOffset.y - refreshCtrl.frame.size.height)
+                self.tableView.setContentOffset(point, animated: false)
             }
 
             // Load cached version first, while checking for existence of the cached feeds
@@ -141,7 +141,7 @@ class MasterViewController: UITableViewController {
                 let application = UIApplication.sharedApplication()
                 if #available(iOS 8.0, *) {
                     if application.isRegisteredForRemoteNotifications() == false {
-                        let alert = UIAlertController(title: "You disabled push!",message: "This app relies heavily on push notifications for time-specific delivery of feeds.", preferredStyle: .Alert)
+                        let alert = UIAlertController(title: "You disabled push!", message: "This app relies heavily on push notifications for time-specific delivery of feeds.", preferredStyle: .Alert)
                         let okay = UIAlertAction(title: "Okay", style: UIAlertActionStyle.Cancel, handler: nil)
                         alert.addAction(okay)
                         self.presentViewController(alert, animated: true, completion: nil)
@@ -149,7 +149,7 @@ class MasterViewController: UITableViewController {
                 } else {
                     let types = application.enabledRemoteNotificationTypes()
                     if types == UIRemoteNotificationType.None {
-                        let alert = UIAlertView(title:"You disabled push!",message:"This app relies on push notifications for time-specific delivery of feeds.",delegate: nil,cancelButtonTitle:"Okay")
+                        let alert = UIAlertView(title:"You disabled push!", message:"This app relies on push notifications for time-specific delivery of feeds.", delegate: nil, cancelButtonTitle:"Okay")
                         alert.show()
                     }
                 }
@@ -157,7 +157,7 @@ class MasterViewController: UITableViewController {
         #endif
     }
 
-    private func loadFeedWithURLString(urlString: String!){
+    private func loadFeedWithURLString(urlString: String!) {
         self.newFeeds = [FeedItem]() //Sort of like alloc init, it clears the array
         let url = NSURL(string: urlString)
 

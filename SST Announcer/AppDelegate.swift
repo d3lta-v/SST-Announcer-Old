@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
             }
         }
-        if #available(iOS 8.0,*) {
+        if #available(iOS 8.0, *) {
             let userNotificationTypes: UIUserNotificationType = [.Alert, .Badge, .Sound]
             let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: getCategory())
             application.registerUserNotificationSettings(settings)

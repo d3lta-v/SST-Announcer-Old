@@ -75,7 +75,7 @@ class CategoriesViewController: UITableViewController {
     // MARK: - Private methods
 
     struct TokenHolder {
-        static var token: dispatch_once_t = 0;
+        static var token: dispatch_once_t = 0
     }
 
     private func getFeedsOnce() {
@@ -85,8 +85,8 @@ class CategoriesViewController: UITableViewController {
             // Start the refresher
             if let refreshCtrl = self.refreshControl {
                 refreshCtrl.beginRefreshing()
-                let pt = CGPointMake(0, self.tableView.contentOffset.y - refreshCtrl.frame.size.height)
-                self.tableView.setContentOffset(pt, animated: false)
+                let point = CGPoint(x: 0, y: self.tableView.contentOffset.y - refreshCtrl.frame.size.height)
+                self.tableView.setContentOffset(point, animated: false)
             }
 
             // Load cached version first, while checking for existence of the cached feeds
@@ -106,7 +106,7 @@ class CategoriesViewController: UITableViewController {
         }
     }
 
-    private func loadFeedWithURLString(urlString: String!){
+    private func loadFeedWithURLString(urlString: String!) {
         self.newFeeds = [FeedItem]() //Sort of like alloc init, it clears the array
         let url = NSURL(string: urlString)
 

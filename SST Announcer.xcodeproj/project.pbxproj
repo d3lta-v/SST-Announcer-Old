@@ -49,7 +49,7 @@
 		227E71B11B1D527600215577 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B01B1D527500215577 /* libxml2.dylib */; };
 		227E71B31B1D527D00215577 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 227E71B21B1D527C00215577 /* ImageIO.framework */; };
 		227E71D01B1D726E00215577 /* GlobalSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E71CF1B1D726E00215577 /* GlobalSingleton.swift */; };
-		228AFF521BAD962B006E7A5B /* MobileSafariError.html in Resources */ = {isa = PBXBuildFile; fileRef = 228AFF511BAD962B006E7A5B /* MobileSafariError.html */; settings = {ASSET_TAGS = (); }; };
+		228AFF521BAD962B006E7A5B /* MobileSafariError.html in Resources */ = {isa = PBXBuildFile; fileRef = 228AFF511BAD962B006E7A5B /* MobileSafariError.html */; };
 		22C4F1CD1B201F1000468987 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1CC1B201F1000468987 /* WebViewController.swift */; };
 		22C4F1D21B201FC000468987 /* TUSafariActivity.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22C4F1CF1B201FC000468987 /* TUSafariActivity.bundle */; };
 		22C4F1D31B201FC000468987 /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C4F1D11B201FC000468987 /* TUSafariActivity.m */; };
@@ -59,7 +59,7 @@
 		22C900111B46DAFA0098C27E /* FeedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C900101B46DAFA0098C27E /* FeedRow.swift */; };
 		22F470D41BA3C25200899C57 /* Announcer WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2244288B1B46C3550050CF2B /* Announcer WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		22F470D71BA3C25200899C57 /* Announcer WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 224428981B46C3550050CF2B /* Announcer WatchKit App.app */; };
-		22F561031BA6DE97003C9DB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F561011BA6DE97003C9DB0 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		22F561031BA6DE97003C9DB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F561011BA6DE97003C9DB0 /* LaunchScreen.storyboard */; };
 		22FD3B7E1B27268000F87089 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FD3B7D1B27268000F87089 /* Settings.bundle */; };
 		22FD3B801B27293000F87089 /* InAppBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FD3B7F1B27293000F87089 /* InAppBrowserViewController.swift */; };
 /* End PBXBuildFile section */

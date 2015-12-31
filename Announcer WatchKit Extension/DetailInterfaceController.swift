@@ -130,14 +130,14 @@ extension String {
     /// Returns a new string made by replacing in the `String`
     /// all HTML character entity references with the corresponding
     /// character.
-    var stringByDecodingHTMLEntities : String {
+    var stringByDecodingHTMLEntities: String {
         // ===== Utility functions =====
 
         // Convert the number in the string to the corresponding
         // Unicode character, e.g.
         //    decodeNumeric("64", 10)   --> "@"
         //    decodeNumeric("20ac", 16) --> "€"
-        func decodeNumeric(string : String, base : Int32) -> Character? {
+        func decodeNumeric(string: String, base: Int32) -> Character? {
             let code = UInt32(strtoul(string, nil, base))
             return Character(UnicodeScalar(code))
         }
@@ -148,8 +148,8 @@ extension String {
         //     decode("&#x20ac;") --> "€"
         //     decode("&lt;")     --> "<"
         //     decode("&foo;")    --> nil
-        func decode(entity : String) -> Character? {
-            if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
+        func decode(entity: String) -> Character? {
+            if entity.hasPrefix("&#x") || entity.hasPrefix("&#X") {
                 return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(3)), base: 16)
             } else if entity.hasPrefix("&#") {
                 return decodeNumeric(entity.substringFromIndex(entity.startIndex.advancedBy(2)), base: 10)

@@ -98,7 +98,7 @@ class CategoryViewController: UITableViewController {
 
     // MARK: - Private methods
 
-    private func loadFeedWithURLString(urlString: String!){
+    private func loadFeedWithURLString(urlString: String!) {
         self.newFeeds = [FeedItem]() //Sort of like alloc init, it clears the array
         let url = NSURL(string: urlString)
 

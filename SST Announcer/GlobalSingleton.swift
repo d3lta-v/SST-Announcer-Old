@@ -34,7 +34,7 @@ class GlobalSingleton: NSObject {
     }
 
     func setDidReceivePushNotificationWithBool(pushNotifcationReceivedBool: Bool) {
-        didReceivePushNotification = pushNotifcationReceivedBool;
+        didReceivePushNotification = pushNotifcationReceivedBool
     }
 
     // MARK: Misc UI methods
@@ -42,29 +42,29 @@ class GlobalSingleton: NSObject {
         let preferredSizeCategory = currentApplication.preferredContentSizeCategory
         switch preferredSizeCategory {
         case UIContentSizeCategoryExtraSmall:
-            return 40;
+            return 40
         case UIContentSizeCategorySmall:
-            return 45;
+            return 45
         case UIContentSizeCategoryMedium:
-            return 50;
+            return 50
         case UIContentSizeCategoryLarge:
-            return 55;
+            return 55
         case UIContentSizeCategoryExtraLarge:
-            return 60;
+            return 60
         case UIContentSizeCategoryExtraExtraLarge:
-            return 65;
+            return 65
         case UIContentSizeCategoryExtraExtraExtraLarge:
-            return 70;
+            return 70
         case UIContentSizeCategoryAccessibilityMedium:
-            return 75;
+            return 75
         case UIContentSizeCategoryAccessibilityLarge:
-            return 80;
+            return 80
         case UIContentSizeCategoryAccessibilityExtraLarge:
-            return 85;
+            return 85
         case UIContentSizeCategoryAccessibilityExtraExtraLarge:
-            return 90;
+            return 90
         case UIContentSizeCategoryAccessibilityExtraExtraExtraLarge:
-            return 95;
+            return 95
         default:
             return 55
         }
