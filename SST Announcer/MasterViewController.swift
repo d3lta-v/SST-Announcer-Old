@@ -204,8 +204,8 @@ class MasterViewController: UITableViewController {
 
     private func displayUpdateForNewVersion(defaults: NSUserDefaults) {
         // TODO: Update this number whenever the version number changes
-        defaults.setFloat(8.0, forKey: "Announcer.version")
-        let titleString = "Announcer 8 has arrived:"
+        defaults.setFloat(8.1, forKey: "Announcer.version")
+        let titleString = "Announcer 8.1 WatchKit fix:"
         let messageString = "Advanced, uncompromising performance in a slimmer package.\n- Fully updated for iOS 9 and WatchOS 2 (and yes, updated with Swift 2.0)!\n- Fully loaded for App Transport Security, which means almost all of your communications will be encrypted.\n- Slimmer app as a result of App Thinning, with only device-specific code & assets running on your device.\n- Removed the About tab (and moved the credits to the app's Settings page)\n- iPad version fully supports slide over view AND split view for better multitasking!\n- Apple Watch now displays the correct date and time for post timings.\n- Some under-the-hood fixes to enhance code security.\n- Apple Watch can now browse Announcer without tethering to a phone!\n- Fixed a small bug related to the Watch not loading names and other metadata properly."
         if #available(iOS 8.0, *) {
             let controller = UIAlertController(title: titleString, message: messageString, preferredStyle: .Alert)
