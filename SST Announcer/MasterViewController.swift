@@ -62,18 +62,13 @@ class MasterViewController: UITableViewController {
 
         // Init refresh controls
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(MasterViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
 
-        if #available(iOS 8.0, *) {
-            self.tableView.estimatedRowHeight = 55
-            self.tableView.rowHeight = UITableViewAutomaticDimension
-        } else {
-            // Manually set ALL the cell heights
-            self.tableView.rowHeight = helper.getTableRowHeight(UIApplication.sharedApplication())
-        }
+        self.tableView.estimatedRowHeight = 55
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         // Add observer for push to catch push notification messages
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushNotificationsReceived", name: "pushReceived", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MasterViewController.pushNotificationsReceived), name: "pushReceived", object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -207,15 +202,10 @@ class MasterViewController: UITableViewController {
         defaults.setFloat(8.1, forKey: "Announcer.version")
         let titleString = "Announcer 8.1 WatchKit fix:"
         let messageString = "Advanced, uncompromising performance in a slimmer package.\n- Fully updated for iOS 9 and WatchOS 2 (and yes, updated with Swift 2.0)!\n- Fully loaded for App Transport Security, which means almost all of your communications will be encrypted.\n- Slimmer app as a result of App Thinning, with only device-specific code & assets running on your device.\n- Removed the About tab (and moved the credits to the app's Settings page)\n- iPad version fully supports slide over view AND split view for better multitasking!\n- Apple Watch now displays the correct date and time for post timings.\n- Some under-the-hood fixes to enhance code security.\n- Apple Watch can now browse Announcer without tethering to a phone!\n- Fixed a small bug related to the Watch not loading names and other metadata properly."
-        if #available(iOS 8.0, *) {
-            let controller = UIAlertController(title: titleString, message: messageString, preferredStyle: .Alert)
-            controller.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
-            controller.view.frame = UIScreen.mainScreen().applicationFrame
-            self.presentViewController(controller, animated: true, completion: nil)
-        } else {
-            let controller = UIAlertView(title: titleString, message: messageString, delegate: nil, cancelButtonTitle: "Okay")
-            controller.show()
-        }
+        let controller = UIAlertController(title: titleString, message: messageString, preferredStyle: .Alert)
+        controller.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
+        controller.view.frame = UIScreen.mainScreen().applicationFrame
+        self.presentViewController(controller, animated: true, completion: nil)
     }
 
     // MARK: - Navigation
@@ -274,7 +264,7 @@ class MasterViewController: UITableViewController {
     }
 
     func initiateHandoffAction(titleString: String) {
-        for var i = 0; i < feeds.count; i++ {
+        for i in 0..<feeds.count {
             if feeds[i].title == titleString {
                 handoffActivated = true
                 handoffIndex = i

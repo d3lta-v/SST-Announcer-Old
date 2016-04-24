@@ -77,15 +77,10 @@ class InterfaceController: WKInterfaceController {
     // MARK: - Private functions
 
     func initiatePushNotificationReading(payload: String) -> Bool {
-        for var i = 0; i<self.feeds.count; i++ {
-            if self.feeds[i].link == payload {
+        for feed in self.feeds {
+            if feed.link == payload {
                 stopLoadingAnimation()
-                let context = FeedItem(
-                    title: self.feeds[i].title,
-                    link: self.feeds[i].link,
-                    date: self.feeds[i].date,
-                    author: self.feeds[i].author,
-                    content: self.feeds[i].content)
+                let context = FeedItem(title: feed.title, link: feed.link, date: feed.date, author: feed.author, content: feed.content)
                 self.pushControllerWithName("DetailInterfaceController", context: context)
                 return true
             }
@@ -151,7 +146,7 @@ class InterfaceController: WKInterfaceController {
     // MARK: Convenience animation methods
     func showTable() {
         self.feedsTable.setHidden(false)
-        self.addMenuItemWithItemIcon(WKMenuItemIcon.Repeat, title: "Refresh", action: "refresh")
+        self.addMenuItemWithItemIcon(WKMenuItemIcon.Repeat, title: "Refresh", action: #selector(InterfaceController.refresh))
     }
 
     func hideTable() {

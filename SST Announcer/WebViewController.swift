@@ -8,6 +8,9 @@
 
 import UIKit
 import SafariServices
+import DTCoreText
+import JDFNavigationBarActivityIndicator
+import TUSafariActivity
 
 class WebViewController: UIViewController {
 
@@ -265,7 +268,7 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
     func attributedTextContentView(attributedTextContentView: DTAttributedTextContentView!, viewForLink url: NSURL!, identifier: String!, frame: CGRect) -> UIView! {
         let linkButton: DTLinkButton = DTLinkButton(frame: frame)
         linkButton.URL = url
-        linkButton.addTarget(self, action: "linkPushed:", forControlEvents: .TouchUpInside)
+        linkButton.addTarget(self, action: #selector(WebViewController.linkPushed(_:)), forControlEvents: .TouchUpInside)
 
         return linkButton
     }
@@ -274,7 +277,6 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
         if attachment.isKindOfClass(DTImageTextAttachment) {
             let imageView: DTLazyImageView = DTLazyImageView(frame: frame)
             imageView.delegate = self
-            //TODO: Use a placeholder image if the image is not properly initialized
             if let attachmentImage = (attachment as? DTImageTextAttachment)?.image {
                 imageView.image = attachmentImage
             }
@@ -287,7 +289,7 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
                 button.minimumHitSize = CGSize(width: 25, height: 25)
                 button.GUID = attachment.hyperLinkGUID
 
-                button.addTarget(self, action: "linkPushed:", forControlEvents: .TouchUpInside)
+                button.addTarget(self, action: #selector(WebViewController.linkPushed(_:)), forControlEvents: .TouchUpInside)
                 imageView.addSubview(button)
             }
             return imageView
@@ -331,7 +333,7 @@ extension WebViewController : DTAttributedTextContentViewDelegate, DTLazyImageVi
         var predicateArray = self.textView.attributedTextContentView.layoutFrame.textAttachmentsWithPredicate(pred)
 
         for index in 0..<predicateArray.count {
-            if CGSizeEqualToSize(predicateArray[index].originalSize, CGSizeZero) {
+            if CGSizeEqualToSize(predicateArray[index].originalSize, CGSize.zero) {
                 (predicateArray[index] as? DTTextAttachment)?.originalSize = imageSize
                 didUpdate = true
             }

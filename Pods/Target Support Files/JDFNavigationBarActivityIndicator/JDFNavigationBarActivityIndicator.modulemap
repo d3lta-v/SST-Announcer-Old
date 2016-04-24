@@ -1,0 +1,6 @@
+framework module JDFNavigationBarActivityIndicator {
+  umbrella header "JDFNavigationBarActivityIndicator-umbrella.h"
+
+  export *
+  module * { export * }
+}

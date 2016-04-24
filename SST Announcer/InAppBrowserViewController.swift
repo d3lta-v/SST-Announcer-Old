@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TUSafariActivity
 
 class InAppBrowserViewController: UIViewController, UIWebViewDelegate, NJKWebViewProgressDelegate {
 

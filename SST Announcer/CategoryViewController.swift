@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JDFNavigationBarActivityIndicator
 
 class CategoryViewController: UITableViewController {
 
@@ -61,7 +62,7 @@ class CategoryViewController: UITableViewController {
 
         // Init refresh controls
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(CategoryViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl = refreshControl
 
         // Init indeterminate progress indicators

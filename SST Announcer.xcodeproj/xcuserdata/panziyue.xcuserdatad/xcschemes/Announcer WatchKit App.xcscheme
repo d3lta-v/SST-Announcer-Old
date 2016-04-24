@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "0700"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "224428971B46C3550050CF2B"
+               BuildableName = "Announcer WatchKit App.app"
+               BlueprintName = "Announcer WatchKit App"
+               ReferencedContainer = "container:SST Announcer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2244288A1B46C3550050CF2B"
+               BuildableName = "Announcer WatchKit Extension.appex"
+               BlueprintName = "Announcer WatchKit Extension"
+               ReferencedContainer = "container:SST Announcer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "227E71401B1D44DF00215577"
+               BuildableName = "Announcer.app"
+               BlueprintName = "Announcer"
+               ReferencedContainer = "container:SST Announcer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "22C900741B46E6240098C27E"
+               BuildableName = "FeedKitTests.xctest"
+               BlueprintName = "FeedKitTests"
+               ReferencedContainer = "container:SST Announcer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "22C900741B46E6240098C27E"
+               BuildableName = "FeedKitTests.xctest"
+               BlueprintName = "FeedKitTests"
+               ReferencedContainer = "container:SST Announcer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "224428971B46C3550050CF2B"
+            BuildableName = "Announcer WatchKit App.app"
+            BlueprintName = "Announcer WatchKit App"
+            ReferencedContainer = "container:SST Announcer.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.springboard"
+         RemotePath = "/Announcer">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "224428971B46C3550050CF2B"
+            BuildableName = "Announcer WatchKit App.app"
+            BlueprintName = "Announcer WatchKit App"
+            ReferencedContainer = "container:SST Announcer.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "224428971B46C3550050CF2B"
+            BuildableName = "Announcer WatchKit App.app"
+            BlueprintName = "Announcer WatchKit App"
+            ReferencedContainer = "container:SST Announcer.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.springboard"
+         RemotePath = "/Announcer">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "224428971B46C3550050CF2B"
+            BuildableName = "Announcer WatchKit App.app"
+            BlueprintName = "Announcer WatchKit App"
+            ReferencedContainer = "container:SST Announcer.xcodeproj">
+         </BuildableReference>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "224428971B46C3550050CF2B"
+            BuildableName = "Announcer WatchKit App.app"
+            BlueprintName = "Announcer WatchKit App"
+            ReferencedContainer = "container:SST Announcer.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

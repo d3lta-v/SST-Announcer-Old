@@ -44,13 +44,11 @@ class CategoriesViewController: UITableViewController {
 
         // Init refresh controls
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(CategoriesViewController.refresh(_:)), forControlEvents: .ValueChanged)
         self.refreshControl = refreshControl
 
-        if #available(iOS 8.0, *) {
-            self.tableView.estimatedRowHeight = 44
-            self.tableView.rowHeight = UITableViewAutomaticDimension
-        }
+        self.tableView.estimatedRowHeight = 44
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func viewDidAppear(animated: Bool) {
