@@ -42,6 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        // Configure Split View Controller properly
+        //let rightNavController = WebViewController.viewControllers.last as! UINavigationController
+        //let detailViewController = rightNavController.topViewController as! DetailViewController
+
 //        // Register for Push Notitications
 //        if application.applicationState != UIApplicationState.Background {
 //            // Track an app open here if we launch with a push, unless
@@ -70,6 +74,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+
+//    func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask {
+//        // Override customisation for iPhone 6+ screen sizes checking for rotation
+//        var rv = UIInterfaceOrientationMask.Portrait
+//        if rv == .Portrait {
+//            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+//                if let s = window?.bounds.size {
+//                    if max(s.width, s.height) >= 700 {
+//                        rv = .AllButUpsideDown
+//                    } else {
+//                        rv = .Portrait
+//                    }
+//                }
+//            } else {
+//                rv = .All
+//            }
+//        }
+//        return rv
+//    }
 
     // MARK: - Push notifications
 

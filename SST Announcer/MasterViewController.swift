@@ -27,6 +27,9 @@ class MasterViewController: UITableViewController {
     private var handoffIndex = -1
     private var progressCancelled = false
 
+    // MARK: UI Structure related variables
+    private var collapseDetailViewController = true
+
     // MARK: NSURLSession Variables
     private var progress: Float = 0.0
     private var buffer: NSMutableData? = NSMutableData()
@@ -69,6 +72,9 @@ class MasterViewController: UITableViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         // Add observer for push to catch push notification messages
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MasterViewController.pushNotificationsReceived), name: "pushReceived", object: nil)
+
+        // Assign UISplitViewControllerDelegate to ownself
+        self.splitViewController?.delegate = self
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -110,10 +116,12 @@ class MasterViewController: UITableViewController {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
             // Start the refresher
-            if let refreshCtrl = self.refreshControl {
-                refreshCtrl.beginRefreshing()
-                let point = CGPoint(x: 0, y: self.tableView.contentOffset.y - refreshCtrl.frame.size.height)
-                self.tableView.setContentOffset(point, animated: false)
+            dispatch_async(dispatch_get_main_queue()) {
+                if let refreshCtrl = self.refreshControl {
+                    refreshCtrl.beginRefreshing()
+                    let point = CGPoint(x: 0, y: self.tableView.contentOffset.y - refreshCtrl.frame.size.height)
+                    self.tableView.setContentOffset(point, animated: false)
+                }
             }
 
             // Load cached version first, while checking for existence of the cached feeds
@@ -340,9 +348,55 @@ extension MasterViewController {
     // MARK: Table view delegate
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("MasterToDetail", sender: self)
+        //self.performSegueWithIdentifier("MasterToDetail", sender: self)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        guard let detailViewNavigationController = splitViewController?.viewControllers.last as? UINavigationController else {
+            // TODO: Fail gracefully
+            return
+        }
+        if let detailViewController = detailViewNavigationController.viewControllers.first as? WebViewController {
+            if helper.getDidReceivePushNotification() {
+                NSNotificationCenter.defaultCenter().removeObserver(self)
+                detailViewController.receivedFeedItem = FeedItem(title: "", link: helper.getRemoteNotificationURL(), date: "", author: "", content: "")
+                helper.setDidReceivePushNotificationWithBool(false)
+            } else if handoffActivated == true {
+                if self.feeds.isEmpty {
+                    detailViewController.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The Handoff feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
+                    handoffActivated = false
+                    handoffIndex = -1
+                } else {
+                    detailViewController.receivedFeedItem = self.feeds[handoffIndex]
+                    handoffActivated = false
+                    handoffIndex = -1
+                }
+            } else {
+                if self.searchDisplayController?.active == true {
+                    if let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow {
+                        detailViewController.receivedFeedItem = self.searchResults[indexPath.row]
+                    } else {
+                        detailViewController.receivedFeedItem = FeedItem(title: "Error", link: "", date: "", author: "", content: "<p align=\"center\">Woops! The search feature of the app has encountered an error. No worries, just go back, refresh and reselect the page.</p>")
+                    }
+                } else {
+                        detailViewController.receivedFeedItem = self.feeds[indexPath.row]
+                        //(segue.destinationViewController as? WebViewController)?.receivedFeedItem = FeedItem(title: "", link: "http://studentsblog.sst.edu.sg/2015/10/student-travel-declaration-novdec-2015.html", date: "", author: "", content: "")
+                }
+            }
+        } else {
+            //TODO: Fail gracefully
+        }
+        collapseDetailViewController = false
     }
+
+}
+
+// MARK: - UISplitViewControllerDelegate
+
+extension MasterViewController : UISplitViewControllerDelegate {
+
+    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController, ontoPrimaryViewController primaryViewController: UIViewController) -> Bool {
+        return collapseDetailViewController
+    }
+
 }
 
 // MARK: - NSXMLParserDelegate

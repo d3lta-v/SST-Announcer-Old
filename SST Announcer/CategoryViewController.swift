@@ -68,13 +68,8 @@ class CategoryViewController: UITableViewController {
         // Init indeterminate progress indicators
         indeterminateProgressBar.addToNavigationBar(self.navigationController?.navigationBar, startAnimating: true)
 
-        if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
-            self.tableView.estimatedRowHeight = 55
-            self.tableView.rowHeight = UITableViewAutomaticDimension
-        } else {
-            // Manually set ALL the cell heights
-            self.tableView.rowHeight = helper.getTableRowHeight(UIApplication.sharedApplication())
-        }
+        self.tableView.estimatedRowHeight = 55
+        self.tableView.rowHeight = UITableViewAutomaticDimension
 
         // Start loading
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -86,9 +81,7 @@ class CategoryViewController: UITableViewController {
     }
 
     override func viewWillDisappear(animated: Bool) {
-        //if self.navigationController?.isShowingProgressBar() == true {
         indeterminateProgressBar.stopAnimating()
-        //}
         super.viewWillDisappear(animated)
     }
 

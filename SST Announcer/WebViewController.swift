@@ -15,7 +15,11 @@ import TUSafariActivity
 class WebViewController: UIViewController {
 
     // MARK: - Variables declaration
-    var receivedFeedItem: FeedItem?
+    var receivedFeedItem: FeedItem? {
+        didSet {
+            self.loadFeed(receivedFeedItem)
+        }
+    }
     @IBOutlet weak var exportBarButton: UIBarButtonItem!
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var textView: DTAttributedTextView!
@@ -35,12 +39,37 @@ class WebViewController: UIViewController {
 
         // Do any additional setup after loading the view.
 
+        // Force view initialisation
+        let _ = self.view
         // Init web view loading bar
         progressProxy = NJKWebViewProgress()
         webView.delegate = progressProxy
         progressProxy.webViewProxyDelegate = self
         progressProxy.progressDelegate = self
-        loadFeed(self.receivedFeedItem)
+
+        // Init back bar button
+        self.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem()
+        self.navigationItem.leftItemsSupplementBackButton = true
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        //self.navigationItem.leftBarButtonItem =
+        //loadFeed(self.receivedFeedItem)
+
+        // Show placeholder
+        // TODO: Edit this in production!
+        self.webView.alpha = 0
+        self.textView.alpha = 1
+        guard let errorFile = NSBundle.mainBundle().pathForResource("MobileSafariError", ofType: "html") else {
+            ProgressHUD.showError("Loading internal resources failed!")
+            return
+        }
+        do {
+            var errorHtml = try String(contentsOfFile: errorFile)
+            errorHtml = errorHtml.stringByReplacingOccurrencesOfString("errMsg", withString: "SST Announcer")
+            webView.loadHTMLString(errorHtml, baseURL: nil)
+        } catch {
+            ProgressHUD.showError("Internal error")
+            return
+        }
     }
 
     override func viewWillDisappear(animated: Bool) {
